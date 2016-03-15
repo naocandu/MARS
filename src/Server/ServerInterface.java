@@ -1,3 +1,6 @@
+/**
+ * Package contains classes pertaining to working with the database server
+ */
 package Server;
 
 import java.io.BufferedReader;
@@ -241,7 +244,7 @@ public class ServerInterface {
 	 * Function supplies several test cases to verify the proper functionality
 	 * of the class methods
 	 * 
-	 * @param args
+	 * @param args arguments to the main function (unused)
 	 */
 	public static void main(String[] args)
 	{
