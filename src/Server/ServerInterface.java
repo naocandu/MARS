@@ -9,11 +9,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import Utility.Time;
 
-
+/*************************************************************************
+ * Class provides functions to Interface with the airline and timezone
+ * servers to query and update information.
+ * <p>
+ * The main function in this file supplies several test cases to validate
+ * all server functionality
+ * 
+ * @author Anthony Botelho 
+ * @since 2016-03-13
+ */
 public class ServerInterface {
 	
+	/**
+	 * Amount of time to leave the url connection open when making a request or posting an action
+	 */
 	private static int timeout = 1000*120; //two minute timeout
 	
+	/**
+	 * Handles a generic HTTP GET to a specified url with arguments defined
+	 * by query
+	 * 
+	 * @param url
+	 * @param query
+	 * @return result
+	 */
 	private static String QueryDatabase(String url, String query)
 	{
 		URL request_string;
@@ -59,6 +79,13 @@ public class ServerInterface {
 		return result.toString();
 	}
 	
+	/**
+	 * Handles a generic POST command to the database with the associated
+	 * arguments defined in action
+	 * 
+	 * @param action list of arguments for the post command
+	 * @return
+	 */
 	private static boolean UpdateDatabase(String action)
 	{
 		URL url;
@@ -101,41 +128,88 @@ public class ServerInterface {
 		return (responseCode > 200 && responseCode <= 299);
 	}
 	
+	/**
+	 * Locks the database for a POST action
+	 * 
+	 * @return success or failure
+	 */
 	private static boolean Lock()
 	{
 		return UpdateDatabase(QueryBuilder.lock(ServerConstants.TEAM_ID));
 	}
 	
+	/**
+	 * Unlocks the database after a POST
+	 * 
+	 * @return success or failure
+	 */
 	private static boolean Unlock()
 	{
 		return UpdateDatabase(QueryBuilder.unlock(ServerConstants.TEAM_ID));
 	}
 	
+	/**
+	 * Sets the timeout period for connections to each server
+	 * 
+	 * @param milliseconds the time in milliseconds to wait before a timeout
+	 */
 	public static void SetTimeout(int milliseconds)
 	{
 		timeout = milliseconds;
 	}
 	
+	/**
+	 * Gets the XML string containing all airports
+	 * 
+	 * @return the XML string containing all airports
+	 */
 	public static String QueryAirports()
 	{
 		return QueryDatabase(ServerConstants.URL, QueryBuilder.GetAirportQuery(ServerConstants.TEAM_ID));
 	}
 	
+	/**
+	 * Gets the XML string containing all airplanes
+	 * 
+	 * @return the XML string containing all airplanes
+	 */
 	public static String QueryAirplanes()
 	{
 		return QueryDatabase(ServerConstants.URL, QueryBuilder.GetAirplaneQuery(ServerConstants.TEAM_ID));
 	}
 	
+	/**
+	 * Gets the XML string containing flight information for the given airport
+	 * on a given day
+	 * 
+	 * @param airport_code the 3 character airport code
+	 * @param departure_date the date as a string in the format YYYY_MM_DD
+	 * @param departure whether or not the request is for departure or arrival flights
+	 * @return the XML string contianing flight information
+	 */
 	public static String QueryFlights(String airport_code,String departure_date,boolean departure)
 	{
 		return QueryDatabase(ServerConstants.URL, QueryBuilder.GetFlightQuery(ServerConstants.TEAM_ID, airport_code, departure_date, departure));
 	}
 	
+	/**
+	 * Gets the XML string containing timezone information for the given
+	 * coordinates
+	 * 
+	 * @param latitude the latitude of the coordinate
+	 * @param longitude the longitude of the coordinate
+	 * @return an XML string containing timezone information
+	 */
 	public static String QueryTimezone(double latitude, double longitude)
 	{
 		return QueryDatabase(ServerConstants.TIMEZONE_URL, QueryBuilder.GetTimezoneQuery(ServerConstants.TEAM_ID, latitude, longitude));
 	}
 	
+	/**
+	 * Resets the database to its initial default state
+	 * 
+	 * @return the success or failure of the action
+	 */
 	public static boolean ResetDB()
 	{
 		//Lock();
@@ -145,15 +219,30 @@ public class ServerInterface {
 		return true;
 	}
 	
+	/**
+	 * Initiates the process to commit the reserved flights to the airline
+	 * database
+	 * 
+	 * @param xmlFlights the xlm string of the flights and seating to purchase
+	 * @return the success or failure of the POST
+	 */
 	public static boolean ReserveFlights(String xmlFlights)
 	{
-		Lock();
+		if (!Lock())
+			return false;
+		
 		boolean response = UpdateDatabase(QueryBuilder.GetReserveAction(ServerConstants.TEAM_ID, xmlFlights));
 		Unlock();
 		
 		return response;
 	}
 	
+	/**
+	 * Function supplies several test cases to verify the proper functionality
+	 * of the class methods
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		String result = "";

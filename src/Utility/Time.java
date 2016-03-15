@@ -1,3 +1,12 @@
+/*************************************************************************
+ * Author(s): Anthony Botelho 
+ * Created: March 2016
+ * 
+ * Description:
+ * Class provides functionality to work with dates and times and provide
+ * such information in the format expected by ServerInterface
+ */
+
 package Utility;
 import java.util.Calendar;
 

@@ -1,3 +1,12 @@
+/*************************************************************************
+ * Author(s): Anthony Botelho 
+ * Created: March 2016
+ * 
+ * Description:
+ * Class provides functions for building http query strings
+ * for GET and POST actions
+ */
+
 package Server;
 
 public class QueryBuilder {

@@ -1,3 +1,11 @@
+/*************************************************************************
+ * Author(s): Anthony Botelho 
+ * Created: March 2016
+ * 
+ * Description:
+ * Class provides constant variables utilized by the ServerInterface
+ */
+
 package Server;
 
 public class ServerConstants {
