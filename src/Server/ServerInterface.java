@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import Utility.Time;
+import Utility.DateTime;
 
 /*************************************************************************
  * Class provides functions to Interface with the airline and timezone
@@ -273,8 +273,10 @@ public class ServerInterface {
 		
 		System.out.println("<<< TEST CASE 3: Get Departure Flight XML from Database >>>\n--");
 		String airport_code = "BOS";
-		Time t = new Time();
-		t.SetDate(10, 5, 2016);
+		DateTime t = new DateTime();
+		//t.SetDate(10, 5, 2016);
+		t.Set("2016_5_10", "YYYY_M_DD");
+		
 		System.out.println("Getting departure flights from "+airport_code+" on "+t.getDateString());
 		query = ServerConstants.URL + QueryBuilder.GetFlightQuery(ServerConstants.TEAM_ID, airport_code, t.getDateString(), true);
 		System.out.println("Querying " + query + "...");
