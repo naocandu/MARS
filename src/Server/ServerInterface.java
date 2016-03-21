@@ -28,6 +28,9 @@ public class ServerInterface {
 	 * Amount of time to leave the url connection open when making a request or posting an action
 	 */
 	private static int timeout = 1000*120; //two minute timeout
+	private static String res_system_url = ServerConstants.RESERVATION_URL;
+	private static String timezone_url = ServerConstants.TIMEZONE_URL;
+	private static String team_name = ServerConstants.TEAM_ID;
 	
 	/**
 	 * Handles a generic HTTP GET to a specified url with arguments defined
@@ -52,7 +55,7 @@ public class ServerInterface {
 			request_string = new URL(url + query);
 			connection = (HttpURLConnection) request_string.openConnection();
 			connection.setRequestMethod("GET");
-			connection.setRequestProperty("User-Agent", ServerConstants.TEAM_ID);
+			connection.setRequestProperty("User-Agent", team_name);
 			connection.setConnectTimeout(timeout);
 			
 			/**
@@ -96,7 +99,7 @@ public class ServerInterface {
 		int responseCode;
 		
 		try {
-			url = new URL(ServerConstants.URL);
+			url = new URL(res_system_url);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setConnectTimeout(timeout);
@@ -138,7 +141,7 @@ public class ServerInterface {
 	 */
 	private static boolean Lock()
 	{
-		return UpdateDatabase(QueryBuilder.lock(ServerConstants.TEAM_ID));
+		return UpdateDatabase(QueryBuilder.lock(team_name));
 	}
 	
 	/**
@@ -148,7 +151,7 @@ public class ServerInterface {
 	 */
 	private static boolean Unlock()
 	{
-		return UpdateDatabase(QueryBuilder.unlock(ServerConstants.TEAM_ID));
+		return UpdateDatabase(QueryBuilder.unlock(team_name));
 	}
 	
 	/**
@@ -161,6 +164,21 @@ public class ServerInterface {
 		timeout = milliseconds;
 	}
 	
+	public static void SetReservationURL(String url)
+	{
+		res_system_url = url;
+	}
+	
+	public static void SetTimezoneURL(String url)
+	{
+		timezone_url = url;
+	}
+	
+	public static void SetTeamName(String team)
+	{
+		team_name = team;
+	}
+	
 	/**
 	 * Gets the XML string containing all airports
 	 * 
@@ -168,7 +186,7 @@ public class ServerInterface {
 	 */
 	public static String QueryAirports()
 	{
-		return QueryDatabase(ServerConstants.URL, QueryBuilder.GetAirportQuery(ServerConstants.TEAM_ID));
+		return QueryDatabase(res_system_url, QueryBuilder.GetAirportQuery(team_name));
 	}
 	
 	/**
@@ -178,7 +196,7 @@ public class ServerInterface {
 	 */
 	public static String QueryAirplanes()
 	{
-		return QueryDatabase(ServerConstants.URL, QueryBuilder.GetAirplaneQuery(ServerConstants.TEAM_ID));
+		return QueryDatabase(res_system_url, QueryBuilder.GetAirplaneQuery(team_name));
 	}
 	
 	/**
@@ -192,7 +210,7 @@ public class ServerInterface {
 	 */
 	public static String QueryFlights(String airport_code,String departure_date,boolean departure)
 	{
-		return QueryDatabase(ServerConstants.URL, QueryBuilder.GetFlightQuery(ServerConstants.TEAM_ID, airport_code, departure_date, departure));
+		return QueryDatabase(res_system_url, QueryBuilder.GetFlightQuery(team_name, airport_code, departure_date, departure));
 	}
 	
 	/**
@@ -205,7 +223,7 @@ public class ServerInterface {
 	 */
 	public static String QueryTimezone(double latitude, double longitude)
 	{
-		return QueryDatabase(ServerConstants.TIMEZONE_URL, QueryBuilder.GetTimezoneQuery(ServerConstants.TEAM_ID, latitude, longitude));
+		return QueryDatabase(timezone_url, QueryBuilder.GetTimezoneQuery(team_name, latitude, longitude));
 	}
 	
 	/**
@@ -216,7 +234,7 @@ public class ServerInterface {
 	public static boolean ResetDB()
 	{
 		//Lock();
-		QueryDatabase(ServerConstants.URL, QueryBuilder.GetResetQuery(ServerConstants.TEAM_ID));
+		QueryDatabase(res_system_url, QueryBuilder.GetResetQuery(team_name));
 		//Unlock();
 		
 		return true;
@@ -234,7 +252,7 @@ public class ServerInterface {
 		if (!Lock())
 			return false;
 		
-		boolean response = UpdateDatabase(QueryBuilder.GetReserveAction(ServerConstants.TEAM_ID, xmlFlights));
+		boolean response = UpdateDatabase(QueryBuilder.GetReserveAction(team_name, xmlFlights));
 		Unlock();
 		
 		return response;
@@ -258,18 +276,24 @@ public class ServerInterface {
 		System.out.println(xmlReservation);
 		
 		System.out.println("<<< TEST CASE 1: Get Airport XML from Database >>>\n--");
-		query = ServerConstants.URL + QueryBuilder.GetAirportQuery(ServerConstants.TEAM_ID);
+		query = res_system_url + QueryBuilder.GetAirportQuery(team_name);
 		System.out.println("Querying " + query + "...");
 		result = QueryAirports();
 		System.out.println("Query returned " + (result.length()>0?("XML String: \n"+result):"an error"));
-		System.out.println("--\n");
+		System.out.println("--\n\n\n");
+		
+		
+		
 		
 		System.out.println("<<< TEST CASE 2: Get Airplane XML from Database >>>\n--");
-		query = ServerConstants.URL + QueryBuilder.GetAirplaneQuery(ServerConstants.TEAM_ID);
+		query = res_system_url + QueryBuilder.GetAirplaneQuery(team_name);
 		System.out.println("Querying " + query + "...");
 		result = QueryAirplanes();
 		System.out.println("Query returned " + (result.length()>0?("XML String: \n"+result):"an error"));
-		System.out.println("--\n");
+		System.out.println("--\n\n\n");
+		
+		
+		
 		
 		System.out.println("<<< TEST CASE 3: Get Departure Flight XML from Database >>>\n--");
 		String airport_code = "BOS";
@@ -278,19 +302,25 @@ public class ServerInterface {
 		t.Set("2016_5_10", "YYYY_M_DD");
 		
 		System.out.println("Getting departure flights from "+airport_code+" on "+t.getDateString());
-		query = ServerConstants.URL + QueryBuilder.GetFlightQuery(ServerConstants.TEAM_ID, airport_code, t.getDateString(), true);
+		query = res_system_url + QueryBuilder.GetFlightQuery(team_name, airport_code, t.getDateString(), true);
 		System.out.println("Querying " + query + "...");
 		result = QueryFlights(airport_code,t.getDateString(),true);
 		System.out.println("Query returned " + (result.length()>0?("XML String: \n"+result):"an error"));
-		System.out.println("--\n");
+		System.out.println("--\n\n\n");
+		
+		
+		
 		
 		System.out.println("<<< TEST CASE 4: Get Arrival Flight XML from Database >>>\n--");
 		System.out.println("Getting arrival flights to "+airport_code+" on "+t.getDateString());
-		query = ServerConstants.URL + QueryBuilder.GetFlightQuery(ServerConstants.TEAM_ID, airport_code, t.getDateString(), false);
+		query = res_system_url + QueryBuilder.GetFlightQuery(team_name, airport_code, t.getDateString(), false);
 		System.out.println("Querying " + query + "...");
 		result = QueryFlights(airport_code,t.getDateString(),false);
 		System.out.println("Query returned " + (result.length()>0?("XML String: \n"+result):"an error"));
-		System.out.println("--\n");
+		System.out.println("--\n\n\n");
+		
+		
+		
 		
 		System.out.println("<<< TEST CASE 5: Reserve Flight From TEST 4 >>>\n--");
 		
@@ -298,37 +328,43 @@ public class ServerInterface {
 		ReserveFlights(xmlReservation);
 		
 		System.out.println("Getting arrival flights to "+airport_code+" on "+t.getDateString());
-		query = ServerConstants.URL + QueryBuilder.GetFlightQuery(ServerConstants.TEAM_ID, airport_code, t.getDateString(), false);
+		query = res_system_url + QueryBuilder.GetFlightQuery(team_name, airport_code, t.getDateString(), false);
 		System.out.println("Querying " + query + "...");
 		
 		String test4xml = result;
 		
 		result = QueryFlights(airport_code,t.getDateString(),false);
 		System.out.println("A change has"+(result.compareTo(test4xml)!=0?"":" not")+" been detected in the database");
-		System.out.println("--\n");
+		System.out.println("--\n\n\n");
+		
+		
+		
 		
 		System.out.println("<<< TEST CASE 6: Resetting Database >>>\n--");
-		query = ServerConstants.URL + QueryBuilder.GetResetQuery(ServerConstants.TEAM_ID);
+		query = res_system_url + QueryBuilder.GetResetQuery(team_name);
 		System.out.println("Reseting DB with " + query + "...");
 		ResetDB();
 		
 		System.out.println("Getting arrival flights to "+airport_code+" on "+t.getDateString());
-		query = ServerConstants.URL + QueryBuilder.GetFlightQuery(ServerConstants.TEAM_ID, airport_code, t.getDateString(), false);
+		query = res_system_url + QueryBuilder.GetFlightQuery(team_name, airport_code, t.getDateString(), false);
 		System.out.println("Querying " + query + "...");
 		
 		result = QueryFlights(airport_code,t.getDateString(),false);
 		System.out.println("The database has"+(result.compareTo(test4xml)==0?"":" not")+" been reset");
-		System.out.println("--\n");
+		System.out.println("--\n\n\n");
+		
+		
+		
 		
 		System.out.println("<<< TEST CASE 7: Get Timezone XML from Database >>>\n--");
 		double lat = 42.26;
 		double lng = -71.8;
-		query = ServerConstants.TIMEZONE_URL + QueryBuilder.GetTimezoneQuery(ServerConstants.TEAM_ID,lat,lng);
+		query = timezone_url + QueryBuilder.GetTimezoneQuery(team_name,lat,lng);
 		System.out.println("Querying " + query + "...");
 		result = QueryTimezone(lat,lng);
 		
 		System.out.println("Query returned " + (result.indexOf("timezone")!=-1?("XML String: \n"+result):"an error"));
-		System.out.println("--\n");
+		System.out.println("--\n\n\n");
 		
 	}
 }

@@ -1,0 +1,7 @@
+timeout_milliseconds = 120000
+res_system_url = http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem
+timezone_url = http://api.geonames.org/timezone
+team_name = Team02
+min_layover_minutes = 15
+max_layover_minutes = 60
+max_hops = 2
