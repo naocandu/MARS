@@ -23,14 +23,18 @@ public class Airports {
 		return airportsList;
 	}
 	
-	public static List getAirportName() throws DocumentException{
-		return parseAirports.getName();
+	public static String[] getAirportName() throws DocumentException{
+		
+		List<String> a = parseAirports.getName();
+		String[] b = a.toArray(new String[a.size()]);
+		return  b;
 	}
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub
 		System.out.println(getAirportList());
-		System.out.println(getAirportName());
+		for(int i=0;i<52;i++)
+		System.out.println(getAirportName()[i]);
 	}
 
 }
