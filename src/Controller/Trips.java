@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import AirFlight.*;
 import Utility.*;
 import java.util.List;
-import java.util.Random;
 
 public class Trips {
 	private static List<Trip> trip = null;
@@ -51,7 +50,14 @@ public class Trips {
 			
 			for (int i = 0;i < search.size();i++)
 			{
-				boolean valid = true;
+				/*
+				 * section skips already explored nodes:
+				 * uncommenting speeds processing, but is not
+				 * robust - it is likely to miss potential trip
+				 * paths
+				 *
+				 */
+				/*boolean valid = true;
 				for (int j = 0;j < explored.size();j++)
 				{
 					if (search.get(i).compareTo(explored.get(j)) == 0)
@@ -61,8 +67,8 @@ public class Trips {
 					}
 				}
 				
-				//if (!valid)
-				//	continue;
+				if (!valid)
+					continue;*/
 				
 				explored.add(search.get(i));
 				

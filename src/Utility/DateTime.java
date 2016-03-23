@@ -14,6 +14,8 @@ import java.util.Calendar;
 public class DateTime {
 
 	private Calendar dateTime;
+	private Calendar localDateTime;
+	private int Offset = 0;
 	
 	private static final String[] MONTH_NAME = {"January","Febuary","March","April","May","June",
 	                                   "July","August","September","October","November","December"};
@@ -24,6 +26,14 @@ public class DateTime {
 	public DateTime()
 	{
 		dateTime = Calendar.getInstance();
+		localDateTime = Calendar.getInstance();
+	}
+	
+	public void SetTimezoneOffset(int offset)
+	{
+		Offset = offset;
+		localDateTime = (Calendar) dateTime.clone();
+		localDateTime.add(Calendar.HOUR_OF_DAY, Offset);
 	}
 	
 	/**
@@ -136,6 +146,8 @@ public class DateTime {
 	public void SetDate(int day, int month, int year)
 	{
 		dateTime.set(year, month, day);
+		localDateTime = (Calendar) dateTime.clone();
+		localDateTime.add(Calendar.HOUR_OF_DAY, Offset);
 	}
 	
 	/**
@@ -150,6 +162,8 @@ public class DateTime {
 		dateTime.set(Calendar.HOUR_OF_DAY, hour);
 		dateTime.set(Calendar.MINUTE, minute);
 		dateTime.set(Calendar.SECOND, second);
+		localDateTime = (Calendar) dateTime.clone();
+		localDateTime.add(Calendar.HOUR_OF_DAY, Offset);
 	}
 	
 	/**
@@ -225,6 +239,25 @@ public class DateTime {
 		this.Set(D, M, Y, h, m, s);
 	}
 	
+	public static double NumericSpan(DateTime DT1, DateTime DT2)
+	{
+		double span = DT1.dateTime.getTimeInMillis()-DT2.dateTime.getTimeInMillis();
+		if (span < 0)
+			span *= -1;
+		return ((span/1000.0)/60.0)/60.0;
+	}
+	
+	public static DateTime TimeSpan(DateTime DT1, DateTime DT2)
+	{
+		double span = DT1.dateTime.getTimeInMillis()-DT2.dateTime.getTimeInMillis();
+		if (span < 0)
+			span *= -1;
+		span = ((span/1000.0)/60.0)/60.0;
+		DateTime dt = new DateTime();
+		dt.Set(0, 0, 0, (int)span, (int)((span-(int)span)*60), 0);
+		return dt;
+	}
+	
 	/**
 	 * Returns a string representing the date and time for purposes of display
 	 * 
@@ -268,6 +301,39 @@ public class DateTime {
 
 		return year+"_"+month+"_"+day;
 	}
+	
+	public String getLocalDateString()
+	{
+		String month = Integer.toString(localDateTime.get(Calendar.MONTH));
+		String day = Integer.toString(localDateTime.get(Calendar.DATE));
+		String year = Integer.toString(localDateTime.get(Calendar.YEAR));
+		
+
+		month = (month.length()==1?"0":"") + month;
+		day = (day.length()==1?"0":"") + day;
+
+		return year+"_"+month+"_"+day;
+	}
+	
+	public String getLocalFullDateString()
+	{
+		String month = Integer.toString(localDateTime.get(Calendar.MONTH));
+		String day = Integer.toString(localDateTime.get(Calendar.DATE));
+		String year = Integer.toString(localDateTime.get(Calendar.YEAR));
+		
+		String hour = Integer.toString(localDateTime.get(Calendar.HOUR_OF_DAY));
+		String minute = Integer.toString(localDateTime.get(Calendar.MINUTE));
+		String second = Integer.toString(localDateTime.get(Calendar.SECOND));
+		
+		month = (month.length()==1?"0":"") + month;
+		day = (day.length()==1?"0":"") + day;
+		hour = (hour.length()==1?"0":"") + hour;
+		minute = (minute.length()==1?"0":"") + minute;
+		second = (second.length()==1?"0":"") + second;
+		
+		return month+"/"+day+"/"+year+" "+hour+":"+minute+":"+second;
+	}
+	
 	
 	/**
 	 * Returns a string representing the time without the calendar date

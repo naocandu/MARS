@@ -49,6 +49,7 @@ public class Flight {
 		this.Flightnumber = Flightnumber;
 		this.Departure_Airport = Departure_Airport;
 		this.DepartureTime.Set(DepartureTime, "YYYY MMM DD hh:mm zzz");
+		this.DepartureTime.SetTimezoneOffset(0);
 		this.Arrival_Airport = Arrival_Airport;
 		this.ArrivalTime.Set(ArrivalTime, "YYYY MMM DD hh:mm zzz");
 		this.Seats_FC = Seats_FC;

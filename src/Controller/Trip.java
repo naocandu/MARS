@@ -36,7 +36,18 @@ public class Trip {
 	
 	public float GetDuration()
 	{
-		return totalTime;
+		if (trip.size() == 0)
+			return 0;
+		else
+			return (float)DateTime.NumericSpan(trip.get(0).DepartureTime, trip.get(trip.size()-1).ArrivalTime);
+	}
+	
+	public String TimeDifference()
+	{
+		if (trip.size() == 0)
+			return "";
+		else
+			return DateTime.TimeSpan(trip.get(0).DepartureTime, trip.get(trip.size()-1).ArrivalTime).getTimeString();
 	}
 	
 	public Trip Clone()
@@ -81,7 +92,7 @@ public class Trip {
 		if (trip.size() == 0)
 			return "";
 		else
-			return trip.get(0).DepartureTime.getFullDateString();
+			return trip.get(0).DepartureTime.getLocalFullDateString();
 	}
 	
 	public String GetArrivalTime()
@@ -89,7 +100,7 @@ public class Trip {
 		if (trip.size() == 0)
 			return "";
 		else
-			return trip.get(trip.size()-1).ArrivalTime.getFullDateString();
+			return trip.get(trip.size()-1).ArrivalTime.getLocalFullDateString();
 	}
 	
 	//toString() will transform trip into a string.
@@ -102,7 +113,7 @@ public class Trip {
 		}
 		
 		String display = ports + GetArrivalAirport() + "\n" + 
-				GetDepartureTime() + " -- " + GetArrivalTime() + "  duration: " + totalTime + "\n" +
+				GetDepartureTime() + " -- " + GetArrivalTime() + "  duration: " + TimeDifference() + "\n" +
 		"hops: " + num_hops + "  price: " + totalPrice.toString();
 		return display;
 	}
