@@ -12,7 +12,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 
 
 /**
@@ -94,6 +93,26 @@ public class parseAirports {
 		return airportCode; 
 	}
 	
+	// get the code of a designated airport
+		public static List getName() throws DocumentException {
+			List airportName = new ArrayList();
+			document = DocumentHelper.parseText(xml);
+			Element rootElement = document.getRootElement();
+			for (Iterator iter=rootElement.elementIterator(); iter.hasNext();){
+				Element airports = (Element) iter.next();
+				airportName.add(airports.attributeValue("Name"));
+				/*
+				if (airports.attributeValue("Code").equals(airportcode)){
+					String latitude = airports.elementTextTrim("Latitude");
+					String longitude = airports.elementTextTrim("Longitude");
+					geoInfo.add(Float.parseFloat(latitude));
+					geoInfo.add(Float.parseFloat(longitude));	
+				}
+				*/
+			}
+			return airportName; 
+		}
+	
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub
@@ -101,5 +120,6 @@ public class parseAirports {
 		Map<String, List<Comparable>> collection=Parse.readXML();
 		System.out.println(collection);
 		System.out.println(getCode());
+		System.out.println(getName());
 	}
 }

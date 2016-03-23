@@ -22,11 +22,15 @@ public class Airports {
 			} 
 		return airportsList;
 	}
+	
+	public static List getAirportName() throws DocumentException{
+		return parseAirports.getName();
+	}
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub
 		System.out.println(getAirportList());
-
+		System.out.println(getAirportName());
 	}
 
 }
