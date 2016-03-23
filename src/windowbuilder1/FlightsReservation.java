@@ -6,7 +6,9 @@
 
 package windowbuilder1;
 import TripPlanner.TripPlanner;
+import XMLparser.parseAirports;
 import AirFlight.Airports;
+import org.dom4j.DocumentException;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -33,6 +35,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Month;
 import java.util.Calendar;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FlightsReservation
 {
@@ -55,7 +60,7 @@ public class FlightsReservation
 	private int todayyear;
 	private int todaymonth;
 	private int todaydate;
-	
+
 	public String getDeparture() // get departure airport
 	{
 		return flyfrom;
@@ -165,12 +170,19 @@ public class FlightsReservation
 		frmFlightsReservation.getContentPane().add(lblFlyingFrom);
 		
 		// depart airport
-		JComboBox departair = new JComboBox();
-		departair.setBounds(150, 115, 124, 30);
-		departair.setFont(new Font("Cambria", Font.BOLD, 20));
+		JComboBox departair = new JComboBox();	
+		departair.setBounds(127, 115, 254, 30);
+		departair.setFont(new Font("Cambria", Font.BOLD, 12));
 		departair.setEditable(true);
 		//get airport from sever
-		departair.setModel(new DefaultComboBoxModel( new Airports().getAirportList())); 																					// sever;
+		try
+		{
+			departair.setModel(new DefaultComboBoxModel(new Airports().getAirportName()));
+		} catch (DocumentException e3)
+		{
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		} 	// sever;
 		frmFlightsReservation.getContentPane().add(departair);
 		
 		JLabel lblFlyingTo = new JLabel("Flying to");
@@ -180,10 +192,17 @@ public class FlightsReservation
 		
 		// arrival airport
 		JComboBox arriveair = new JComboBox();
-		arriveair.setFont(new Font("Cambria", Font.BOLD, 20));
+		arriveair.setFont(new Font("Cambria", Font.BOLD, 12));
 		arriveair.setEditable(true);
-		arriveair.setModel(new DefaultComboBoxModel(new Airports().getAirportList()));
-		arriveair.setBounds(150, 172, 124, 30);
+		try
+		{
+			arriveair.setModel(new DefaultComboBoxModel(new Airports().getAirportName()));
+		} catch (DocumentException e2)
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		arriveair.setBounds(127, 172, 254, 30);
 		frmFlightsReservation.getContentPane().add(arriveair);
 		
 		JLabel lblDeparting = new JLabel("Departing");
@@ -227,7 +246,7 @@ public class FlightsReservation
 		
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("Cambria", Font.BOLD, 14));
-		textArea.setBounds(298, 58, 252, 215);
+		textArea.setBounds(392, 192, 252, 215);
 		frmFlightsReservation.getContentPane().add(textArea);
 		
 		JButton btnSearch = new JButton("search");

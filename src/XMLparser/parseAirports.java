@@ -94,8 +94,8 @@ public class parseAirports {
 	}
 	
 	// get the code of a designated airport
-		public static List getName() throws DocumentException {
-			List airportName = new ArrayList();
+		public static List<String> getName() throws DocumentException {
+			List<String> airportName = new ArrayList<String>();
 			document = DocumentHelper.parseText(xml);
 			Element rootElement = document.getRootElement();
 			for (Iterator iter=rootElement.elementIterator(); iter.hasNext();){
