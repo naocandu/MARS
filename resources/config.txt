@@ -4,4 +4,4 @@ timezone_url = http://api.geonames.org/timezone
 team_name = Team02
 min_layover_minutes = 15
 max_layover_minutes = 60
-max_hops = 2
+max_hops = 3

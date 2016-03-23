@@ -10,9 +10,9 @@ import Server.ServerConstants;
 public class ValidationController {
 	
 	private static ValidationController instance = null;
-	private static int min_layover = ValidationConstants.MIN_LAYOVER_MINUTES;
-	private static int max_layover = ValidationConstants.MAX_LAYOVER_MINUTES;
-	private static int max_hops = ValidationConstants.MAX_HOPS;
+	private int min_layover = ValidationConstants.MIN_LAYOVER_MINUTES;
+	private int max_layover = ValidationConstants.MAX_LAYOVER_MINUTES;
+	private int max_hops = ValidationConstants.MAX_HOPS;
 	
 	private void SetDefaultsFromConstants()
 	{
@@ -126,17 +126,17 @@ public class ValidationController {
 	
 	public static int GetMaxLayoverMinutes()
 	{
-		return max_layover;
+		return ValidationController.Instance().max_layover;
 	}
 	
 	public static int GetMinLayoverMinutes()
 	{
-		return min_layover;
+		return ValidationController.Instance().min_layover;
 	}
 	
 	public static int GetMaxHops()
 	{
-		return max_hops;
+		return ValidationController.Instance().max_hops;
 	}
 	
 	public static void main(String[] args) {

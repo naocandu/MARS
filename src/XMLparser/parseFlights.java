@@ -13,7 +13,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-public class parseFlights extends xmlGetter{
+public class parseFlights{
 	static Document document;
 	static List flightInfo = new ArrayList();
 	

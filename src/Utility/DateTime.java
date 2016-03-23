@@ -15,6 +15,9 @@ public class DateTime {
 
 	private Calendar dateTime;
 	
+	private static final String[] MONTH_NAME = {"January","Febuary","March","April","May","June",
+	                                   "July","August","September","October","November","December"};
+	private static final String[] MONTH_CODE = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 	/**
 	 * Default constructor initializes a new Calendar instance
 	 */
@@ -46,6 +49,23 @@ public class DateTime {
 		return str.length();
 	}
 	
+	private String[] MonthNumerical(String dateTime, String format)
+	{
+		for (int i = 0;i < MONTH_NAME.length;i++)
+		{
+			dateTime = dateTime.replaceAll(MONTH_NAME[i], "0"+(i+1));
+			dateTime = dateTime.replaceAll(MONTH_CODE[i], "0"+(i+1));
+		}
+		
+		format = format.replaceAll("M", "~");
+		format = format.replaceFirst("~", "MM");
+		format = format.replaceAll("~", "");
+		
+		String[] pair = {dateTime,format};
+		
+		return pair;
+	}
+	
 	/**
 	 * Creates a DateTime Instance from a date and time in the form of a string
 	 * in a specified format with values Y (year), M (month), D (day),
@@ -57,6 +77,8 @@ public class DateTime {
 	public DateTime(String dateTime, String format)
 	{
 		this.dateTime = Calendar.getInstance();
+		
+		
 		int[] year = new int[2];
 		int[] month = new int[2];
 		int[] day = new int[2];
@@ -64,11 +86,23 @@ public class DateTime {
 		int[] minute = new int[2];
 		int[] second = new int[2];
 		
-		year[0] = format.indexOf('Y');
-		year[1] = GetLastNonConsecutive(format,year[0],'Y');
-		
 		month[0] = format.indexOf('M');
 		month[1] = GetLastNonConsecutive(format,month[0],'M');
+
+		if (month[1] - month[0] > 2)
+		{
+			String[] pairing = MonthNumerical(dateTime, format);
+			
+			dateTime = pairing[0];
+			format = pairing[1];
+			
+			month[0] = format.indexOf('M');
+			month[1] = GetLastNonConsecutive(format,month[0],'M');
+			
+		}
+		
+		year[0] = format.indexOf('Y');
+		year[1] = GetLastNonConsecutive(format,year[0],'Y');
 		
 		day[0] = format.indexOf('D');
 		day[1] = GetLastNonConsecutive(format,day[0],'D');
@@ -151,11 +185,23 @@ public class DateTime {
 		int[] minute = new int[2];
 		int[] second = new int[2];
 		
-		year[0] = format.indexOf('Y');
-		year[1] = GetLastNonConsecutive(format,year[0],'Y');
-		
 		month[0] = format.indexOf('M');
 		month[1] = GetLastNonConsecutive(format,month[0],'M');
+
+		if (month[1] - month[0] > 2)
+		{
+			String[] pairing = MonthNumerical(dateTime, format);
+			
+			dateTime = pairing[0];
+			format = pairing[1];
+			
+			month[0] = format.indexOf('M');
+			month[1] = GetLastNonConsecutive(format,month[0],'M');
+			
+		}
+		
+		year[0] = format.indexOf('Y');
+		year[1] = GetLastNonConsecutive(format,year[0],'Y');
 		
 		day[0] = format.indexOf('D');
 		day[1] = GetLastNonConsecutive(format,day[0],'D');
