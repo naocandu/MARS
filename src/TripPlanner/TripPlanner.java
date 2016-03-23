@@ -1,4 +1,5 @@
 package TripPlanner;
+import AirFlight.Airports;
 
 /*
  * Class provides functions for obtaining the specific airports and flights the user asks for 
@@ -57,7 +58,7 @@ public class TripPlanner {
 	private String arrival;
 	private String departureDate;
 	
-	public String SearchFlights() {
+	public static void SearchFlights() {
 		/* 
 		 * the information round, departure, arrival, departureDate and seating should be
 		 * achieved from the interface FlightsReservation

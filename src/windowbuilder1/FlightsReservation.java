@@ -5,6 +5,8 @@
  */
 
 package windowbuilder1;
+import TripPlanner.TripPlanner;
+import AirFlight.Airports;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -168,7 +170,7 @@ public class FlightsReservation
 		departair.setFont(new Font("Cambria", Font.BOLD, 20));
 		departair.setEditable(true);
 		//get airport from sever
-		departair.setModel(new DefaultComboBoxModel(new tripplanner().getAirport())); 																					// sever;
+		departair.setModel(new DefaultComboBoxModel( new Airports().getAirportList())); 																					// sever;
 		frmFlightsReservation.getContentPane().add(departair);
 		
 		JLabel lblFlyingTo = new JLabel("Flying to");
@@ -180,7 +182,7 @@ public class FlightsReservation
 		JComboBox arriveair = new JComboBox();
 		arriveair.setFont(new Font("Cambria", Font.BOLD, 20));
 		arriveair.setEditable(true);
-		arriveair.setModel(new DefaultComboBoxModel(new tripplanner().getAirport()));
+		arriveair.setModel(new DefaultComboBoxModel(new Airports().getAirportList()));
 		arriveair.setBounds(150, 172, 124, 30);
 		frmFlightsReservation.getContentPane().add(arriveair);
 		
@@ -306,6 +308,7 @@ public class FlightsReservation
 											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto
 													+ "\n" + departdate + "\n" + returndate + "\n";
 											textArea.setText(userinfo);
+											TripPlanner.SearchFlights();
 										} else
 											JOptionPane.showMessageDialog(null, "Return date is wrong!");
 									} else

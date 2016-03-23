@@ -28,6 +28,15 @@ public class Trip {
 		return mixSeating;
 	}
 	
+	//toString() will transform trip into a string.
+	/*public String toString()
+	{
+		String display = departAirport + "--" + arrivalAirport + "\n" + 
+		departTime + "--" + arrivalTime + "duration: " + totalTime + "\n" +
+		"hops: " + num_hops + "   " price: " + totalPrice;
+		return display;
+	}
+	*/
 	public Trip()
 	{
 		Random rand = new Random();
