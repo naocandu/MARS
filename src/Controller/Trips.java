@@ -219,6 +219,7 @@ public class Trips {
 			for (int i = 0;i < (Trips.GetNumberofTrips()>10?10:Trips.GetNumberofTrips());i++)
 			{	System.out.println(Trips.trip.get(i).GetFlightSequence());
 				System.out.println(Trips.trip.get(i).toString());
+				System.out.println("\n");
 			}
 		}
 	}

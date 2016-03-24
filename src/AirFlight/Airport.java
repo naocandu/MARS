@@ -16,6 +16,9 @@ public class Airport {
 	private int timezoneOffset;
 	private boolean TimezoneSet = false;
 	
+	private List<Flights> outbound = new ArrayList<Flights>();
+	//private List<String> outbound_date = new 
+	
 	public static List getAirport(String code){
 		return parseAirports.readXML().get(code);
 	}
