@@ -131,6 +131,7 @@ public class TripPlanner {
 			tripList.add(Trips.Get(i));
 		}
 		
+		// order by the price from low to high
 		if (opt == 1) {
 			
 		    Collections.sort(tripList,new Comparator<Trip>(){
@@ -141,6 +142,7 @@ public class TripPlanner {
 		    });
 		}
 		
+		// order by the duration from short to long
 		if (opt == 2) {
 			
 		    Collections.sort(tripList,new Comparator<Trip>(){
@@ -151,6 +153,7 @@ public class TripPlanner {
 		    });
 		}
 		
+		// order by the departure time from early to late
         if (opt == 3) {
 			
 		    Collections.sort(tripList,new Comparator<Trip>(){
@@ -160,7 +163,8 @@ public class TripPlanner {
 			    }
 		    });
 		}
-
+        
+        // order by the departure time from late to early
         if (opt == 4) {
 	
             Collections.sort(tripList,new Comparator<Trip>(){
@@ -171,6 +175,7 @@ public class TripPlanner {
             });
         }
 		
+        // order by the arrival time from early to late
         if (opt == 5) {
 			
 		    Collections.sort(tripList,new Comparator<Trip>(){
@@ -181,6 +186,7 @@ public class TripPlanner {
 		    });
 		}
         
+        // order by the arrival time from late to early
         if (opt == 6) {
 			
 		    Collections.sort(tripList,new Comparator<Trip>(){
