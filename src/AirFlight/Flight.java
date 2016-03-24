@@ -49,13 +49,42 @@ public class Flight {
 		this.Flightnumber = Flightnumber;
 		this.Departure_Airport = Departure_Airport;
 		this.DepartureTime.Set(DepartureTime, "YYYY MMM DD hh:mm zzz");
-		this.DepartureTime.SetTimezoneOffset(0);
 		this.Arrival_Airport = Arrival_Airport;
 		this.ArrivalTime.Set(ArrivalTime, "YYYY MMM DD hh:mm zzz");
 		this.Seats_FC = Seats_FC;
 		this.Seats_EC = Seats_EC;
 		this.Price_FC.Set(Price_FC);
 		this.Price_EC.Set(Price_EC);
+		
+		try {
+			this.DepartureTime.SetTimezoneOffset(Airports.GetTimezoneOffset(Departure_Airport));
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			this.ArrivalTime.SetTimezoneOffset(Airports.GetTimezoneOffset(Arrival_Airport));
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean CheckAvailableSeating(boolean FirstClass)
+	{
+		List airplane = null;
+		try {
+			airplane = Airplane.findAirplane(Airplane_Model);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (airplane == null)
+			return false;
+		
+		return (FirstClass?(Seats_FC < (int)airplane.get(2)):(Seats_EC < (int)airplane.get(3)));
 	}
 
 	public static void main(String[] args) throws DocumentException {
@@ -66,6 +95,7 @@ public class Flight {
 		
 		DateTime d = new DateTime();
 		d.Set("2016 May 10 02:47 GMT","YYYY MMM DD hh:mm zzz");
+
 		System.out.println(d.getFullDateString());
 		
 	}

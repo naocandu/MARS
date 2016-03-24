@@ -4,8 +4,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dom4j.DocumentException;
+
 import Server.ServerInterface;
 import Server.ServerConstants;
+import XMLparser.*;
 
 public class ValidationController {
 	
@@ -137,6 +140,19 @@ public class ValidationController {
 	public static int GetMaxHops()
 	{
 		return ValidationController.Instance().max_hops;
+	}
+	
+	
+	public int GetTimezoneOffset(float Latitude, float Longitude) throws DocumentException
+	{
+		String xml = ServerInterface.QueryTimezone(Latitude, Longitude);
+		if (xml.length() == 0)
+		{
+			System.out.println("ERROR - QueryTimezone returned invalid response");
+			return 0;
+		}
+		
+		return ParseTime.timeOffset(xml).intValue();
 	}
 	
 	public static void main(String[] args) {

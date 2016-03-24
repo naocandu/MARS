@@ -2,8 +2,6 @@ package Controller;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Random;
-
 import AirFlight.*;
 import Utility.*;
 
@@ -64,11 +62,22 @@ public class Trip {
 		return mixSeating;
 	}
 	
-	public void AddFlight(Flight flight)
+	public boolean AddFlight(Flight flight)
 	{
+		double layover = 0;
+		
+		if (trip.size() > 0)
+		{
+			layover = DateTime.NumericSpan(trip.get(trip.size()-1).ArrivalTime,flight.DepartureTime)*60;
+			
+			if (layover < ValidationController.GetMinLayoverMinutes() || layover > ValidationController.GetMaxLayoverMinutes())
+				return false;
+		}
+		
 		trip.add(flight);
 		num_hops++;
 		totalPrice.Add(flight.Price_EC);
+		return true;
 	}
 	
 	public String GetDepartureAirport()

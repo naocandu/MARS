@@ -182,6 +182,16 @@ public class DateTime {
 		this.SetTime(hour,minute,second);
 	}
 	
+	public void SetfromLocal(String dateTime, String format, int Offset)
+	{
+		DateTime dt = new DateTime();
+		dt.Set(dateTime, format);
+		this.localDateTime = (Calendar) dt.dateTime.clone();
+		dt.dateTime.add(Calendar.HOUR_OF_DAY, -Offset);
+		
+		this.Set(dt.getDateString(),"YYYY_MM_DD");
+		this.SetTimezoneOffset(Offset);
+	}
 	/**
 	 * Sets the Calendar date and time from a string
 	 * in a specified format with values Y (year), M (month), D (day),
@@ -239,12 +249,20 @@ public class DateTime {
 		this.Set(D, M, Y, h, m, s);
 	}
 	
-	public static double NumericSpan(DateTime DT1, DateTime DT2)
+	public static double NumericSpan(DateTime earlier, DateTime later)
 	{
-		double span = DT1.dateTime.getTimeInMillis()-DT2.dateTime.getTimeInMillis();
-		if (span < 0)
-			span *= -1;
+		double span = later.dateTime.getTimeInMillis()-earlier.dateTime.getTimeInMillis();
 		return ((span/1000.0)/60.0)/60.0;
+	}
+	
+	public static DateTime NextDay(DateTime date)
+	{
+		DateTime dt = new DateTime();
+		dt.Set(date.getDateString(), "YYYY_MM_DD");
+		dt.dateTime.add(Calendar.DATE, 1);
+		dt.SetTimezoneOffset(date.Offset);
+		
+		return dt;
 	}
 	
 	public static DateTime TimeSpan(DateTime DT1, DateTime DT2)

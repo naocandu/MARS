@@ -10,8 +10,8 @@ import org.dom4j.Element;
 public class ParseTime {
 	static Document document;
 	
-	public static Double timeOffset(double lat, double lng) throws DocumentException{
-		String xml = ServerInterface.QueryTimezone(lat,lng);
+	public static Double timeOffset(String xml) throws DocumentException{
+		//String xml = ServerInterface.QueryTimezone(lat,lng);
 		document = DocumentHelper.parseText(xml);
 		Element time = document.getRootElement();
 		Element timezone = (Element) time.element("timezone");
@@ -21,7 +21,7 @@ public class ParseTime {
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub
-		System.out.println(timeOffset(33.94443, -118.408356));
+		//System.out.println(timeOffset(33.94443, -118.408356));
 
 	}
 

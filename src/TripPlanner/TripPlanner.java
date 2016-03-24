@@ -22,6 +22,8 @@ import AirFlight.Airports;
 import Controller.Trip;
 import Controller.Trips;
 import Controller.ValidationController;
+import windowbuilder1.FlightsReservation;
+import Utility.*;
 
 public class TripPlanner {
 	
@@ -51,12 +53,12 @@ public class TripPlanner {
 	 * return and display the flights the user wants
 	 */
 	
-	private boolean round;
-	private boolean FC_seating;
+	private static boolean round;
+	private static boolean FC_seating;
 	
-	private String departure;
-	private String arrival;
-	private String departureDate;
+	private static String departure;
+	private static String arrival;
+	private static String departureDate;
 	
 	public static void SearchFlights() {
 		/* 
@@ -72,8 +74,9 @@ public class TripPlanner {
 		/*
 		 * call the static function LinkFlights in the class Trips
 		 */
-		
-		Trips.LinkFlights(departure, arrival, FC_seating);
+		DateTime dt = new DateTime();
+		//dt.Set(departureDate, format);
+		//Trips.LinkFlights(departure, arrival, dt, FC_seating);
 		
 	}
 	
@@ -87,7 +90,7 @@ public class TripPlanner {
 		 */
 		
 		
-		ValidationController VC = new ValidationController();
+		//ValidationController VC = new ValidationController();
 		// To be coded
 
 		 	
@@ -179,5 +182,9 @@ public class TripPlanner {
 		
 	}
 	
+	public static void main(String[] args) {
+		
+		
+	}
 
 }

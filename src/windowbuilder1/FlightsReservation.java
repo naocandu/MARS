@@ -42,51 +42,51 @@ import java.util.Iterator;
 public class FlightsReservation
 {
 	
-	private JFrame frmFlightsReservation;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	public String triptype;
-	public String seatclass;
-	private String flyfrom;
-	private String flyto;
-	private String departdate;
-	private String returndate;
-	private int year1;
-	private int month1;
-	private int day1;
-	private int year2;
-	private int month2;
-	private int day2;
-	private int todayyear;
-	private int todaymonth;
-	private int todaydate;
+	private static JFrame frmFlightsReservation;
+	private static final ButtonGroup buttonGroup = new ButtonGroup();
+	private static final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	public static String triptype;
+	public static String seatclass;
+	private static String flyfrom;
+	private static String flyto;
+	private static String departdate;
+	private static String returndate;
+	private static int year1;
+	private static int month1;
+	private static int day1;
+	private static int year2;
+	private static int month2;
+	private static int day2;
+	private static int todayyear;
+	private static int todaymonth;
+	private static int todaydate;
 
-	public String getDeparture() // get departure airport
+	public static String getDeparture() // get departure airport
 	{
 		return flyfrom;
 	}
 	
-	public String getArrival() // get arrival airport
+	public static String getArrival() // get arrival airport
 	{
 		return flyto;
 	}
 	
-	public String getDepartureDate() // get departure date
+	public static String getDepartureDate() // get departure date
 	{ // get departure date
 		return departdate;
 	}
 	
-	public String getReturnDate() // get return date
+	public static String getReturnDate() // get return date
 	{
 		return returndate;
 	}
 	
-	public String getTripType() // get trip type
+	public static String getTripType() // get trip type
 	{
 		return triptype;
 	}
 	
-	public String getSeatClass() // get seat class
+	public static String getSeatClass() // get seat class
 	{
 		return seatclass;
 	}
@@ -123,7 +123,7 @@ public class FlightsReservation
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize()
+	private static void initialize()
 	{
 		frmFlightsReservation = new JFrame();
 		frmFlightsReservation.setResizable(false);

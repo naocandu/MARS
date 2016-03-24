@@ -5,6 +5,8 @@ import AirFlight.*;
 import Utility.*;
 import java.util.List;
 
+import org.dom4j.DocumentException;
+
 public class Trips {
 	private static List<Trip> trip = null;
 	
@@ -18,16 +20,23 @@ public class Trips {
 		return ((trip == null || index >= trip.size())?null:trip.get(index));
 	}
 	
-	public static void LinkFlights(String departure, String arrival, DateTime Date, boolean firstClass)
+	public static void LinkFlights(String departure, String arrival, DateTime localDate, boolean firstClass)
 	{
 		if (trip == null)
 			trip = new ArrayList<Trip>();
 		else
 			trip.clear();
 		
+		try {
+			localDate.SetfromLocal(localDate.getDateString(), "YYYY_MM_DD", Airports.GetTimezoneOffset(departure));
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		ValidationController.Instance();
 		
-		System.out.println("\nSearching for flights from " + departure + " to " + arrival + " departing on " + Date.getDateString() + "...");
+		System.out.println("\nSearching for flights from " + departure + " to " + arrival + " departing on " + localDate.getDateString() + "...");
 		List<Trip> potential = new ArrayList<Trip>();
 		
 		List<String> search = new ArrayList<String>();
@@ -72,7 +81,7 @@ public class Trips {
 				
 				explored.add(search.get(i));
 				
-				Flights f = new Flights(search.get(i),Date);
+				Flights f = new Flights(search.get(i),localDate);
 				
 				if (potential.size() == 0)
 				{
@@ -115,7 +124,11 @@ public class Trips {
 					for (int k = 0;k < f.departing.size();k++)
 					{
 						Trip t_prime = t.Clone();
-						t_prime.AddFlight(f.departing.get(k));
+						
+						
+						if (!t_prime.AddFlight(f.departing.get(k)))
+							continue;
+							
 						temp.add(t_prime);
 						boolean exists = false;
 						
@@ -162,7 +175,20 @@ public class Trips {
 		{
 			if (potential.get(i).GetDepartureAirport().compareTo(departure)==0 &&
 					potential.get(i).GetArrivalAirport().compareTo(arrival)==0)
-				trip.add(potential.get(i));
+			{
+				boolean valid = true;
+				for (int j = 0;j < trip.size();j++)
+				{
+					if (potential.get(i).GetID() == trip.get(j).GetID())
+					{
+						valid = false;
+						break;
+					}
+				}
+				if (valid)
+					trip.add(potential.get(i));
+			}
+				
 		}
 		
 	}
@@ -177,7 +203,7 @@ public class Trips {
 	
 	public static void main(String[] args) {
 		DateTime d = new DateTime();
-		d.Set("2016 May 04 02:47 GMT","YYYY MMM DD hh:mm zzz");
+		d.Set("2016 May 10 02:47 GMT","YYYY MMM DD hh:mm zzz");
 
 		Trips.LinkFlights("BOS", "AUS", d, true);
 		System.out.println("\n\n" + Trips.GetNumberofTrips() + " Flights Found\n");
