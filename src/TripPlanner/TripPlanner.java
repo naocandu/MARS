@@ -65,11 +65,12 @@ public class TripPlanner {
 		 * the information round, departure, arrival, departureDate and seating should be
 		 * achieved from the interface FlightsReservation
 		 */
-		round = (FlightsReservation.getTripType() == "round trip");
-		FC_seating = (FlightsReservation.getSeatClass() == "first class");
-		departure = FlightsReservation.getDeparture();
-		arrival = FlightsReservation.getArrival();
-		departureDate = FlightsReservation.getDepartureDate();
+		FlightsReservation fr = new FlightsReservation();
+		round = (fr.getTripType() == "round trip");
+		FC_seating = (fr.getSeatClass() == "first class");
+		departure = fr.getDeparture();
+		arrival = fr.getArrival();
+		departureDate = fr.getDepartureDate();
 		
 		/*
 		 * call the static function LinkFlights in the class Trips
@@ -142,6 +143,45 @@ public class TripPlanner {
 		    });
 		}
 		
+        if (opt == 3) {
+			
+		    Collections.sort(tripList,new Comparator<Trip>(){
+			    @Override
+			    public int compare(Trip t1, Trip t2) {
+				    return (int) (t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes());
+			    }
+		    });
+		}
+
+        if (opt == 4) {
+	
+            Collections.sort(tripList,new Comparator<Trip>(){
+	            @Override
+	            public int compare(Trip t2, Trip t1) {
+		            return (int) (t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes());
+	            }
+            });
+        }
+		
+        if (opt == 5) {
+			
+		    Collections.sort(tripList,new Comparator<Trip>(){
+			    @Override
+			    public int compare(Trip t1, Trip t2) {
+				    return (int) (t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes());
+			    }
+		    });
+		}
+        
+        if (opt == 6) {
+			
+		    Collections.sort(tripList,new Comparator<Trip>(){
+			    @Override
+			    public int compare(Trip t2, Trip t1) {
+				    return (int) (t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes());
+			    }
+		    });
+		}
 		return tripList;
 		
 	}
@@ -183,6 +223,7 @@ public class TripPlanner {
 	}
 	
 	public static void main(String[] args) {
+		
 		
 		
 	}
