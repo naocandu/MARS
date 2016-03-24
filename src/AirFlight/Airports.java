@@ -47,16 +47,11 @@ public class Airports {
 		
 		return 0;
 	}
-	
-	public static String[] getAirportName() throws DocumentException{
-		
-		List<String> a = parseAirports.getName();
+
+	public static String[] getAirportInfo() throws DocumentException{
+		List<String> a = parseAirports.getInfo();
 		String[] b = a.toArray(new String[a.size()]);
 		return  b;
-	}
-	
-	public static List getAirportInfo() throws DocumentException{
-		return parseAirports.getInfo();
 	}
 
 
@@ -64,7 +59,7 @@ public class Airports {
 		// TODO Auto-generated method stub
 		System.out.println(getAirportList());
 		for(int i=0;i<52;i++)
-		System.out.println(getAirportName()[i]);
+		System.out.println(getAirportInfo()[i]);
 	}
 
 }
