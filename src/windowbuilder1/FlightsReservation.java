@@ -42,51 +42,51 @@ import java.util.Iterator;
 public class FlightsReservation
 {
 	
-	private static JFrame frmFlightsReservation;
-	private static final ButtonGroup buttonGroup = new ButtonGroup();
-	private static final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	public static String triptype;
-	public static String seatclass;
-	private static String flyfrom;
-	private static String flyto;
-	private static String departdate;
-	private static String returndate;
-	private static int year1;
-	private static int month1;
-	private static int day1;
-	private static int year2;
-	private static int month2;
-	private static int day2;
-	private static int todayyear;
-	private static int todaymonth;
-	private static int todaydate;
+	private JFrame frmFlightsReservation;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
+	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	public String triptype;
+	public String seatclass;
+	private String flyfrom;
+	private String flyto;
+	private String departdate;
+	private String returndate;
+	private int year1;
+	private int month1;
+	private int day1;
+	private int year2;
+	private int month2;
+	private int day2;
+	private int todayyear;
+	private int todaymonth;
+	private int todaydate;
 
-	public static String getDeparture() // get departure airport
+	public String getDeparture() // get departure airport
 	{
 		return flyfrom;
 	}
 	
-	public static String getArrival() // get arrival airport
+	public String getArrival() // get arrival airport
 	{
 		return flyto;
 	}
 	
-	public static String getDepartureDate() // get departure date
+	public String getDepartureDate() // get departure date
 	{ // get departure date
 		return departdate;
 	}
 	
-	public static String getReturnDate() // get return date
+	public String getReturnDate() // get return date
 	{
 		return returndate;
 	}
 	
-	public static String getTripType() // get trip type
+	public String getTripType() // get trip type
 	{
 		return triptype;
 	}
 	
-	public static String getSeatClass() // get seat class
+	public String getSeatClass() // get seat class
 	{
 		return seatclass;
 	}
@@ -123,7 +123,7 @@ public class FlightsReservation
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private static void initialize()
+	private void initialize()
 	{
 		frmFlightsReservation = new JFrame();
 		frmFlightsReservation.setResizable(false);
@@ -300,6 +300,7 @@ public class FlightsReservation
 							returndate = null;
 							userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n" + departdate
 									+ "\n" + returndate + "\n";
+							textArea.setText(userinfo);
 						} else // round trip
 						{
 							triptype = f1;
@@ -327,7 +328,7 @@ public class FlightsReservation
 											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto
 													+ "\n" + departdate + "\n" + returndate + "\n";
 											textArea.setText(userinfo);
-											TripPlanner.SearchFlights();
+											//TripPlanner.SearchFlights();
 										} else
 											JOptionPane.showMessageDialog(null, "Return date is wrong!");
 									} else

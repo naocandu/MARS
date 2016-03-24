@@ -25,6 +25,11 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.JSlider;
 import javax.swing.table.DefaultTableModel;
+
+import org.dom4j.DocumentException;
+
+import AirFlight.Airports;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
@@ -130,20 +135,27 @@ public class secondwindow
 		// getflights()
 		JList list = new JList();
 		scrollPane.setViewportView(list);
-		list.setModel(new AbstractListModel()
+		try
 		{
-			/*String[] values = new tripplanner().getFlight();
-			
-			public int getSize()
+			list.setModel(new AbstractListModel()
 			{
-				return values.length;
-			}
-			
-			public Object getElementAt(int index)
-			{
-				return values[index];
-			}*/
-		});
+				String[] values = new Airports().getAirportName();
+				
+				public int getSize()
+				{
+					return values.length;
+				}
+				
+				public Object getElementAt(int index)
+				{
+					return values[index];
+				}
+			});
+		} catch (DocumentException e1)
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		JButton btnBook = new JButton("book");
 		btnBook.addActionListener(new ActionListener()
@@ -182,7 +194,7 @@ public class secondwindow
 						 * frmFlightsResults.dispose(); }
 						 */
 						JOptionPane.showMessageDialog(null,
-								"book successfully" + "\n" + reserve + "\n" + startTime + "\n" + endTime);
+								"book successfully" + "\n" + reserve + "\n");
 					}
 				} else if (response == 1)
 				{
