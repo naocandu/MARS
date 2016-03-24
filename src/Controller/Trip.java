@@ -27,6 +27,17 @@ public class Trip {
 		return ID;
 	}
 	
+	public String GetFlightSequence()
+	{
+		String sequence = "";
+		for (int i = 0;i < trip.size();i++)
+		{
+			sequence += "F" + trip.get(i).Flightnumber;
+		}
+		
+		return sequence;
+	}
+	
 	public int GetDepartureTimeinMinutes()
 	{
 		return trip.get(0).DepartureTime.GetLocalTimeinMinutes();
@@ -48,6 +59,11 @@ public class Trip {
 			return 0;
 		else
 			return (float)DateTime.NumericSpan(trip.get(0).DepartureTime, trip.get(trip.size()-1).ArrivalTime);
+	}
+	
+	public String GetDepartureDate()
+	{
+		return trip.get(0).DepartureTime.getLocalDateString();
 	}
 	
 	public String TimeDifference()

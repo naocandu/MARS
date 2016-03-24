@@ -20,23 +20,20 @@ public class Trips {
 		return ((trip == null || index >= trip.size())?null:trip.get(index));
 	}
 	
-	public static void LinkFlights(String departure, String arrival, DateTime localDate, boolean firstClass)
+	public static void LinkFlights(String departure, String arrival, String localDate, boolean firstClass)
 	{
+		DateTime date = new DateTime();
+		date.Set(localDate , "YYYY_MM_DD");
+		
 		if (trip == null)
 			trip = new ArrayList<Trip>();
 		else
 			trip.clear();
 		
-		try {
-			localDate.SetfromLocal(localDate.getDateString(), "YYYY_MM_DD", Airports.GetTimezoneOffset(departure));
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 		ValidationController.Instance();
 		
-		System.out.println("\nSearching for flights from " + departure + " to " + arrival + " departing on " + localDate.getDateString() + "...");
+		System.out.println("\nSearching for flights from " + departure + " to " + arrival + " departing on " + date.getDateString() + "...");
 		List<Trip> potential = new ArrayList<Trip>();
 		
 		List<String> search = new ArrayList<String>();
@@ -51,7 +48,7 @@ public class Trips {
 		{
 			search.clear();
 			for (int i = 0;i < next_search.size();i++)
-			{
+			{	
 				search.add(next_search.get(i));
 			}
 			next_search.clear();
@@ -81,13 +78,16 @@ public class Trips {
 				
 				explored.add(search.get(i));
 				
-				Flights f = new Flights(search.get(i),localDate);
+				Flights f = new Flights(search.get(i),date);
 				
 				if (potential.size() == 0)
 				{
 					for (int k = 0;k < f.departing.size();k++)
 					{
+						if (f.departing.get(k).DepartureTime.getLocalDateString().compareTo(date.getDateString())!=0)
+							continue;
 						Trip t = new Trip();
+						//System.out.println(f.departing.get(k).DepartureTime.getLocalDateString());
 						t.AddFlight(f.departing.get(k));
 						
 						if (f.departing.get(k).Departure_Airport.compareTo(departure)==0)
@@ -171,6 +171,7 @@ public class Trips {
 
 		}
 		
+		//System.out.println(date.getDateString());
 		for (int i = 0;i < potential.size();i++)
 		{
 			if (potential.get(i).GetDepartureAirport().compareTo(departure)==0 &&
@@ -179,6 +180,11 @@ public class Trips {
 				boolean valid = true;
 				for (int j = 0;j < trip.size();j++)
 				{
+					if (potential.get(i).GetFlightSequence().compareTo(trip.get(j).GetFlightSequence())==0 )
+					{
+						valid = false;
+						break;
+					}
 					if (potential.get(i).GetID() == trip.get(j).GetID())
 					{
 						valid = false;
@@ -203,15 +209,15 @@ public class Trips {
 	
 	public static void main(String[] args) {
 		DateTime d = new DateTime();
-		d.Set("2016 May 10 02:47 GMT","YYYY MMM DD hh:mm zzz");
+		d.Set("2016 May 04 02:47 GMT","YYYY MMM DD hh:mm zzz");
 
-		Trips.LinkFlights("BOS", "AUS", d, true);
+		Trips.LinkFlights("BOS", "AUS", d.getDateString(), true);
 		System.out.println("\n\n" + Trips.GetNumberofTrips() + " Flights Found\n");
 		if (Trips.GetNumberofTrips() != 0)
 		{
 			System.out.println("Displaying " + (Trips.GetNumberofTrips()>10?"first 10 ":"all ") + "trips:");
 			for (int i = 0;i < (Trips.GetNumberofTrips()>10?10:Trips.GetNumberofTrips());i++)
-			{
+			{	System.out.println(Trips.trip.get(i).GetFlightSequence());
 				System.out.println(Trips.trip.get(i).toString());
 			}
 		}

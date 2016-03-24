@@ -142,7 +142,6 @@ public class ValidationController {
 		return ValidationController.Instance().max_hops;
 	}
 	
-	
 	public int GetTimezoneOffset(float Latitude, float Longitude) throws DocumentException
 	{
 		String xml = ServerInterface.QueryTimezone(Latitude, Longitude);

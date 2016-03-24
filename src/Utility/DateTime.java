@@ -186,11 +186,17 @@ public class DateTime {
 	{
 		DateTime dt = new DateTime();
 		dt.Set(dateTime, format);
+		//System.out.println(dateTime);
 		this.localDateTime = (Calendar) dt.dateTime.clone();
 		dt.dateTime.add(Calendar.HOUR_OF_DAY, -Offset);
+		//System.out.println(Offset);
+		//System.out.println(dt.getDateString());
 		
 		this.Set(dt.getDateString(),"YYYY_MM_DD");
 		this.SetTimezoneOffset(Offset);
+		
+		//System.out.println(this.getDateString());
+		//System.out.println(this.getLocalDateString());
 	}
 	/**
 	 * Sets the Calendar date and time from a string

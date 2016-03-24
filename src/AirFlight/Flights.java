@@ -54,7 +54,7 @@ public class Flights {
 					(String)fc.get(0),
 					(String)ec.get(0)));
 		}
-		/*
+		
 		for (int i = 0;i < raw_departure_ND.size();i++)
 		{
 			ArrayList dep = (ArrayList)raw_departure_ND.get(i).get("Departure");
@@ -76,7 +76,7 @@ public class Flights {
 					(int)ec.get(1),
 					(String)fc.get(0),
 					(String)ec.get(0)));
-		}*/
+		}
 		
 	}
 			
