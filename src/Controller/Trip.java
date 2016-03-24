@@ -27,6 +27,16 @@ public class Trip {
 		return ID;
 	}
 	
+	public int GetDepartureTimeinMinutes()
+	{
+		return trip.get(0).DepartureTime.GetLocalTimeinMinutes();
+	}
+	
+	public int GetArrivalTimeinMinutes()
+	{
+		return trip.get(trip.size()-1).ArrivalTime.GetLocalTimeinMinutes();
+	}
+	
 	public float GetPrice()
 	{
 		return totalPrice.toFloat();

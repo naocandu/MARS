@@ -333,6 +333,13 @@ public class DateTime {
 		return year+"_"+month+"_"+day;
 	}
 	
+	public int GetLocalTimeinMinutes()
+	{
+		int h = localDateTime.get(Calendar.HOUR_OF_DAY);
+		int m = localDateTime.get(Calendar.MINUTE);
+		return (h*60) + m;
+	}
+	
 	public String getLocalFullDateString()
 	{
 		String month = Integer.toString(localDateTime.get(Calendar.MONTH));
