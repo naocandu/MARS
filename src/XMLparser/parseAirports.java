@@ -92,26 +92,42 @@ public class parseAirports {
 		}
 		return airportCode; 
 	}
-	
-	// get the code of a designated airport
-		public static List<String> getName() throws DocumentException {
-			List<String> airportName = new ArrayList<String>();
-			document = DocumentHelper.parseText(xml);
-			Element rootElement = document.getRootElement();
-			for (Iterator iter=rootElement.elementIterator(); iter.hasNext();){
-				Element airports = (Element) iter.next();
-				airportName.add(airports.attributeValue("Name"));
-				/*
-				if (airports.attributeValue("Code").equals(airportcode)){
-					String latitude = airports.elementTextTrim("Latitude");
-					String longitude = airports.elementTextTrim("Longitude");
-					geoInfo.add(Float.parseFloat(latitude));
-					geoInfo.add(Float.parseFloat(longitude));	
-				}
-				*/
+		
+		// get the code and name of a designated airport
+	public static List<String> getName() throws DocumentException {
+		List<String> airportName = new ArrayList<String>();
+		document = DocumentHelper.parseText(xml);
+		Element rootElement = document.getRootElement();
+		for (Iterator iter=rootElement.elementIterator(); iter.hasNext();){
+			Element airports = (Element) iter.next();
+			airportName.add(airports.attributeValue("Name"));
+			/*
+			if (airports.attributeValue("Code").equals(airportcode)){
+				String latitude = airports.elementTextTrim("Latitude");
+				String longitude = airports.elementTextTrim("Longitude");
+				geoInfo.add(Float.parseFloat(latitude));
+				geoInfo.add(Float.parseFloat(longitude));	
 			}
-			return airportName; 
+			*/
 		}
+		return airportName; 
+	}
+				
+	// get the info of a designated airport
+	public static List<String> getInfo() throws DocumentException {
+		List<String> airportName = new ArrayList<String>();
+		List airportInfo = new ArrayList();
+		document = DocumentHelper.parseText(xml);
+		Element rootElement = document.getRootElement();
+		for (Iterator iter=rootElement.elementIterator(); iter.hasNext();){
+			Element airports = (Element) iter.next();
+			List airportNameCode = new ArrayList();
+			airportNameCode.add(airports.attributeValue("Name"));
+			airportNameCode.add(airports.attributeValue("Code"));
+			airportInfo.add(airportNameCode);
+		}
+		return airportInfo; 
+	}
 	
 
 	public static void main(String[] args) throws DocumentException {
@@ -121,5 +137,6 @@ public class parseAirports {
 		System.out.println(collection);
 		System.out.println(getCode());
 		System.out.println(getName());
+		System.out.println(getInfo());
 	}
 }

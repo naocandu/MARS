@@ -54,6 +54,11 @@ public class Airports {
 		String[] b = a.toArray(new String[a.size()]);
 		return  b;
 	}
+	
+	public static List getAirportInfo() throws DocumentException{
+		return parseAirports.getInfo();
+	}
+
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub
