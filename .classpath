@@ -2,12 +2,5 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="resources/dom4j.jar"/>
-=======
-	<classpathentry kind="lib" path="C:/Users/Anthony/Downloads/dom4j.jar/dom4j.jar"/>
-	<classpathentry kind="lib" path="E:/JAVA/dom4j-2.0.0-RC1.jar"/>
-	<classpathentry kind="lib" path="/Users/naocandu/Dropbox/CS509/code/dom4j-2.0.0-RC1.jar"/>
->>>>>>> origin/master
-	<classpathentry kind="output" path="bin"/>
 </classpath>

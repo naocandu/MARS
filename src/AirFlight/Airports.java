@@ -50,8 +50,8 @@ public class Airports {
 	
 	public static int GetTimezoneOffset(String Code) throws DocumentException
 	{	
-		//if (AirportList.size() == 0)
-		//	getAirportList();
+		if (AirportList.size() == 0)
+			getAirportList();
 		
 		for (int i = 0;i < AirportList.size();i++)
 		{
@@ -63,19 +63,19 @@ public class Airports {
 		
 		return 0;
 	}
-
-	public static String[] getAirportInfo() throws DocumentException{
-		List<String> a = parseAirports.getInfo();
+	
+	public static String[] getAirportName() throws DocumentException{
+		
+		List<String> a = parseAirports.getName();
 		String[] b = a.toArray(new String[a.size()]);
 		return  b;
 	}
-
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub
 		System.out.println(getAirportList());
 		for(int i=0;i<52;i++)
-		System.out.println(getAirportInfo()[i]);
+		System.out.println(getAirportName()[i]);
 	}
 
 }
