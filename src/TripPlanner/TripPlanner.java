@@ -74,6 +74,7 @@ public class TripPlanner {
 		 * achieved from the interface FlightsReservation
 		 */
 		FlightsReservation fr = new FlightsReservation();
+		
 		round = (fr.getTripType() == "round trip");
 		FC_seating = (fr.getSeatClass() == "first class");
 		departure = fr.getDeparture();
@@ -83,9 +84,13 @@ public class TripPlanner {
 		/*
 		 * call the static function LinkFlights in the class Trips
 		 */
+		String format = "YYYY-MM-DD";
 		DateTime dt = new DateTime();
-		//dt.Set(departureDate, format);
-		//Trips.LinkFlights(departure, arrival, dt, FC_seating);
+		dt.Set(departureDate, format);
+		Trips.LinkFlights(departure, arrival, dt, FC_seating);
+		
+		//create the second window
+		
 		
 	}
 	
