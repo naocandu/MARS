@@ -70,12 +70,17 @@ public class Airports {
 		String[] b = a.toArray(new String[a.size()]);
 		return  b;
 	}
+	
+	public static List getAirportInfo() throws DocumentException{
+		return parseAirports.getInfo();
+	}
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub
 		System.out.println(getAirportList());
 		for(int i=0;i<52;i++)
 		System.out.println(getAirportName()[i]);
+		System.out.println(getAirportInfo());
 	}
 
 }

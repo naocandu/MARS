@@ -115,18 +115,14 @@ public class parseAirports {
 				
 	// get the info of a designated airport
 	public static List<String> getInfo() throws DocumentException {
-		List<String> airportName = new ArrayList<String>();
-		List airportInfo = new ArrayList();
+		List airportNameCode = new ArrayList();
 		document = DocumentHelper.parseText(xml);
 		Element rootElement = document.getRootElement();
 		for (Iterator iter=rootElement.elementIterator(); iter.hasNext();){
 			Element airports = (Element) iter.next();
-			List airportNameCode = new ArrayList();
-			airportNameCode.add(airports.attributeValue("Name"));
-			airportNameCode.add(airports.attributeValue("Code"));
-			airportInfo.add(airportNameCode);
+			airportNameCode.add(airports.attributeValue("Name")+" "+airports.attributeValue("Code"));
 		}
-		return airportInfo; 
+		return airportNameCode; 
 	}
 	
 
