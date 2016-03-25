@@ -171,13 +171,13 @@ public class FlightsReservation
 		
 		// depart airport
 		JComboBox departair = new JComboBox();	
-		departair.setBounds(127, 115, 254, 30);
+		departair.setBounds(127, 115, 278, 30);
 		departair.setFont(new Font("Cambria", Font.BOLD, 12));
 		departair.setEditable(true);
 		//get airport from sever
 		try
 		{
-			departair.setModel(new DefaultComboBoxModel(new Airports().getAirportName()));
+			departair.setModel(new DefaultComboBoxModel(new Airports().getAirportInfo()));
 		} catch (DocumentException e3)
 		{
 			// TODO Auto-generated catch block
@@ -196,13 +196,13 @@ public class FlightsReservation
 		arriveair.setEditable(true);
 		try
 		{
-			arriveair.setModel(new DefaultComboBoxModel(new Airports().getAirportName()));
+			arriveair.setModel(new DefaultComboBoxModel(new Airports().getAirportInfo()));
 		} catch (DocumentException e2)
 		{
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		arriveair.setBounds(127, 172, 254, 30);
+		arriveair.setBounds(127, 172, 278, 30);
 		frmFlightsReservation.getContentPane().add(arriveair);
 		
 		JLabel lblDeparting = new JLabel("Departing");

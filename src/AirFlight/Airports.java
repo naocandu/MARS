@@ -71,8 +71,10 @@ public class Airports {
 		return  b;
 	}
 	
-	public static List getAirportInfo() throws DocumentException{
-		return parseAirports.getInfo();
+	public static String[] getAirportInfo() throws DocumentException{
+		List<String> a = parseAirports.getInfo();
+		String[] b = a.toArray(new String[a.size()]);
+		return  b;
 	}
 
 	public static void main(String[] args) throws DocumentException {

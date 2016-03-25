@@ -120,7 +120,7 @@ public class parseAirports {
 		Element rootElement = document.getRootElement();
 		for (Iterator iter=rootElement.elementIterator(); iter.hasNext();){
 			Element airports = (Element) iter.next();
-			airportNameCode.add(airports.attributeValue("Name")+" "+airports.attributeValue("Code"));
+			airportNameCode.add(airports.attributeValue("Code")+", "+airports.attributeValue("Name"));
 		}
 		return airportNameCode; 
 	}

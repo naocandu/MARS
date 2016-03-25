@@ -60,6 +60,14 @@ public class TripPlanner {
 	private static String arrival;
 	private static String departureDate;
 	
+	//get the depart airport code
+	public static String getAirportCode(String a)
+	{
+		String b = a;
+		String c = b.substring(0,3);
+		return c;
+	}
+	
 	public static void SearchFlights() {
 		/* 
 		 * the information round, departure, arrival, departureDate and seating should be
