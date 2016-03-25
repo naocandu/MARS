@@ -1,7 +1,8 @@
 package AirFlight;
 
 import java.util.List;
-
+import java.util.ArrayList;
+import Utility.*;
 import org.dom4j.DocumentException;
 
 import Controller.ValidationController;
@@ -16,11 +17,23 @@ public class Airport {
 	private int timezoneOffset;
 	private boolean TimezoneSet = false;
 	
-	private List<Flights> outbound = new ArrayList<Flights>();
-	//private List<String> outbound_date = new 
+	private Flights outbound = null;
+	private String outboundDate = "";
 	
 	public static List getAirport(String code){
 		return parseAirports.readXML().get(code);
+	}
+	
+	public Flights GetDepartureFlights(DateTime Date)
+	{
+		if (outbound == null || outboundDate.compareTo(Date.getDateString())!= 0)
+		{
+			
+			outbound = new Flights(Code, Date);
+			outboundDate = Date.getDateString();
+		}
+		
+		return outbound;
 	}
 	
 	public Airport()

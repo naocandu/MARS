@@ -32,10 +32,26 @@ public class Airports {
 		return airportsList;
 	}
 	
-	public static int GetTimezoneOffset(String Code) throws DocumentException
-	{	
+	public static Airport GetAirport(String Code) throws DocumentException
+	{
 		if (AirportList.size() == 0)
 			getAirportList();
+		
+		for (int i = 0;i < AirportList.size();i++)
+		{
+			if (AirportList.get(i).Code.compareTo(Code)==0)
+			{
+				return AirportList.get(i);
+			}
+		}
+		
+		return null;
+	}
+	
+	public static int GetTimezoneOffset(String Code) throws DocumentException
+	{	
+		//if (AirportList.size() == 0)
+		//	getAirportList();
 		
 		for (int i = 0;i < AirportList.size();i++)
 		{

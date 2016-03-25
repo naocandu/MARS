@@ -12,12 +12,26 @@ import Utility.DateTime;
 public class Flights {
 	public List<Flight> departing = null;
 	
+	//private static List<Flights> found_flights = new ArrayList<Flights>;
+	public static Flights GetFlightsFromAirport(String airport_code, DateTime date)
+	{
+		try {
+			return Airports.GetAirport(airport_code).GetDepartureFlights(date);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public Flights(String airport_code, DateTime date)
 	{
 		List<Map> raw_departure = null;
 		List<Map> raw_departure_ND = null;
 		
 		DateTime nextday = DateTime.NextDay(date);
+		
 		
 		try {
 			raw_departure = parseFlights.getFlights(airport_code, date.getDateString(), true);
@@ -32,6 +46,8 @@ public class Flights {
 		 * int Seats_EC, String Price_FC, String Price_EC
 		*/
 		departing = new ArrayList<Flight>();
+		
+		long start = System.currentTimeMillis();
 		for (int i = 0;i < raw_departure.size();i++)
 		{
 			ArrayList dep = (ArrayList)raw_departure.get(i).get("Departure");
@@ -43,6 +59,7 @@ public class Flights {
 			if (dep_code.compareTo(airport_code) != 0)
 				continue;
 			
+			
 			departing.add(new Flight((String)raw_departure.get(i).get("AirplaneModel"),
 					(int)raw_departure.get(i).get("Flightnumber"),
 					(String)dep.get(0),
@@ -53,7 +70,9 @@ public class Flights {
 					(int)ec.get(1),
 					(String)fc.get(0),
 					(String)ec.get(0)));
+			
 		}
+		System.out.println(System.currentTimeMillis()-start);
 		
 		for (int i = 0;i < raw_departure_ND.size();i++)
 		{

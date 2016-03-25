@@ -58,12 +58,6 @@ public class Flight {
 		
 		try {
 			this.DepartureTime.SetTimezoneOffset(Airports.GetTimezoneOffset(Departure_Airport));
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
 			this.ArrivalTime.SetTimezoneOffset(Airports.GetTimezoneOffset(Arrival_Airport));
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block

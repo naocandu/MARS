@@ -1,7 +1,10 @@
 package Controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import AirFlight.*;
+import Server.ServerInterface;
 import Utility.*;
 import java.util.List;
 
@@ -20,8 +23,9 @@ public class Trips {
 		return ((trip == null || index >= trip.size())?null:trip.get(index));
 	}
 	
-	public static void LinkFlights(String departure, String arrival, String localDate, boolean firstClass)
+	public static List<Trip> LinkFlights(String departure, String arrival, String localDate, boolean firstClass)
 	{
+		long start = System.currentTimeMillis();
 		DateTime date = new DateTime();
 		date.Set(localDate , "YYYY_MM_DD");
 		
@@ -30,7 +34,7 @@ public class Trips {
 		else
 			trip.clear();
 		
-
+		
 		ValidationController.Instance();
 		
 		System.out.println("\nSearching for flights from " + departure + " to " + arrival + " departing on " + date.getDateString() + "...");
@@ -46,6 +50,7 @@ public class Trips {
 		
 		for (int h = 0;h < ValidationController.GetMaxHops();h++)
 		{
+			
 			search.clear();
 			for (int i = 0;i < next_search.size();i++)
 			{	
@@ -56,29 +61,12 @@ public class Trips {
 			
 			for (int i = 0;i < search.size();i++)
 			{
-				/*
-				 * section skips already explored nodes:
-				 * uncommenting speeds processing, but is not
-				 * robust - it is likely to miss potential trip
-				 * paths
-				 *
-				 */
-				/*boolean valid = true;
-				for (int j = 0;j < explored.size();j++)
-				{
-					if (search.get(i).compareTo(explored.get(j)) == 0)
-					{
-						valid = false;
-						break;
-					}
-				}
-				
-				if (!valid)
-					continue;*/
-				
 				explored.add(search.get(i));
 				
-				Flights f = new Flights(search.get(i),date);
+				
+				//Flights f = new Flights(search.get(i),date);
+				
+				Flights f = Flights.GetFlightsFromAirport(search.get(i), date);
 				
 				if (potential.size() == 0)
 				{
@@ -166,7 +154,9 @@ public class Trips {
 				
 			}
 			for (int j = 0;j < temp.size();j++)
+			{
 				potential.add(temp.get(j));
+			}
 			temp.clear();
 
 		}
@@ -196,7 +186,7 @@ public class Trips {
 			}
 				
 		}
-		
+		return trip;
 	}
 	
 	public static Trip MergeTrips(Trip outbound, Trip returning)
@@ -211,16 +201,30 @@ public class Trips {
 		DateTime d = new DateTime();
 		d.Set("2016 May 04 02:47 GMT","YYYY MMM DD hh:mm zzz");
 
+
+		//d.Set("2016-05-10", "YYYY-MM-DD");
+		long start = System.currentTimeMillis();
 		Trips.LinkFlights("BOS", "AUS", d.getDateString(), true);
-		System.out.println("\n\n" + Trips.GetNumberofTrips() + " Flights Found\n");
+		long end = System.currentTimeMillis();
+		
+		
+		System.out.println("\n\n" + Trips.GetNumberofTrips() + " Flights Found in " + ((end-start)/1000.0) + " seconds\n");
 		if (Trips.GetNumberofTrips() != 0)
 		{
 			System.out.println("Displaying " + (Trips.GetNumberofTrips()>10?"first 10 ":"all ") + "trips:");
 			for (int i = 0;i < (Trips.GetNumberofTrips()>10?10:Trips.GetNumberofTrips());i++)
-			{	System.out.println(Trips.trip.get(i).GetFlightSequence());
+			{	
+				System.out.println(Trips.trip.get(i).GetAiportSequence());
+				System.out.println(Trips.trip.get(i).GetFlightSequence());
+			
 				System.out.println(Trips.trip.get(i).toString());
 				System.out.println("\n");
 			}
 		}
+		
+		System.out.println("Total Queries: " + ServerInterface.DataBaseCalls);
+		System.out.println("Airport Queries: " + ServerInterface.AirportCalls);
+		System.out.println("Flight Queries: " + ServerInterface.FlightCalls);
+		System.out.println("Timezone Queries: " + ServerInterface.TimezoneCalls);
 	}
 }

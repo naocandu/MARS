@@ -32,6 +32,11 @@ public class ServerInterface {
 	private static String timezone_url = ServerConstants.TIMEZONE_URL;
 	private static String team_name = ServerConstants.TEAM_ID;
 	
+	public static int DataBaseCalls = 0;
+	public static int AirportCalls = 0;
+	public static int FlightCalls = 0;
+	public static int TimezoneCalls = 0;
+	
 	/**
 	 * Handles a generic HTTP GET to a specified url with arguments defined
 	 * by query
@@ -42,6 +47,7 @@ public class ServerInterface {
 	 */
 	private static String QueryDatabase(String url, String query)
 	{
+		DataBaseCalls++;
 		URL request_string;
 		HttpURLConnection connection;
 		BufferedReader reader;
@@ -186,6 +192,7 @@ public class ServerInterface {
 	 */
 	public static String QueryAirports()
 	{
+		AirportCalls++;
 		return QueryDatabase(res_system_url, QueryBuilder.GetAirportQuery(team_name));
 	}
 	
@@ -210,6 +217,7 @@ public class ServerInterface {
 	 */
 	public static String QueryFlights(String airport_code,String departure_date,boolean departure)
 	{
+		FlightCalls++;
 		return QueryDatabase(res_system_url, QueryBuilder.GetFlightQuery(team_name, airport_code, departure_date, departure));
 	}
 	
@@ -223,6 +231,7 @@ public class ServerInterface {
 	 */
 	public static String QueryTimezone(double latitude, double longitude)
 	{
+		TimezoneCalls++;
 		return QueryDatabase(timezone_url, QueryBuilder.GetTimezoneQuery(team_name, latitude, longitude));
 	}
 	

@@ -38,6 +38,18 @@ public class Trip {
 		return sequence;
 	}
 	
+	public String GetAiportSequence()
+	{
+		String sequence = (trip.size()!=0?trip.get(0).Departure_Airport:"");
+
+		for (int i = 0;i < trip.size();i++)
+		{
+			sequence += "_" + trip.get(i).Arrival_Airport;
+		}
+		
+		return sequence;
+	}
+	
 	public int GetDepartureTimeinMinutes()
 	{
 		return trip.get(0).DepartureTime.GetLocalTimeinMinutes();
@@ -91,6 +103,9 @@ public class Trip {
 	public boolean AddFlight(Flight flight)
 	{
 		double layover = 0;
+		
+		if (this.GetAiportSequence().contains(flight.Arrival_Airport))
+			return false;
 		
 		if (trip.size() > 0)
 		{
