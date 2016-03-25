@@ -10,6 +10,7 @@ import org.dom4j.DocumentException;
 
 import AirFlight.Airport;
 import Controller.ValidationController;
+import Utility.DateTime;
 
 public class Airports {
 	private static List airportsList = new ArrayList();
@@ -62,6 +63,27 @@ public class Airports {
 		}
 		
 		return 0;
+	}
+	
+	public static void PreloadAirports(DateTime DepartureDate)
+	{
+		if (AirportList.size() == 0)
+		{
+			try {
+				getAirportList();
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i = 0;i < AirportList.size();i++)
+		{
+			Preloader t = new Preloader(AirportList.get(i).Code, DepartureDate);
+			t.start();
+		}
+		
+		//Preloader.WaitforAll();
 	}
 	
 	public static String[] getAirportName() throws DocumentException{

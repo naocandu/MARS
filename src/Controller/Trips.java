@@ -25,9 +25,12 @@ public class Trips {
 	
 	public static List<Trip> LinkFlights(String departure, String arrival, String localDate, boolean firstClass)
 	{
-		long start = System.currentTimeMillis();
 		DateTime date = new DateTime();
 		date.Set(localDate , "YYYY_MM_DD");
+		
+		Airports.PreloadAirports(date);
+		
+		//long start = System.currentTimeMillis();
 		
 		if (trip == null)
 			trip = new ArrayList<Trip>();

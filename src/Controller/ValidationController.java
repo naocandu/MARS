@@ -122,7 +122,15 @@ public class ValidationController {
 	public static ValidationController Instance()
 	{
 		if (instance == null)
-			instance = new ValidationController();
+		{
+			synchronized (ValidationController.class)
+			{
+				if(instance == null)
+				{
+					instance = new ValidationController();
+				}
+			}
+		}
 		
 		return instance;
 	}
