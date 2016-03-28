@@ -7,7 +7,7 @@ package windowbuilder1;
 
 public class getselectdate {
 
-	private static String a="2016-3-20";
+	private static String a="2016_03_20";
 	public static int[] mydate(String date)
 	{
 		String[] mydate = date.split("-");
@@ -17,6 +17,11 @@ public class getselectdate {
 		imydate[2] = Integer.parseInt(mydate[2]);
 		
 		return imydate;
+	}
+	public static String[] strmydate(String date)
+	{
+		String[] mydate = date.split("-");
+		return mydate;
 	}
 	public static void main(String[] args) {
 	

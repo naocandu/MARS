@@ -32,7 +32,7 @@ public class Trip {
 		String sequence = "";
 		for (int i = 0;i < trip.size();i++)
 		{
-			sequence += "F" + trip.get(i).Flightnumber;
+			sequence += "F" + trip.get(i).Flightnumber+ "&nbsp;" + "&nbsp;" + "&nbsp;";
 		}
 		
 		return sequence;
@@ -162,8 +162,8 @@ public class Trip {
 			ports += trip.get(i).Departure_Airport + " -- ";
 		}
 		
-		String display = ports + GetArrivalAirport() + "\n" + 
-				GetDepartureTime() + " -- " + GetArrivalTime() + "  duration: " + TimeDifference() + "\n" +
+		String display = //ports + GetArrivalAirport() + "\n" + 
+				GetDepartureTime() + " -- " + GetArrivalTime() + "  duration: " + TimeDifference() + "<br/>" +
 		"hops: " + num_hops + "  price: " + totalPrice.toString();
 		return display;
 	}

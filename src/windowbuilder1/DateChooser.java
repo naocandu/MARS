@@ -685,8 +685,8 @@ public class DateChooser extends JPanel {
 	}
  
 	public static void main(String[] args) {
-		DateChooser dateChooser1 = DateChooser.getInstance("yyyy-MM-dd");
-		DateChooser dateChooser2 = DateChooser.getInstance("yyyy-MM-dd");
+		DateChooser dateChooser1 = DateChooser.getInstance("yyyy_MM_dd");
+		DateChooser dateChooser2 = DateChooser.getInstance("yyyy_MM_dd");
 		JTextField showDate1 = new JTextField("单击选择日期");
 		JLabel showDate2 = new JLabel("单击选择日期");
  

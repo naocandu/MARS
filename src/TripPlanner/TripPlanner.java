@@ -1,6 +1,8 @@
 package TripPlanner;
 import AirFlight.Airports;
-
+import windowbuilder1.FlightsReservation;
+import windowbuilder1.secondwindow;
+import windowbuilder1.thirdwindow;
 /*
  * Class provides functions for obtaining the specific airports and flights the user asks for 
  * and displaying them on the interface.
@@ -9,6 +11,7 @@ import AirFlight.Airports;
  * @author Bian Du
  * @since 2016-3-18
  */
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +25,8 @@ import AirFlight.Airports;
 import Controller.Trip;
 import Controller.Trips;
 import Controller.ValidationController;
-import windowbuilder1.FlightsReservation;
+
+
 import Utility.*;
 
 public class TripPlanner {
@@ -59,6 +63,7 @@ public class TripPlanner {
 	private static String departure;
 	private static String arrival;
 	private static String departureDate;
+	public static List<Trip> trip = null;
 	
 	//get the depart airport code
 	public static String getAirportCode(String a)
@@ -67,12 +72,30 @@ public class TripPlanner {
 		String c = b.substring(0,3);
 		return c;
 	}
+	//get results sequence
+	public static String[] results(List<Trip> a)
+	{
+		List<String> b = new ArrayList<String>();
+		int length = a.size();
+		for(int i = 0; i<length; i++)
+		{
+			b.add(a.get(i).GetAiportSequence()+"\n"+ 
+					"\n" + a.get(i).GetFlightSequence() + 
+						"\n" + a.get(i).toString());
+		}
+		String[] c = b.toArray(new String[b.size()]);
+		return c;
+		
+	}
 	
-	public static void SearchFlights() {
+	public static void SearchFlights(boolean a) {
 		/* 
 		 * the information round, departure, arrival, departureDate and seating should be
 		 * achieved from the interface FlightsReservation
 		 */
+
+		//FlightsReservation fr = new FlightsReservation();
+
 		FlightsReservation fr = new FlightsReservation();
 		
 		round = (fr.getTripType() == "round trip");
@@ -80,20 +103,67 @@ public class TripPlanner {
 		departure = fr.getDeparture();
 		arrival = fr.getArrival();
 		departureDate = fr.getDepartureDate();
+
 		
+		
+		round = (FlightsReservation.getTripType() == "round trip");
+		FC_seating = (FlightsReservation.getSeatClass() == "first class");
+		departure = FlightsReservation.getDeparture();
+		arrival = FlightsReservation.getArrival();
+		departureDate = FlightsReservation.getDepartureDate();
+		if(a==true)
+		{
 		/*
 		 * call the static function LinkFlights in the class Trips
 		 */
-		String format = "YYYY-MM-DD";
-		DateTime dt = new DateTime();
-		dt.Set(departureDate, format);
-		Trips.LinkFlights(departure, arrival, dt, FC_seating);
+
+		//DateTime dt = new DateTime();
+		//dt.Set(departureDate, "YYYY_MM_DD");
+			//Trips.LinkFlights(departure, arrival, departureDate, FC_seating);
+		try
+		{
+			trip = Trips.LinkFlights(departure, arrival, departureDate, FC_seating);
+			
+		} catch (Exception e1)
+		{
+			e1.printStackTrace();
+		}
+			try
+			{
+				secondwindow window = new secondwindow();
+				window.frmFlightsResults.setVisible(true);
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+
+	}
+		else
+		{
+			try
+			{
+				Trips.LinkFlights(departure, arrival, departureDate, FC_seating);
+			} catch (Exception e1)
+			{
+				e1.printStackTrace();
+			}
+				try
+				{
+			
+				} catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+
+		}
+
+
 		
 		//create the second window
 		
 		
+
 	}
-	
 	/*
 	 * provides if the user reserves the trip or not
 	 */
@@ -243,7 +313,22 @@ public class TripPlanner {
 	
 	public static void main(String[] args) {
 		
-		
+		try
+		{
+			trip = Trips.LinkFlights("BOS", "AUS", "2016_05_04", true);
+			
+		} catch (Exception e1)
+		{
+			e1.printStackTrace();
+		}
+			try
+			{
+				secondwindow window = new secondwindow();
+				window.frmFlightsResults.setVisible(true);
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		
 	}
 

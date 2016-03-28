@@ -8,6 +8,8 @@ package windowbuilder1;
 import TripPlanner.TripPlanner;
 import XMLparser.parseAirports;
 import AirFlight.Airports;
+import Controller.Trips;
+
 import org.dom4j.DocumentException;
 
 import javax.swing.JFrame;
@@ -42,51 +44,51 @@ import java.util.Iterator;
 public class FlightsReservation
 {
 	
-	private JFrame frmFlightsReservation;
+	public JFrame frmFlightsReservation;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	public String triptype;
-	public String seatclass;
-	private String flyfrom;
-	private String flyto;
-	private String departdate;
-	private String returndate;
-	private int year1;
-	private int month1;
-	private int day1;
-	private int year2;
-	private int month2;
-	private int day2;
-	private int todayyear;
-	private int todaymonth;
-	private int todaydate;
+	public static String triptype;
+	public static String seatclass;
+	private static String flyfrom;
+	private static String flyto;
+	private static String departdate;
+	private static String returndate;
+	private static int year1;
+	private static int month1;
+	private static int day1;
+	private static int year2;
+	private static int month2;
+	private static int day2;
+	private static int todayyear;
+	private static int todaymonth;
+	private static int todaydate;
 
-	public String getDeparture() // get departure airport
+	public static String getDeparture() // get departure airport
 	{
 		return flyfrom;
 	}
 	
-	public String getArrival() // get arrival airport
+	public static String getArrival() // get arrival airport
 	{
 		return flyto;
 	}
 	
-	public String getDepartureDate() // get departure date
+	public static String getDepartureDate() // get departure date
 	{ // get departure date
 		return departdate;
 	}
 	
-	public String getReturnDate() // get return date
+	public static String getReturnDate() // get return date
 	{
 		return returndate;
 	}
 	
-	public String getTripType() // get trip type
+	public static String getTripType() // get trip type
 	{
 		return triptype;
 	}
 	
-	public String getSeatClass() // get seat class
+	public static String getSeatClass() // get seat class
 	{
 		return seatclass;
 	}
@@ -293,7 +295,13 @@ public class FlightsReservation
 						seatclass = (g == true ? g1 : h1);	//select seat class
 						flyfrom = a;
 						flyto = b;
-						departdate = c;
+						//change the format of date
+						String month11 = getselectdate.strmydate(c)[1];
+						month11 = (month11.length()==1?"0":"") + month11;
+						String day11 = getselectdate.strmydate(c)[2];
+						day11 = (day11.length()==1?"0":"") + day11;
+						departdate = year1+"_"+month11+"_"+day11; // now departdate is yyyy_mm_dd
+						
 						if (e == true) // one-way
 						{
 							triptype = e1;
@@ -301,6 +309,15 @@ public class FlightsReservation
 							userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n" + departdate
 									+ "\n" + returndate + "\n";
 							textArea.setText(userinfo);
+							try
+							{
+								TripPlanner.SearchFlights(e);
+							} catch (Exception e3)
+							{
+								e3.printStackTrace();
+							}
+							
+						
 						} else // round trip
 						{
 							triptype = f1;
@@ -308,7 +325,7 @@ public class FlightsReservation
 							{
 								if (year2 > year1)
 								{
-									returndate = d;
+									returndate = year2+"_"+month2+"_"+day2;
 									userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
 											+ departdate + "\n" + returndate + "\n";
 									textArea.setText(userinfo);
@@ -328,7 +345,7 @@ public class FlightsReservation
 											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto
 													+ "\n" + departdate + "\n" + returndate + "\n";
 											textArea.setText(userinfo);
-											//TripPlanner.SearchFlights();
+											TripPlanner.SearchFlights(e);
 										} else
 											JOptionPane.showMessageDialog(null, "Return date is wrong!");
 									} else
