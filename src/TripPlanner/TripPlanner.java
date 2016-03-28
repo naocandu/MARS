@@ -212,7 +212,8 @@ public class TripPlanner {
 		    Collections.sort(tripList,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
-				    return (int) (t1.GetPrice() - t2.GetPrice());
+			    	float a = t1.GetPrice() - t2.GetPrice();
+				    return (a == 0)?0:(a > 0)?1:-1;
 			    }
 		    });
 		}
@@ -223,7 +224,9 @@ public class TripPlanner {
 		    Collections.sort(tripList,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
-				    return (int) (t1.GetDuration() - t2.GetDuration());
+			    	float a = t1.GetDuration() - t2.GetDuration();
+			    	return (a == 0)?0:(a > 0)?1:-1;
+				   
 			    }
 		    });
 		}
@@ -234,7 +237,9 @@ public class TripPlanner {
 		    Collections.sort(tripList,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
-				    return (int) (t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes());
+			    	float a = t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes();
+			    	return (a == 0)?0:(a > 0)?1:-1;
+				  
 			    }
 		    });
 		}
@@ -245,7 +250,9 @@ public class TripPlanner {
             Collections.sort(tripList,new Comparator<Trip>(){
 	            @Override
 	            public int compare(Trip t2, Trip t1) {
-		            return (int) (t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes());
+	            	float a = t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes();
+	            	return (a == 0)?0:(a > 0)?-1:1;
+		           
 	            }
             });
         }
@@ -256,7 +263,9 @@ public class TripPlanner {
 		    Collections.sort(tripList,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
-				    return (int) (t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes());
+			    	float a = t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes();
+			    	return (a == 0)?0:(a > 0)?1:-1;
+				    
 			    }
 		    });
 		}
@@ -267,7 +276,9 @@ public class TripPlanner {
 		    Collections.sort(tripList,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t2, Trip t1) {
-				    return (int) (t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes());
+			    	float a = t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes();
+			    	return (a == 0)?0:(a > 0)?-1:1;
+				    
 			    }
 		    });
 		}
