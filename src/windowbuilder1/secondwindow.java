@@ -171,7 +171,7 @@ public class secondwindow
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				TripPlanner.tripsort = TripPlanner.SortBy(1);
+				TripPlanner.tripsort = TripPlanner.SortBy(1,TripPlanner.trip);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
 				int length = TripPlanner.tripsort.size();
@@ -193,7 +193,7 @@ public class secondwindow
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				TripPlanner.tripsort = TripPlanner.SortBy(2);
+				TripPlanner.tripsort = TripPlanner.SortBy(2,TripPlanner.trip);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
 				int length = TripPlanner.tripsort.size();
@@ -215,7 +215,7 @@ public class secondwindow
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				TripPlanner.trip = TripPlanner.SortBy(3);
+				TripPlanner.trip = TripPlanner.SortBy(3,TripPlanner.trip);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
 				int length = TripPlanner.tripsort.size();
@@ -234,7 +234,7 @@ public class secondwindow
 		JCheckBox chckbxDeparturelatest = new JCheckBox("departure(latest)");
 		chckbxDeparturelatest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TripPlanner.trip = TripPlanner.SortBy(4);
+				TripPlanner.trip = TripPlanner.SortBy(4,TripPlanner.trip);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
 				int length = TripPlanner.tripsort.size();
@@ -254,7 +254,7 @@ public class secondwindow
 		JCheckBox chckbxArrivalearliest = new JCheckBox("arrival(earliest)");
 		chckbxArrivalearliest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TripPlanner.trip = TripPlanner.SortBy(5);
+				TripPlanner.trip = TripPlanner.SortBy(5,TripPlanner.trip);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
 				int length = TripPlanner.tripsort.size();
@@ -274,7 +274,7 @@ public class secondwindow
 		JCheckBox chckbxArrivallatest = new JCheckBox("arrival(latest)");
 		chckbxArrivallatest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TripPlanner.trip = TripPlanner.SortBy(6);
+				TripPlanner.trip = TripPlanner.SortBy(6,TripPlanner.trip);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
 				int length = TripPlanner.tripsort.size();

@@ -171,13 +171,13 @@ public class TripPlanner {
 	/*
 	 * SortBy and Filter should be connected with interface using actionEvent
 	 */
-	public static ArrayList<Trip> SortBy(int opt, ArrayList<Trip> tripListOld) {
+	public static List<Trip> SortBy(int opt, List<Trip> tripListOld) {
 		/*
 		 * 1:price  2:duration  3:departureTime(earliest)/ 4:departureTime(latest)
 		 * 5:arrivalTime(earliest)/ 6:arrivalTime(latest)
 		 */
 		
-		ArrayList<Trip> tripList = new ArrayList<> (); // state an arraylist that hold trip results
+		List<Trip> tripList = new ArrayList<> (); // state an arraylist that hold trip results
 		
 		/*int n = Trips.GetNumberofTrips(); 
 		

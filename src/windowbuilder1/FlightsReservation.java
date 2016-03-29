@@ -309,7 +309,8 @@ public class FlightsReservation
 							returndate = null;
 							userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n" + departdate
 									+ "\n" + returndate + "\n";
-							textArea.setText(userinfo);										
+							textArea.setText(userinfo);	
+							TripPlanner.SearchFlights(e);
 						} 
 						else // round trip
 						{
@@ -331,6 +332,7 @@ public class FlightsReservation
 											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
 													+ departdate + "\n" + returndate + "\n";
 											textArea.setText(userinfo);
+											TripPlanner.SearchFlights(e);
 										}
 										else
 											JOptionPane.showMessageDialog(null, "Return date is wrong!");
