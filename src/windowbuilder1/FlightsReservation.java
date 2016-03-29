@@ -49,9 +49,9 @@ public class FlightsReservation
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	public static String triptype;
 	public static String seatclass;
-	private static String flyfrom;
-	private static String flyto;
-	private static String departdate;
+	private static String flyfrom = "BOS,xxx";
+	private static String flyto = "AUS,xxx";
+	private static String departdate = "2016_05_04";
 	private static String returndate;
 	private static int year1;
 	private static int month1;
@@ -173,18 +173,12 @@ public class FlightsReservation
 		
 		// depart airport
 		JComboBox departair = new JComboBox();	
+		departair.setModel(new DefaultComboBoxModel(new String[] {"bos", "new york"}));
 		departair.setBounds(127, 115, 278, 30);
 		departair.setFont(new Font("Cambria", Font.BOLD, 12));
 		departair.setEditable(true);
 		//get airport from sever
-		try
-		{
-			departair.setModel(new DefaultComboBoxModel(new Airports().getAirportInfo()));
-		} catch (DocumentException e3)
-		{
-			// TODO Auto-generated catch block
-			e3.printStackTrace();
-		} 	// sever;
+		
 		frmFlightsReservation.getContentPane().add(departair);
 		
 		JLabel lblFlyingTo = new JLabel("Flying to");
@@ -196,14 +190,7 @@ public class FlightsReservation
 		JComboBox arriveair = new JComboBox();
 		arriveair.setFont(new Font("Cambria", Font.BOLD, 12));
 		arriveair.setEditable(true);
-		try
-		{
-			arriveair.setModel(new DefaultComboBoxModel(new Airports().getAirportInfo()));
-		} catch (DocumentException e2)
-		{
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
+		arriveair.setModel(new DefaultComboBoxModel(new String[] {"bos", "new york"}));
 		arriveair.setBounds(127, 172, 278, 30);
 		frmFlightsReservation.getContentPane().add(arriveair);
 		
@@ -308,56 +295,39 @@ public class FlightsReservation
 							returndate = null;
 							userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n" + departdate
 									+ "\n" + returndate + "\n";
-							textArea.setText(userinfo);
-							try
-							{
-								TripPlanner.SearchFlights(e);
-							} catch (Exception e3)
-							{
-								e3.printStackTrace();
-							}
-							
-						
-						} else // round trip
+							textArea.setText(userinfo);										
+						} 
+						else // round trip
 						{
 							triptype = f1;
 							if (year1 >= todayyear && month1 >= todaymonth && day1 >= todaydate) //date must be correct
 							{
-								if (year2 > year1)
+								if (year2 >= year1)
 								{
-									returndate = year2+"_"+month2+"_"+day2;
-									userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
-											+ departdate + "\n" + returndate + "\n";
-									textArea.setText(userinfo);
-								} else if (year2 == year1)
-								{
-									if (month2 > month1)
-									{
-										returndate = d;
-										userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
-												+ departdate + "\n" + returndate + "\n";
-										textArea.setText(userinfo);
-									} else if (month2 == month1)
+									if (month2 >= month1)
 									{
 										if (day2 >= day1)
 										{
-											returndate = d;
-											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto
-													+ "\n" + departdate + "\n" + returndate + "\n";
+											String month22 = getselectdate.strmydate(d)[1];
+											month22 = (month22.length()==1?"0":"") + month22;
+											String day22 = getselectdate.strmydate(d)[2];
+											day22 = (day22.length()==1?"0":"") + day22;
+											returndate = year2+"_"+month22+"_"+day22; // now returndate is yyyy_mm_dd
+											
+											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
+													+ departdate + "\n" + returndate + "\n";
 											textArea.setText(userinfo);
-											TripPlanner.SearchFlights(e);
-										} else
+										}
+										else
 											JOptionPane.showMessageDialog(null, "Return date is wrong!");
-									} else
+									}
+									else
 										JOptionPane.showMessageDialog(null, "Return date is wrong!");
-								} else
+								}
+								else
 									JOptionPane.showMessageDialog(null, "Return date is wrong!");
-							} else
-								JOptionPane.showMessageDialog(null, "Depart date is wrong!");
+							}
 						}
-						
-						// new
-						// secondwindow().frmFlightsResults.setVisible(true);
 					}
 				}
 			}

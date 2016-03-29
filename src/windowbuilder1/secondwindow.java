@@ -171,13 +171,13 @@ public class secondwindow
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				TripPlanner.trip = TripPlanner.SortBy(1);
+				TripPlanner.tripsort = TripPlanner.SortBy(1);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
-				int length = TripPlanner.trip.size();
+				int length = TripPlanner.tripsort.size();
 				for(int i=0; i< length; i++)
 				{
-					model.addElement(TripPlanner.trip.get(i));
+					model.addElement(TripPlanner.tripsort.get(i));
 				}
 				list.setModel(model);
 		        list.setCellRenderer(new MyListCellRenderer());
@@ -193,13 +193,16 @@ public class secondwindow
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				TripPlanner.trip = TripPlanner.SortBy(2);
+				TripPlanner.tripsort = TripPlanner.SortBy(2);
+				JList<Trip> list = new JList();
+				DefaultListModel model = new DefaultListModel();
+				int length = TripPlanner.tripsort.size();
 				for(int i=0; i< length; i++)
 				{
-					model.addElement(TripPlanner.trip.get(i));
+					model.addElement(TripPlanner.tripsort.get(i));
 				}
 				list.setModel(model);
-				list.setCellRenderer(new MyListCellRenderer());
+		        list.setCellRenderer(new MyListCellRenderer());
 		        scrollPane.setViewportView(list);
 			}
 		});
@@ -215,10 +218,10 @@ public class secondwindow
 				TripPlanner.trip = TripPlanner.SortBy(3);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
-				int length = TripPlanner.trip.size();
+				int length = TripPlanner.tripsort.size();
 				for(int i=0; i< length; i++)
 				{
-					model.addElement(TripPlanner.trip.get(i));
+					model.addElement(TripPlanner.tripsort.get(i));
 				}
 				list.setModel(model);
 		        list.setCellRenderer(new MyListCellRenderer());
@@ -234,10 +237,10 @@ public class secondwindow
 				TripPlanner.trip = TripPlanner.SortBy(4);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
-				int length = TripPlanner.trip.size();
+				int length = TripPlanner.tripsort.size();
 				for(int i=0; i< length; i++)
 				{
-					model.addElement(TripPlanner.trip.get(i));
+					model.addElement(TripPlanner.tripsort.get(i));
 				}
 				list.setModel(model);
 		        list.setCellRenderer(new MyListCellRenderer());
@@ -254,10 +257,10 @@ public class secondwindow
 				TripPlanner.trip = TripPlanner.SortBy(5);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
-				int length = TripPlanner.trip.size();
+				int length = TripPlanner.tripsort.size();
 				for(int i=0; i< length; i++)
 				{
-					model.addElement(TripPlanner.trip.get(i));
+					model.addElement(TripPlanner.tripsort.get(i));
 				}
 				list.setModel(model);
 		        list.setCellRenderer(new MyListCellRenderer());
@@ -274,10 +277,10 @@ public class secondwindow
 				TripPlanner.trip = TripPlanner.SortBy(6);
 				JList<Trip> list = new JList();
 				DefaultListModel model = new DefaultListModel();
-				int length = TripPlanner.trip.size();
+				int length = TripPlanner.tripsort.size();
 				for(int i=0; i< length; i++)
 				{
-					model.addElement(TripPlanner.trip.get(i));
+					model.addElement(TripPlanner.tripsort.get(i));
 				}
 				list.setModel(model);
 		        list.setCellRenderer(new MyListCellRenderer());

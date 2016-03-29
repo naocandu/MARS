@@ -60,10 +60,13 @@ public class TripPlanner {
 	private static boolean round;
 	private static boolean FC_seating;
 	
-	private static String departure;
-	private static String arrival;
-	private static String departureDate;
+	public static String departure;
+	public static String arrival;
+	public static String departureDate;
+	public static String returnDate;
 	public static List<Trip> trip = null;
+	public static List<Trip> trip2 = null;
+	public static List<Trip> tripsort = null;
 	
 	//get the depart airport code
 	public static String getAirportCode(String a)
@@ -93,24 +96,10 @@ public class TripPlanner {
 		 * the information round, departure, arrival, departureDate and seating should be
 		 * achieved from the interface FlightsReservation
 		 */
-
-		//FlightsReservation fr = new FlightsReservation();
-
-		FlightsReservation fr = new FlightsReservation();
-		
-		round = (fr.getTripType() == "round trip");
-		FC_seating = (fr.getSeatClass() == "first class");
-		departure = fr.getDeparture();
-		arrival = fr.getArrival();
-		departureDate = fr.getDepartureDate();
-
-		
-		
-		round = (FlightsReservation.getTripType() == "round trip");
-		FC_seating = (FlightsReservation.getSeatClass() == "first class");
-		departure = FlightsReservation.getDeparture();
-		arrival = FlightsReservation.getArrival();
+		departure = getAirportCode(FlightsReservation.getDeparture()); //use airport code to search
+		arrival = getAirportCode(FlightsReservation.getArrival());
 		departureDate = FlightsReservation.getDepartureDate();
+		returnDate =  FlightsReservation.getReturnDate();
 		if(a==true)
 		{
 		/*
@@ -122,7 +111,7 @@ public class TripPlanner {
 			//Trips.LinkFlights(departure, arrival, departureDate, FC_seating);
 		try
 		{
-			trip = Trips.LinkFlights(departure, arrival, departureDate, FC_seating);
+			trip = Trips.LinkFlights(departure, arrival, departureDate, false);
 			
 		} catch (Exception e1)
 		{
@@ -140,20 +129,10 @@ public class TripPlanner {
 	}
 		else
 		{
-			try
-			{
-				Trips.LinkFlights(departure, arrival, departureDate, FC_seating);
-			} catch (Exception e1)
-			{
-				e1.printStackTrace();
-			}
-				try
-				{
-			
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
+			trip = Trips.LinkFlights(departure, arrival, departureDate, false);
+			trip2 = Trips.LinkFlights(arrival, departure, returnDate, false);
+			thirdwindow window = new thirdwindow();
+			window.frame.setVisible(true);
 
 		}
 
@@ -324,23 +303,6 @@ public class TripPlanner {
 	
 	public static void main(String[] args) {
 		
-		try
-		{
-			trip = Trips.LinkFlights("BOS", "AUS", "2016_05_04", true);
-			
-		} catch (Exception e1)
-		{
-			e1.printStackTrace();
-		}
-			try
-			{
-				secondwindow window = new secondwindow();
-				window.frmFlightsResults.setVisible(true);
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		
+		SearchFlights(true);
 	}
-
 }
