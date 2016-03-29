@@ -49,9 +49,9 @@ public class FlightsReservation
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	public static String triptype;
 	public static String seatclass;
-	private static String flyfrom = "BOS,xxx";
-	private static String flyto = "AUS,xxx";
-	private static String departdate = "2016_05_04";
+	private static String flyfrom;
+	private static String flyto;
+	private static String departdate;
 	private static String returndate;
 	private static int year1;
 	private static int month1;
@@ -173,7 +173,14 @@ public class FlightsReservation
 		
 		// depart airport
 		JComboBox departair = new JComboBox();	
-		departair.setModel(new DefaultComboBoxModel(new String[] {"bos", "new york"}));
+		try
+		{
+			departair.setModel(new DefaultComboBoxModel(new Airports().getAirportInfo()));
+		} catch (DocumentException e3)
+		{
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
 		departair.setBounds(127, 115, 278, 30);
 		departair.setFont(new Font("Cambria", Font.BOLD, 12));
 		departair.setEditable(true);
@@ -190,7 +197,14 @@ public class FlightsReservation
 		JComboBox arriveair = new JComboBox();
 		arriveair.setFont(new Font("Cambria", Font.BOLD, 12));
 		arriveair.setEditable(true);
-		arriveair.setModel(new DefaultComboBoxModel(new String[] {"bos", "new york"}));
+		try
+		{
+			arriveair.setModel(new DefaultComboBoxModel(new Airports().getAirportInfo()));
+		} catch (DocumentException e2)
+		{
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		arriveair.setBounds(127, 172, 278, 30);
 		frmFlightsReservation.getContentPane().add(arriveair);
 		
