@@ -171,7 +171,7 @@ public class TripPlanner {
 	/*
 	 * SortBy and Filter should be connected with interface using actionEvent
 	 */
-	public static ArrayList<Trip> SortBy(int opt) {
+	public static ArrayList<Trip> SortBy(int opt, ArrayList<Trip> tripListOld) {
 		/*
 		 * 1:price  2:duration  3:departureTime(earliest)/ 4:departureTime(latest)
 		 * 5:arrivalTime(earliest)/ 6:arrivalTime(latest)
@@ -179,28 +179,30 @@ public class TripPlanner {
 		
 		ArrayList<Trip> tripList = new ArrayList<> (); // state an arraylist that hold trip results
 		
-		int n = Trips.GetNumberofTrips(); 
+		/*int n = Trips.GetNumberofTrips(); 
 		
 		for (int i=0;i<n;i++) {
-			tripList.add(Trips.Get(i));
+			tripListOld.add(Trips.Get(i));
 		}
+		*/
 		
 		// order by the price from low to high
 		if (opt == 1) {
 			
-		    Collections.sort(tripList,new Comparator<Trip>(){
+		    Collections.sort(tripListOld,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
 			    	float a = t1.GetPrice() - t2.GetPrice();
 				    return (a == 0)?0:(a > 0)?1:-1;
 			    }
 		    });
+		    tripList = tripListOld;
 		}
 		
 		// order by the duration from short to long
 		if (opt == 2) {
 			
-		    Collections.sort(tripList,new Comparator<Trip>(){
+		    Collections.sort(tripListOld,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
 			    	float a = t1.GetDuration() - t2.GetDuration();
@@ -208,12 +210,13 @@ public class TripPlanner {
 				   
 			    }
 		    });
+		    tripList = tripListOld;
 		}
 		
 		// order by the departure time from early to late
         if (opt == 3) {
 			
-		    Collections.sort(tripList,new Comparator<Trip>(){
+		    Collections.sort(tripListOld,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
 			    	float a = t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes();
@@ -221,12 +224,13 @@ public class TripPlanner {
 				  
 			    }
 		    });
+		    tripList = tripListOld;
 		}
         
         // order by the departure time from late to early
         if (opt == 4) {
 	
-            Collections.sort(tripList,new Comparator<Trip>(){
+            Collections.sort(tripListOld,new Comparator<Trip>(){
 	            @Override
 	            public int compare(Trip t2, Trip t1) {
 	            	float a = t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes();
@@ -234,12 +238,13 @@ public class TripPlanner {
 		           
 	            }
             });
+            tripList = tripListOld;
         }
 		
         // order by the arrival time from early to late
         if (opt == 5) {
 			
-		    Collections.sort(tripList,new Comparator<Trip>(){
+		    Collections.sort(tripListOld,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
 			    	float a = t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes();
@@ -247,12 +252,13 @@ public class TripPlanner {
 				    
 			    }
 		    });
+		    tripList = tripListOld;
 		}
         
         // order by the arrival time from late to early
         if (opt == 6) {
 			
-		    Collections.sort(tripList,new Comparator<Trip>(){
+		    Collections.sort(tripListOld,new Comparator<Trip>(){
 			    @Override
 			    public int compare(Trip t2, Trip t1) {
 			    	float a = t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes();
@@ -260,7 +266,9 @@ public class TripPlanner {
 				    
 			    }
 		    });
+		    tripList = tripListOld;
 		}
+        
 		return tripList;
 		
 	}
