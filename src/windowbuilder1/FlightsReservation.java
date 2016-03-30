@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 public class FlightsReservation
 {
@@ -40,9 +41,10 @@ public class FlightsReservation
 	private static int year2;
 	private static int month2;
 	private static int day2;
-	private static int todayyear;
-	private static int todaymonth;
-	private static int todaydate;
+	private static Calendar now = Calendar.getInstance(); 
+	private static int todayyear = now.get(Calendar.YEAR);
+	private static int todaymonth = now.get(Calendar.MONTH) + 1;
+	private static int todaydate = now.get(Calendar.DAY_OF_MONTH);
 
 	public static String getDeparture() // get departure airport
 	{
@@ -205,10 +207,6 @@ public class FlightsReservation
 		dateChooser1.register(DepartDate1);
 		DepartDatePanel.add(DepartDate1);
 		DepartDatePanel.setVisible(true);
-		// get today date
-		todayyear = dateChooser1.getDate().getYear();
-		todaymonth = dateChooser1.getDate().getMonth();
-		todaydate = dateChooser1.getDate().getDate();
 		
 		JLabel lblReturning = new JLabel("Returning");
 		lblReturning.setFont(new Font("Cambria", Font.BOLD, 20));
@@ -263,12 +261,7 @@ public class FlightsReservation
 				month2 = new getselectdate().mydate(d)[1];
 				day2 = new getselectdate().mydate(d)[2];
 				
-				if (a.equals("") || b.equals(""))	//must select airport
-					JOptionPane.showMessageDialog(null, "please select airports");
-				
-				if (!a.equals("") && !b.equals(""))	
-				{
-					if (a.equals(b) == true)	//cannot select same airport
+				if (a.equals(b) == true)	//cannot select same airport
 					{
 						JOptionPane.showMessageDialog(null, "cannot select same airports");
 					}
@@ -283,7 +276,11 @@ public class FlightsReservation
 						String day11 = getselectdate.strmydate(c)[2];
 						day11 = (day11.length()==1?"0":"") + day11;
 						departdate = year1+"_"+month11+"_"+day11; // now departdate is yyyy_mm_dd
-						
+						//date must be correct
+						if (year1 > todayyear ||
+								year1 == todayyear && month1 > todaymonth ||
+										year1 == todayyear && month1 == todaymonth && day1 >= todaydate) 
+						{
 						if (e == true) // one-way
 						{
 							triptype = e1;
@@ -291,43 +288,36 @@ public class FlightsReservation
 							userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n" + departdate
 									+ "\n" + returndate + "\n";
 							textArea.setText(userinfo);	
-							TripPlanner.SearchFlights(true);
+							//TripPlanner.SearchFlights(h);
 						} 
 						else // round trip
 						{
-							triptype = f1;
-							if (year1 >= todayyear && month1 >= todaymonth && day1 >= todaydate) //date must be correct
+							String month22 = getselectdate.strmydate(d)[1];
+							month22 = (month22.length()==1?"0":"") + month22;
+							String day22 = getselectdate.strmydate(d)[2];
+							day22 = (day22.length()==1?"0":"") + day22;
+							returndate = year2+"_"+month22+"_"+day22; // now returndate is yyyy_mm_dd
+
+							//return date must be correct
+							if(year2 > year1 ||
+									year2 == year2 && month2 > month1 ||
+										year2 == year1 && month2 == month1 && day2 >= day1)
 							{
-								if (year2 >= year1)
-								{
-									if (month2 >= month1)
-									{
-										if (day2 >= day1)
-										{
-											String month22 = getselectdate.strmydate(d)[1];
-											month22 = (month22.length()==1?"0":"") + month22;
-											String day22 = getselectdate.strmydate(d)[2];
-											day22 = (day22.length()==1?"0":"") + day22;
-											returndate = year2+"_"+month22+"_"+day22; // now returndate is yyyy_mm_dd
-											
-											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
-													+ departdate + "\n" + returndate + "\n";
-											textArea.setText(userinfo);
-											TripPlanner.SearchFlights2();
-										}
-										else
-											JOptionPane.showMessageDialog(null, "Return date is wrong!");
-									}
-									else
-										JOptionPane.showMessageDialog(null, "Return date is wrong!");
-								}
-								else
-									JOptionPane.showMessageDialog(null, "Return date is wrong!");
+								userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
+										+ departdate + "\n" + returndate + "\n";
+								textArea.setText(userinfo);
+								TripPlanner.SearchFlights2(h);
 							}
+							else
+								JOptionPane.showMessageDialog(null, "Return date is wrong!");
+							
 						}
+						}
+						else 
+							JOptionPane.showMessageDialog(null, "Depart date is wrong!");
 					}
 				}
-			}
+			
 		});
 		
 		JLabel lblNewLabel = new JLabel("New label");		//background picture

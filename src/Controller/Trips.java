@@ -207,7 +207,7 @@ public class Trips {
 
 		//d.Set("2016-05-10", "YYYY-MM-DD");
 		long start = System.currentTimeMillis();
-		Trips.LinkFlights("BOS", "AUS", d.getDateString(), true);
+		Trips.LinkFlights("BOS", "AUS", d.getDateString(), false);
 		long end = System.currentTimeMillis();
 		
 		
