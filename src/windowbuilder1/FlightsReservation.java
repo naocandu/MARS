@@ -6,40 +6,21 @@
 
 package windowbuilder1;
 import TripPlanner.TripPlanner;
-import XMLparser.parseAirports;
 import AirFlight.Airports;
-import Controller.Trips;
-
 import org.dom4j.DocumentException;
-
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JScrollBar;
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JToolBar;
-import javax.swing.JSpinner;
-import javax.swing.AbstractListModel;
-import java.time.DayOfWeek;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.Month;
-import java.util.Calendar;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class FlightsReservation
 {
@@ -49,10 +30,10 @@ public class FlightsReservation
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	public static String triptype;
 	public static String seatclass;
-	private static String flyfrom;
-	private static String flyto;
-	private static String departdate;
-	private static String returndate;
+	private static String flyfrom = "BOS,XXX";
+	private static String flyto = "AUS,XXX";
+	private static String departdate = "2016_05_04";
+	private static String returndate = "2016_05_07";
 	private static int year1;
 	private static int month1;
 	private static int day1;
@@ -310,7 +291,7 @@ public class FlightsReservation
 							userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n" + departdate
 									+ "\n" + returndate + "\n";
 							textArea.setText(userinfo);	
-							TripPlanner.SearchFlights(e);
+							TripPlanner.SearchFlights(true);
 						} 
 						else // round trip
 						{
@@ -332,7 +313,7 @@ public class FlightsReservation
 											userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n"
 													+ departdate + "\n" + returndate + "\n";
 											textArea.setText(userinfo);
-											TripPlanner.SearchFlights(e);
+											TripPlanner.SearchFlights2();
 										}
 										else
 											JOptionPane.showMessageDialog(null, "Return date is wrong!");

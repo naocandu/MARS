@@ -3,6 +3,11 @@ import AirFlight.Airports;
 import windowbuilder1.FlightsReservation;
 import windowbuilder1.secondwindow;
 import windowbuilder1.thirdwindow;
+
+import Controller.Trip;
+import Controller.Trips;
+
+import org.dom4j.DocumentException;
 /*
  * Class provides functions for obtaining the specific airports and flights the user asks for 
  * and displaying them on the interface.
@@ -14,20 +19,11 @@ import windowbuilder1.thirdwindow;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.dom4j.DocumentException;
-
-import AirFlight.Airports;
-import Controller.Trip;
-import Controller.Trips;
-import Controller.ValidationController;
-
-
-import Utility.*;
 
 public class TripPlanner {
 	
@@ -65,8 +61,10 @@ public class TripPlanner {
 	public static String departureDate;
 	public static String returnDate;
 	public static List<Trip> trip = null;
-	public static List<Trip> trip2 = null;
-	public static List<Trip> tripsort = null;
+	public static List<Trip> trip1 = new ArrayList<Trip>();
+	public static List<Trip> trip2 = new ArrayList<Trip>();
+	public static List<Trip> tripsort1 = new ArrayList<Trip>();
+	public static List<Trip> tripsort2 = new ArrayList<Trip>();
 	
 	//get the depart airport code
 	public static String getAirportCode(String a)
@@ -90,6 +88,55 @@ public class TripPlanner {
 		return c;
 		
 	}
+	public static void SearchFlights2()
+	{
+		departure = getAirportCode(FlightsReservation.getDeparture()); //use airport code to search
+		arrival = getAirportCode(FlightsReservation.getArrival());
+		departureDate = FlightsReservation.getDepartureDate();
+		returnDate =  FlightsReservation.getReturnDate();
+		try
+		{
+		trip = Trips.LinkFlights(departure, arrival, departureDate, false);
+		} catch (Exception e2)
+		{
+			e2.printStackTrace();
+		}
+		for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
+		/*for (int i = 0;i < trip1.size();i++)
+		{	
+			System.out.println(trip1.get(i).GetAiportSequence());
+			System.out.println(trip1.get(i).GetFlightSequence());
+		
+			System.out.println(trip1.get(i).toString());
+			System.out.println("\n");
+		}*/
+		try
+		{
+		trip = Trips.LinkFlights(arrival, departure, returnDate, false);
+		} catch (Exception e3)
+		{
+			e3.printStackTrace();
+		}
+		for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
+		/*for (int i = 0;i < trip2.size();i++)
+		{	
+			System.out.println(trip2.get(i).GetAiportSequence());
+			System.out.println(trip2.get(i).GetFlightSequence());
+		
+			System.out.println(trip2.get(i).toString());
+			System.out.println("\n");
+		}*/
+		try
+		{
+		thirdwindow window = new thirdwindow();
+		window.frmRoundtrip.setVisible(true);
+		} catch (Exception e4)
+		{
+			e4.printStackTrace();
+		}
+
+	
+	}
 	
 	public static void SearchFlights(boolean a) {
 		/* 
@@ -106,12 +153,10 @@ public class TripPlanner {
 		 * call the static function LinkFlights in the class Trips
 		 */
 
-		//DateTime dt = new DateTime();
-		//dt.Set(departureDate, "YYYY_MM_DD");
-			//Trips.LinkFlights(departure, arrival, departureDate, FC_seating);
 		try
 		{
 			trip = Trips.LinkFlights(departure, arrival, departureDate, false);
+			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 			
 		} catch (Exception e1)
 		{
@@ -125,14 +170,50 @@ public class TripPlanner {
 			{
 				e.printStackTrace();
 			}
-
 	}
-		else
+	}
+		/*if(a==false)
 		{
+			try
+			{
 			trip = Trips.LinkFlights(departure, arrival, departureDate, false);
-			trip2 = Trips.LinkFlights(arrival, departure, returnDate, false);
+			} catch (Exception e2)
+			{
+				e2.printStackTrace();
+			}
+			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
+			/*for (int i = 0;i < trip1.size();i++)
+			{	
+				System.out.println(trip1.get(i).GetAiportSequence());
+				System.out.println(trip1.get(i).GetFlightSequence());
+			
+				System.out.println(trip1.get(i).toString());
+				System.out.println("\n");
+			}
+			try
+			{
+			trip = Trips.LinkFlights(arrival, departure, returnDate, false);
+			} catch (Exception e3)
+			{
+				e3.printStackTrace();
+			}
+			for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
+			/*for (int i = 0;i < trip2.size();i++)
+			{	
+				System.out.println(trip2.get(i).GetAiportSequence());
+				System.out.println(trip2.get(i).GetFlightSequence());
+			
+				System.out.println(trip2.get(i).toString());
+				System.out.println("\n");
+			}
+			try
+			{
 			thirdwindow window = new thirdwindow();
 			window.frame.setVisible(true);
+			} catch (Exception e4)
+			{
+				e4.printStackTrace();
+			}
 
 		}
 
@@ -143,6 +224,7 @@ public class TripPlanner {
 		
 
 	}
+*/
 	/*
 	 * provides if the user reserves the trip or not
 	 */
@@ -177,7 +259,7 @@ public class TripPlanner {
 		 * 5:arrivalTime(earliest)/ 6:arrivalTime(latest)
 		 */
 		
-		List<Trip> tripList = new ArrayList<> (); // state an arraylist that hold trip results
+		List<Trip> tripList = new ArrayList<Trip> (); // state an arraylist that hold trip results
 		
 		/*int n = Trips.GetNumberofTrips(); 
 		
@@ -310,7 +392,7 @@ public class TripPlanner {
 	}
 	
 	public static void main(String[] args) {
-		
-		SearchFlights(true);
+		SearchFlights2();
+		//SearchFlights(true);
 	}
 }

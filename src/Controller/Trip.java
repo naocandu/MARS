@@ -32,6 +32,17 @@ public class Trip {
 		String sequence = "";
 		for (int i = 0;i < trip.size();i++)
 		{
+			sequence += "F" + trip.get(i).Flightnumber+ " " + " " + " ";
+		}
+		
+		return sequence;
+	}
+	
+	public String GetFlightSequenceShow()
+	{
+		String sequence = "";
+		for (int i = 0;i < trip.size();i++)
+		{
 			sequence += "F" + trip.get(i).Flightnumber+ "&nbsp;" + "&nbsp;" + "&nbsp;";
 		}
 		
@@ -155,6 +166,19 @@ public class Trip {
 	
 	//toString() will transform trip into a string.
 	public String toString()
+	{
+		String ports = "";
+		for (int i = 0;i < trip.size();i++)
+		{
+			ports += trip.get(i).Departure_Airport + " -- ";
+		}
+		
+		String display = ports + GetArrivalAirport() + "\n" + 
+				GetDepartureTime() + " -- " + GetArrivalTime() + "  duration: " + TimeDifference() + "\n" +
+		"hops: " + num_hops + "  price: " + totalPrice.toString();
+		return display;
+	}
+	public String toStringShow()
 	{
 		String ports = "";
 		for (int i = 0;i < trip.size();i++)
