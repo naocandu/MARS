@@ -52,6 +52,12 @@ public class Flights {
 		//long start = System.currentTimeMillis();
 		for (int i = 0;i < raw_departure.size();i++)
 		{
+			if (raw_departure.get(i) == null)
+			{
+				departing.clear();
+				departing = null;
+				return;
+			}
 			ArrayList dep = (ArrayList)raw_departure.get(i).get("Departure");
 			ArrayList avl = (ArrayList)raw_departure.get(i).get("Arrival");
 			ArrayList fc = (ArrayList)raw_departure.get(i).get("FirstClass");

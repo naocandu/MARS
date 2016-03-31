@@ -35,17 +35,17 @@ public class Preloader implements Runnable {
 		this.DepartureDate = DepartureDate;
 	}
 	
-	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
 				Airports.GetTimezoneOffset(AirportCode);
+
 				Flights.GetFlightsFromAirport(AirportCode, DepartureDate);
 
 		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			//do nothing
 		}
 	}
 	

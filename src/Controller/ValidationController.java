@@ -192,7 +192,7 @@ public class ValidationController {
 		return result;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		ValidationController.Instance().verbose = 3;
 		
 		ServerInterface.ResetDB();
@@ -203,17 +203,29 @@ public class ValidationController {
 		DateTime r = new DateTime();
 		r.Set("2016 May 10 02:47 GMT","YYYY MMM DD hh:mm zzz");
 
+		System.out.println("Searching Departure Flights...");
 		//simulate round trip from bos to aus
 		//first outbound
 		Trips.LinkFlights("BOS", "AUS", d.getDateString(), false);
 		
-		//user selects second trip
+		/*System.out.print(Trips.GetNumberofTrips() + " trips found\nEnter your selection and press enter: ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int sel = Integer.parseInt(br.readLine());
+		
+		//user selects trip
+		Trip outbound = Trips.Get(sel);*/
 		Trip outbound = Trips.Get(1);
-				
+		
+		System.out.println("Searching Returning Flights...");		
 		//then the returning trip
 		Trips.LinkFlights("AUS", "BOS", r.getDateString(), false);
 		
-		//user selects last trip
+		/*System.out.print(Trips.GetNumberofTrips() + " trips found\nEnter your selection and press enter: ");
+		br = new BufferedReader(new InputStreamReader(System.in));
+		sel = Integer.parseInt(br.readLine());
+		
+		//user selects trip
+		Trip returning = Trips.Get(sel);*/
 		Trip returning = Trips.Get(Trips.GetNumberofTrips()-1);
 		
 		//merge the two trips into one for reservation
