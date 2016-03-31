@@ -83,7 +83,7 @@ public class Airports {
 			t.start();
 		}
 		
-		//Preloader.WaitforAll();
+		Preloader.WaitforAll();
 	}
 	
 	public static String[] getAirportName() throws DocumentException{

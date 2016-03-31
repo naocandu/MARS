@@ -11,13 +11,18 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+import Controller.ValidationController;
+
 
 public class parseAirplanes {
 	static Document document;
-	static String xml = ServerInterface.QueryAirplanes();
+	public static String xml = null;
 	static List airplaneInfo = new ArrayList<Integer>();
 	
 	public static List getAirplane(String model) throws DocumentException{
+		if (xml == null)
+			ValidationController.Instance().PopulateAirplanes();
+		List airplaneInfo = new ArrayList<Integer>();
 		Document document = DocumentHelper.parseText(xml);
 		Element airplaneRoot = document.getRootElement();
 		for (Iterator<?> airplaneiter = airplaneRoot.elementIterator(); airplaneiter.hasNext();){

@@ -15,6 +15,9 @@ public class Flights {
 	//private static List<Flights> found_flights = new ArrayList<Flights>;
 	public static Flights GetFlightsFromAirport(String airport_code, DateTime date)
 	{
+			if (airport_code.length() != 3)
+				return null;
+						
 			try {
 				return Airports.GetAirport(airport_code).GetDepartureFlights(date);
 			} catch (DocumentException e) {
@@ -67,17 +70,19 @@ public class Flights {
 			if (dep_code.compareTo(airport_code) != 0)
 				continue;
 			
-			
-			departing.add(new Flight((String)raw_departure.get(i).get("AirplaneModel"),
-					(int)raw_departure.get(i).get("Flightnumber"),
-					(String)dep.get(0),
-					(String)dep.get(1),
-					(String)avl.get(0),
-					(String)avl.get(1),
-					(int)fc.get(1),
-					(int)ec.get(1),
-					(String)fc.get(0),
-					(String)ec.get(0)));
+			synchronized (Flights.class)
+			{
+				departing.add(new Flight((String)raw_departure.get(i).get("AirplaneModel"),
+						(int)raw_departure.get(i).get("Flightnumber"),
+						(String)dep.get(0),
+						(String)dep.get(1),
+						(String)avl.get(0),
+						(String)avl.get(1),
+						(int)fc.get(1),
+						(int)ec.get(1),
+						(String)fc.get(0),
+						(String)ec.get(0)));
+			}
 			
 		}
 		//System.out.println(System.currentTimeMillis()-start);
@@ -93,16 +98,19 @@ public class Flights {
 			if (dep_code.compareTo(airport_code) != 0)
 				continue;
 			
-			departing.add(new Flight((String)raw_departure_ND.get(i).get("AirplaneModel"),
-					(int)raw_departure_ND.get(i).get("Flightnumber"),
-					(String)dep.get(0),
-					(String)dep.get(1),
-					(String)avl.get(0),
-					(String)avl.get(1),
-					(int)fc.get(1),
-					(int)ec.get(1),
-					(String)fc.get(0),
-					(String)ec.get(0)));
+			synchronized (Flights.class)
+			{
+				departing.add(new Flight((String)raw_departure_ND.get(i).get("AirplaneModel"),
+						(int)raw_departure_ND.get(i).get("Flightnumber"),
+						(String)dep.get(0),
+						(String)dep.get(1),
+						(String)avl.get(0),
+						(String)avl.get(1),
+						(int)fc.get(1),
+						(int)ec.get(1),
+						(String)fc.get(0),
+						(String)ec.get(0)));
+			}
 		}
 		
 	}

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.dom4j.DocumentException;
 
+import Controller.ValidationController;
 import XMLparser.parseFlights;
 import Utility.*;
 
@@ -22,6 +23,9 @@ public class Flight {
 	public int Seats_EC;
 	public Money Price_FC;
 	public Money Price_EC;
+	
+	private int FC_cap;
+	private int EC_cap;
 	
 	public static Map getFlight(int number, String airport_code,
 			String departure_date,boolean depart) throws DocumentException{
@@ -46,6 +50,10 @@ public class Flight {
 		this.Price_EC = new Money();
 		
 		this.Airplane_Model = Airplane_Model;
+
+		this.FC_cap = ValidationController.Instance().GetAirplane(this.Airplane_Model).FirstClassCapacity();
+		this.EC_cap = ValidationController.Instance().GetAirplane(this.Airplane_Model).EconomyCapacity();
+		
 		this.Flightnumber = Flightnumber;
 		this.Departure_Airport = Departure_Airport;
 		this.DepartureTime.Set(DepartureTime, "YYYY MMM DD hh:mm zzz");
@@ -67,18 +75,7 @@ public class Flight {
 	
 	public boolean CheckAvailableSeating(boolean FirstClass)
 	{
-		List airplane = null;
-		try {
-			airplane = Airplane.findAirplane(Airplane_Model);
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		if (airplane == null)
-			return false;
-		
-		return (FirstClass?(Seats_FC < (int)airplane.get(2)):(Seats_EC < (int)airplane.get(3)));
+		return (FirstClass?(Seats_FC < this.FC_cap):(Seats_EC < this.EC_cap));
 	}
 
 	public static void main(String[] args) throws DocumentException {

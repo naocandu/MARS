@@ -14,6 +14,7 @@ public class Trip {
 	private static int id = 0;
 	
 	private List<Flight> trip = new ArrayList<Flight>();
+	private List<String> seating = new ArrayList<String>();
 	
 	private int ID;
 	
@@ -137,6 +138,15 @@ public class Trip {
 		
 		if (this.GetAiportSequence().contains(flight.Arrival_Airport))
 			return false;
+		
+		if (flight.CheckAvailableSeating(Trips.GetPreferredSeating()))
+			seating.add((Trips.GetPreferredSeating()?"F":"E"));
+		else if (flight.CheckAvailableSeating(!Trips.GetPreferredSeating()))
+		{
+			seating.add((Trips.GetPreferredSeating()?"E":"F"));
+			this.mixSeating = true;
+		}
+
 		
 		if (trip.size() > 0)
 		{

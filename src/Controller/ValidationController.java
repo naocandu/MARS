@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.dom4j.DocumentException;
 
+import AirFlight.Airplane;
 import Server.ServerInterface;
 import Utility.DateTime;
 import Server.ServerConstants;
@@ -119,6 +120,23 @@ public class ValidationController {
 		} catch (IOException e) {
 			this.SetDefaultsFromConstants();
 		}
+	}
+	
+	public void PopulateAirplanes()
+	{
+		synchronized (ValidationController.class)
+		{
+			String xml = ServerInterface.QueryAirplanes();
+			parseAirplanes.xml = xml;
+		}
+	}
+	
+	public Airplane GetAirplane(String model)
+	{
+		//synchronized (ValidationController.class)
+		//{
+			return Airplane.findAirplane(model);
+		//}
 	}
 	
 	public static ValidationController Instance()

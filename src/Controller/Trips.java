@@ -12,6 +12,7 @@ import org.dom4j.DocumentException;
 
 public class Trips {
 	private static List<Trip> trip = null;
+	private static boolean preferred_seating = true;
 	
 	public static int GetNumberofTrips()
 	{
@@ -23,8 +24,15 @@ public class Trips {
 		return ((trip == null || index >= trip.size())?null:trip.get(index));
 	}
 	
+	public static boolean GetPreferredSeating()
+	{
+		//1 = first class,  0 = economy
+		return preferred_seating;
+	}
+	
 	public static List<Trip> LinkFlights(String departure, String arrival, String localDate, boolean firstClass)
 	{
+		preferred_seating = firstClass;
 		DateTime date = new DateTime();
 		date.Set(localDate , "YYYY_MM_DD");
 		
@@ -70,6 +78,8 @@ public class Trips {
 				//Flights f = new Flights(search.get(i),date);
 				
 				Flights f = Flights.GetFlightsFromAirport(search.get(i), date);
+				if (f == null)
+					continue;
 				
 				if (potential.size() == 0)
 				{
