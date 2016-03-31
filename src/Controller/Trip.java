@@ -38,6 +38,18 @@ public class Trip {
 		return sequence;
 	}
 	
+	public List<String> ListFlightSequence()
+	{
+		List<String> seq = new ArrayList<String>();
+		
+		for (int i = 0;i < trip.size();i++)
+		{
+			seq.add("F" + trip.get(i).Flightnumber);
+		}
+		
+		return seq;
+	}
+	
 	public String GetFlightSequenceShow()
 	{
 		String sequence = "";
@@ -94,7 +106,7 @@ public class Trip {
 		if (trip.size() == 0)
 			return "";
 		else
-			return DateTime.TimeSpan(trip.get(0).DepartureTime, trip.get(trip.size()-1).ArrivalTime).getTimeString();
+			return DateTime.TimeSpan(trip.get(0).DepartureTime, trip.get(trip.size()-1).ArrivalTime).getDurationString();
 	}
 	
 	public Trip Clone()
@@ -109,6 +121,14 @@ public class Trip {
 	public boolean ContainsMixedSeating()
 	{
 		return mixSeating;
+	}
+	
+	public void Merge(Trip other)
+	{
+		for (int i = 0;i < other.trip.size();i++)
+		{
+			trip.add(other.trip.get(i));
+		}
 	}
 	
 	public boolean AddFlight(Flight flight)

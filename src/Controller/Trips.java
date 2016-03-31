@@ -194,17 +194,23 @@ public class Trips {
 	
 	public static Trip MergeTrips(Trip outbound, Trip returning)
 	{
-		return new Trip(outbound.GetNumberofHops()+returning.GetNumberofHops(),
-				outbound.GetPrice()+returning.GetPrice(),
-				outbound.GetDuration()+returning.GetDuration(),
-				outbound.ContainsMixedSeating()||returning.ContainsMixedSeating());
+		Trip full = outbound.Clone();
+		full.Merge(returning);
+		return full;
 	}
 	
 	public static void main(String[] args) {
 		DateTime d = new DateTime();
 		d.Set("2016 May 04 02:47 GMT","YYYY MMM DD hh:mm zzz");
 
+		DateTime d2 = new DateTime();
+		d2.Set("2016 May 06 01:47 GMT","YYYY MMM DD hh:mm zzz");
+		
+		
+		DateTime d3 = DateTime.TimeSpan(d2, d);
 
+		//System.out.println(d3.getFullDateString());
+		//System.out.println(d3.getDurationString());
 		//d.Set("2016-05-10", "YYYY-MM-DD");
 		long start = System.currentTimeMillis();
 		Trips.LinkFlights("BOS", "AUS", d.getDateString(), false);

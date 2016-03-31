@@ -30,6 +30,13 @@ public class Airport {
 		{
 			
 			outbound = new Flights(Code, Date);
+			
+			if (outbound.departing == null)
+			{
+				outbound = null;
+				return outbound;
+			}
+			
 			outboundDate = Date.getDateString();
 		}
 		

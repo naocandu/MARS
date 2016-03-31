@@ -16,6 +16,7 @@ public class DateTime {
 	private Calendar dateTime;
 	private Calendar localDateTime;
 	private int Offset = 0;
+	private boolean duration_withinDay = false;
 	
 	private static final String[] MONTH_NAME = {"January","Febuary","March","April","May","June",
 	                                   "July","August","September","October","November","December"};
@@ -279,6 +280,10 @@ public class DateTime {
 		span = ((span/1000.0)/60.0)/60.0;
 		DateTime dt = new DateTime();
 		dt.Set(0, 0, 0, (int)span, (int)((span-(int)span)*60), 0);
+		//System.out.println(span);
+		if ((int)span < 24)
+			dt.duration_withinDay = true;
+		
 		return dt;
 	}
 	
@@ -381,5 +386,21 @@ public class DateTime {
 		second = (second.length()==1?"0":"") + second;
 		
 		return hour+":"+minute+":"+second;
+	}
+	
+	public String getDurationString()
+	{
+		String days = Integer.toString(dateTime.get(Calendar.DAY_OF_MONTH));
+		String hour = Integer.toString(dateTime.get(Calendar.HOUR_OF_DAY));
+		String minute = Integer.toString(dateTime.get(Calendar.MINUTE));
+		String second = Integer.toString(dateTime.get(Calendar.SECOND));
+		
+		hour = (hour.length()==1?"0":"") + hour;
+		minute = (minute.length()==1?"0":"") + minute;
+		second = (second.length()==1?"0":"") + second;
+		if (this.duration_withinDay)
+			return hour+":"+minute;
+		
+		return days + " day" + (days.charAt(0) != '1'?"s ":" ") +hour+":"+minute;
 	}
 }

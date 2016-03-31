@@ -41,7 +41,7 @@ public class Preloader implements Runnable {
 		// TODO Auto-generated method stub
 		try {
 				Airports.GetTimezoneOffset(AirportCode);
-				//Flights.GetFlightsFromAirport(AirportCode, DepartureDate);
+				Flights.GetFlightsFromAirport(AirportCode, DepartureDate);
 
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block

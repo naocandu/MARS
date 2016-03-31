@@ -44,6 +44,9 @@ public class Flights {
 		 * String DepartureTime, String Arrival_Airport, String ArrivalTime, int Seats_FC, 
 		 * int Seats_EC, String Price_FC, String Price_EC
 		*/
+		if (raw_departure == null)
+			return;
+		
 		departing = new ArrayList<Flight>();
 		
 		//long start = System.currentTimeMillis();
