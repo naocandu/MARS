@@ -70,8 +70,8 @@ public class Flights {
 			if (dep_code.compareTo(airport_code) != 0)
 				continue;
 			
-			synchronized (Flights.class)
-			{
+			//synchronized (Flights.class)
+			//{
 				departing.add(new Flight((String)raw_departure.get(i).get("AirplaneModel"),
 						(int)raw_departure.get(i).get("Flightnumber"),
 						(String)dep.get(0),
@@ -82,13 +82,19 @@ public class Flights {
 						(int)ec.get(1),
 						(String)fc.get(0),
 						(String)ec.get(0)));
-			}
+			//}
 			
 		}
 		//System.out.println(System.currentTimeMillis()-start);
 		
 		for (int i = 0;i < raw_departure_ND.size();i++)
 		{
+			if (raw_departure.get(i) == null)
+			{
+				departing.clear();
+				departing = null;
+				return;
+			}
 			ArrayList dep = (ArrayList)raw_departure_ND.get(i).get("Departure");
 			ArrayList avl = (ArrayList)raw_departure_ND.get(i).get("Arrival");
 			ArrayList fc = (ArrayList)raw_departure_ND.get(i).get("FirstClass");
@@ -98,8 +104,8 @@ public class Flights {
 			if (dep_code.compareTo(airport_code) != 0)
 				continue;
 			
-			synchronized (Flights.class)
-			{
+			//synchronized (Flights.class)
+			//{
 				departing.add(new Flight((String)raw_departure_ND.get(i).get("AirplaneModel"),
 						(int)raw_departure_ND.get(i).get("Flightnumber"),
 						(String)dep.get(0),
@@ -110,7 +116,7 @@ public class Flights {
 						(int)ec.get(1),
 						(String)fc.get(0),
 						(String)ec.get(0)));
-			}
+			//}
 		}
 		
 	}

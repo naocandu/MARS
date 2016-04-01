@@ -199,6 +199,12 @@ public class Trips {
 			}
 				
 		}
+		if (trip.size() == 0)
+		{
+			System.out.println("Possible Error: Search Found No Flights - Searching Again...");
+			Airports.Clear();
+			return Trips.LinkFlights(departure, arrival, localDate, firstClass);
+		}
 		return trip;
 	}
 	
@@ -211,7 +217,7 @@ public class Trips {
 	
 	public static void main(String[] args) {
 		DateTime d = new DateTime();
-		d.Set("2016 May 04 02:47 GMT","YYYY MMM DD hh:mm zzz");
+		d.Set("2016 May 06 02:47 GMT","YYYY MMM DD hh:mm zzz");
 
 		DateTime d2 = new DateTime();
 		d2.Set("2016 May 06 01:47 GMT","YYYY MMM DD hh:mm zzz");

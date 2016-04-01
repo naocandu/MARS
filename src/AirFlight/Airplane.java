@@ -32,16 +32,13 @@ public class Airplane {
 			e.printStackTrace();
 		}
 		
-		synchronized (Airplane.class)
-		{
 			airplanes.add(new Airplane(
 					(String)raw_airplane.get(0),
 					(String)raw_airplane.get(1),
 					(int)raw_airplane.get(2),
 					(int)raw_airplane.get(3)));
-			
 			return airplanes.get(airplanes.size()-1);
-		}
+		
 	}
 	
 	public Airplane(String name, String model, int FC_Capacity, int EC_Capacity)

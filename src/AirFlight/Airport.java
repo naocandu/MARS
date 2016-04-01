@@ -43,6 +43,12 @@ public class Airport {
 		return outbound;
 	}
 	
+	public void Clear()
+	{
+		outbound = null;
+		outboundDate = "";
+	}
+	
 	public Airport()
 	{
 		Code = "N/A";

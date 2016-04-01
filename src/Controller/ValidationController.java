@@ -1,6 +1,9 @@
 package Controller;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,7 @@ public class ValidationController {
 	private int max_layover = ValidationConstants.MAX_LAYOVER_MINUTES;
 	private int max_hops = ValidationConstants.MAX_HOPS;
 	public int verbose = 0;
+	
 	
 	private void SetDefaultsFromConstants()
 	{
@@ -133,10 +137,68 @@ public class ValidationController {
 	
 	public Airplane GetAirplane(String model)
 	{
-		//synchronized (ValidationController.class)
-		//{
-			return Airplane.findAirplane(model);
-		//}
+		synchronized (ValidationController.class)
+		{
+			String line = "";
+	        BufferedReader in = null;
+	        FileReader fr = null;
+	        
+	        for (int i = 0;i < 2;i++)
+	        {
+				try {
+					fr = new FileReader(ValidationConstants.AIRPLANE_CACHE_DIRECTORY);
+					break;
+				} catch (FileNotFoundException e1) {
+					try {
+						FileWriter out = new FileWriter(ValidationConstants.AIRPLANE_CACHE_DIRECTORY, false);
+						out.close();
+						out = null;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+	        }
+			in = new BufferedReader(fr);
+	        try {
+				line = in.readLine();
+			
+		        while(line != null)
+		        {
+		        	   String[] values = line.split(",");
+		        	   if (values.length == 4)
+		        	   {
+		        		   String airplane_model = values[0].trim();
+		        		   String name = values[1].trim();
+		        		   int fc = Integer.parseInt(values[2].trim());
+		        		   int ec = Integer.parseInt(values[3].trim());
+		        		   
+		        		   if (airplane_model.compareTo(model) == 0)
+		        			   return new Airplane(name,airplane_model,fc,ec);
+		        	   }
+		        	   
+		        	   line = in.readLine();
+		        }
+		        in.close();
+	        } catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	        
+	        Airplane a = Airplane.findAirplane(model);
+	        
+	        try {
+				FileWriter out = new FileWriter(ValidationConstants.AIRPLANE_CACHE_DIRECTORY, true);
+				out.write(a.model + "," + a.name + "," + a.FC_Capacity + "," + a.EC_Capacity + "\n");
+				out.close();
+				out = null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+			return a;
+		}
 	}
 	
 	public static ValidationController Instance()
@@ -172,14 +234,73 @@ public class ValidationController {
 	
 	public int GetTimezoneOffset(float Latitude, float Longitude) throws DocumentException
 	{
-		String xml = ServerInterface.QueryTimezone(Latitude, Longitude);
-		if (xml.length() == 0)
+		synchronized (ValidationController.class)
 		{
-			System.out.println("ERROR - QueryTimezone returned invalid response");
-			return 0;
+			String line = "";
+	        BufferedReader in = null;
+	        FileReader fr = null;
+	        
+	        for (int i = 0;i < 2;i++)
+	        {
+				try {
+					fr = new FileReader(ValidationConstants.TIMEZONE_CACHE_DIRECTORY);
+					break;
+				} catch (FileNotFoundException e1) {
+					try {
+						FileWriter out = new FileWriter(ValidationConstants.TIMEZONE_CACHE_DIRECTORY, false);
+						out.close();
+						out = null;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+	        }
+			in = new BufferedReader(fr);
+	        try {
+				line = in.readLine();
+			
+		        while(line != null)
+		        {
+		        	   String[] values = line.split(",");
+		        	   if (values.length == 3)
+		        	   {
+		        		   double lat = Double.parseDouble(values[0].trim());
+		        		   double lon = Double.parseDouble(values[1].trim());
+		        		   
+		        		   if ((lat - Latitude)*(lat - Latitude) < 0.025 && (lon - Longitude)*(lon - Longitude) < 0.025)
+		        			   return Integer.parseInt(values[2].trim());
+		        	   }
+		        	   
+		        	   line = in.readLine();
+		        }
+		        in.close();
+	        } catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			String xml = ServerInterface.QueryTimezone(Latitude, Longitude);
+			if (xml.indexOf("timezone")==-1)
+			{
+				System.out.println("ERROR - QueryTimezone returned invalid response");
+				System.exit(0);
+				return 0;
+			}
+			
+			try {
+				FileWriter out = new FileWriter(ValidationConstants.TIMEZONE_CACHE_DIRECTORY, true);
+				out.write(Latitude + "," + Longitude + "," + ParseTime.timeOffset(xml).intValue() + "\n");
+				out.close();
+				out = null;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return ParseTime.timeOffset(xml).intValue();
 		}
-		
-		return ParseTime.timeOffset(xml).intValue();
 	}
 	
 	public boolean ConfirmTrip(Trip trip)
@@ -194,6 +315,8 @@ public class ValidationController {
 				System.out.println(f_sequence.get(i));
 			}
 		}
+		
+		
 		
 		if (this.verbose > 1)
 			System.out.println("\nGenerating XML...");
@@ -216,7 +339,7 @@ public class ValidationController {
 		ServerInterface.ResetDB();
 		
 		DateTime d = new DateTime();
-		d.Set("2016 May 04 02:47 GMT","YYYY MMM DD hh:mm zzz");
+		d.Set("2016 May 06 02:47 GMT","YYYY MMM DD hh:mm zzz");
 		
 		DateTime r = new DateTime();
 		r.Set("2016 May 10 02:47 GMT","YYYY MMM DD hh:mm zzz");

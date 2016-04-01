@@ -16,4 +16,7 @@ public class ValidationConstants {
 			"max_hops",
 			"timeout_milliseconds"
 			};
+	
+	public static final String TIMEZONE_CACHE_DIRECTORY = "resources//timezone.txt";
+	public static final String AIRPLANE_CACHE_DIRECTORY = "resources//airplane.txt";
 }

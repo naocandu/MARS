@@ -51,8 +51,9 @@ public class Flight {
 		
 		this.Airplane_Model = Airplane_Model;
 
-		this.FC_cap = ValidationController.Instance().GetAirplane(this.Airplane_Model).FirstClassCapacity();
-		this.EC_cap = ValidationController.Instance().GetAirplane(this.Airplane_Model).EconomyCapacity();
+		Airplane airplane = ValidationController.Instance().GetAirplane(this.Airplane_Model);
+		this.FC_cap = airplane.FirstClassCapacity();
+		this.EC_cap = airplane.EconomyCapacity();
 		
 		this.Flightnumber = Flightnumber;
 		this.Departure_Airport = Departure_Airport;

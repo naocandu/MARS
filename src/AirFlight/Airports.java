@@ -33,6 +33,17 @@ public class Airports {
 		return airportsList;
 	}
 	
+	public static void Clear()
+	{
+		if (AirportList.size() == 0)
+			return;
+		
+		for (int i = 0;i < AirportList.size();i++)
+		{
+			AirportList.get(i).Clear();
+		}
+	}
+	
 	public static Airport GetAirport(String Code) throws DocumentException
 	{
 		if (AirportList.size() == 0)
@@ -83,7 +94,7 @@ public class Airports {
 			t.start();
 		}
 		
-		Preloader.WaitforAll();
+		//Preloader.WaitforAll();
 	}
 	
 	public static String[] getAirportName() throws DocumentException{

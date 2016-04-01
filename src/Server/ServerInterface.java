@@ -233,6 +233,7 @@ public class ServerInterface {
 	{
 		TimezoneCalls++;
 		return QueryDatabase(timezone_url, QueryBuilder.GetTimezoneQuery(team_name, latitude, longitude));
+		//return QueryDatabase(timezone_url, QueryBuilder.GetTimezoneQuery("qwerty", latitude, longitude));
 	}
 	
 	/**
