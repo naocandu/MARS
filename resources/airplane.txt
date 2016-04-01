@@ -1,11 +1,11 @@
-A340,Airbus,32,268
-737,Boeing,28,100
+A320,Airbus,12,124
 A330,Airbus,42,375
-757,Boeing,32,170
+747,Boeing,124,400
 767,Boeing,104,200
 717,Boeing,24,82
-A320,Airbus,12,124
+757,Boeing,32,170
+737,Boeing,28,100
+A340,Airbus,32,268
+A310,Airbus,24,200
 A380,Airbus,128,427
 777,Boeing,79,400
-747,Boeing,124,400
-A310,Airbus,24,200

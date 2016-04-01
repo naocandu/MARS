@@ -17,6 +17,9 @@ public class Airports {
 	private static List<Airport> AirportList = new ArrayList<Airport>();
 	
 	public static List getAirportList() throws DocumentException{
+		if (airportsList.size() != 0)
+			return airportsList;
+		
 		List airportCode = parseAirports.getCode();
 		
 		for (Iterator itr = airportCode.iterator(); itr.hasNext();) {  
@@ -42,6 +45,9 @@ public class Airports {
 		{
 			AirportList.get(i).Clear();
 		}
+		
+		AirportList.clear();
+		airportsList.clear();
 	}
 	
 	public static Airport GetAirport(String Code) throws DocumentException
