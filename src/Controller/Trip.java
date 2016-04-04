@@ -33,7 +33,7 @@ public class Trip {
 		String sequence = "";
 		for (int i = 0;i < trip.size();i++)
 		{
-			sequence += "F" + trip.get(i).Flightnumber+ " " + " " + " ";
+			sequence += seating.get(i) + trip.get(i).Flightnumber+ " " + " " + " ";
 		}
 		
 		return sequence;
@@ -45,7 +45,7 @@ public class Trip {
 		
 		for (int i = 0;i < trip.size();i++)
 		{
-			seq.add("F" + trip.get(i).Flightnumber);
+			seq.add(seating.get(i) + trip.get(i).Flightnumber);
 		}
 		
 		return seq;
@@ -56,7 +56,7 @@ public class Trip {
 		String sequence = "";
 		for (int i = 0;i < trip.size();i++)
 		{
-			sequence += "F" + trip.get(i).Flightnumber+ "&nbsp;" + "&nbsp;" + "&nbsp;";
+			sequence += seating.get(i) + trip.get(i).Flightnumber+ "&nbsp;" + "&nbsp;" + "&nbsp;";
 		}
 		
 		return sequence;
@@ -129,6 +129,7 @@ public class Trip {
 		for (int i = 0;i < other.trip.size();i++)
 		{
 			trip.add(other.trip.get(i));
+			seating.add(other.seating.get(i));
 		}
 	}
 	
@@ -139,21 +140,20 @@ public class Trip {
 		if (this.GetAiportSequence().contains(flight.Arrival_Airport))
 			return false;
 		
-		if (flight.CheckAvailableSeating(Trips.GetPreferredSeating()))
-			seating.add((Trips.GetPreferredSeating()?"F":"E"));
-		else if (flight.CheckAvailableSeating(!Trips.GetPreferredSeating()))
-		{
-			seating.add((Trips.GetPreferredSeating()?"E":"F"));
-			this.mixSeating = true;
-		}
-
-		
 		if (trip.size() > 0)
 		{
 			layover = DateTime.NumericSpan(trip.get(trip.size()-1).ArrivalTime,flight.DepartureTime)*60;
 			
 			if (layover < ValidationController.GetMinLayoverMinutes() || layover > ValidationController.GetMaxLayoverMinutes())
 				return false;
+		}
+		
+		if (flight.CheckAvailableSeating(Trips.GetPreferredSeating()))
+			seating.add((Trips.GetPreferredSeating()?"F":"E"));
+		else if (flight.CheckAvailableSeating(!Trips.GetPreferredSeating()))
+		{
+			seating.add((Trips.GetPreferredSeating()?"E":"F"));
+			this.mixSeating = true;
 		}
 		
 		trip.add(flight);

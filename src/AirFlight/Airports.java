@@ -16,11 +16,11 @@ public class Airports {
 	private static List airportsList = new ArrayList();
 	private static List<Airport> AirportList = new ArrayList<Airport>();
 	
-	public static List getAirportList() throws DocumentException{
+	public static List<?> getAirportList(){
 		if (airportsList.size() != 0)
 			return airportsList;
 		
-		List airportCode = parseAirports.getCode();
+		List airportCode = ValidationController.Instance().GetAirportList();
 		
 		for (Iterator itr = airportCode.iterator(); itr.hasNext();) {  
 			  String code = (String) itr.next();  
@@ -86,12 +86,7 @@ public class Airports {
 	{
 		if (AirportList.size() == 0)
 		{
-			try {
-				getAirportList();
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			getAirportList();
 		}
 		
 		for (int i = 0;i < AirportList.size();i++)

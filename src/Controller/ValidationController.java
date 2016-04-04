@@ -126,6 +126,19 @@ public class ValidationController {
 		}
 	}
 	
+	public List<?> GetAirportList()
+	{
+		List<?> airports = null;
+		try {
+			airports = parseAirports.getCode();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return airports;
+	}
+	
 	public void PopulateAirplanes()
 	{
 		synchronized (ValidationController.class)
