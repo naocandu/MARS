@@ -288,7 +288,7 @@ public class FlightsReservation
 							userinfo = triptype + "\n" + seatclass + "\n" + flyfrom + "\n" + flyto + "\n" + departdate
 									+ "\n" + returndate + "\n";
 							textArea.setText(userinfo);	
-							//TripPlanner.SearchFlights(h);
+							TripPlanner.SearchFlights(h);
 						} 
 						else // round trip
 						{

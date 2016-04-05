@@ -63,8 +63,13 @@ public class TripPlanner {
 	public static List<Trip> trip = null;
 	public static List<Trip> trip1 = new ArrayList<Trip>();
 	public static List<Trip> trip2 = new ArrayList<Trip>();
-	public static List<Trip> tripsort1 = new ArrayList<Trip>();
-	public static List<Trip> tripsort2 = new ArrayList<Trip>();
+	public static List<Trip> triphop1 = new ArrayList<Trip>();
+	public static List<Trip> triphop2 = new ArrayList<Trip>();
+	public static List<Trip> tripfilter1 = null;
+	public static List<Trip> tripfilter2 = null;
+	public static List<Trip> tripsort1 = null;
+	public static List<Trip> tripsort2 = null;
+	
 	
 	//get the depart airport code
 	public static String getAirportCode(String a)
@@ -190,6 +195,7 @@ public class TripPlanner {
 				trip = Trips.LinkFlights(departure, arrival, departureDate, false);
 				for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 				
+				
 			} catch (Exception e1)
 			{
 				e1.printStackTrace();
@@ -249,7 +255,7 @@ public class TripPlanner {
 		*/
 		
 		// order by the price from low to high
-		if (opt == 1) {
+if (opt == 1) {
 			
 		    Collections.sort(tripListOld,new Comparator<Trip>(){
 			    @Override
@@ -268,8 +274,7 @@ public class TripPlanner {
 			    @Override
 			    public int compare(Trip t1, Trip t2) {
 			    	float a = t1.GetDuration() - t2.GetDuration();
-			    	return (a == 0)?0:(a > 0)?1:-1;
-				   
+			    	return (a == 0)?0:(a > 0)?1:-1;		   
 			    }
 		    });
 		    tripList = tripListOld;
@@ -288,23 +293,9 @@ public class TripPlanner {
 		    });
 		    tripList = tripListOld;
 		}
-        
-        // order by the departure time from late to early
-        if (opt == 4) {
-	
-            Collections.sort(tripListOld,new Comparator<Trip>(){
-	            @Override
-	            public int compare(Trip t2, Trip t1) {
-	            	float a = t1.GetDepartureTimeinMinutes() - t2.GetDepartureTimeinMinutes();
-	            	return (a == 0)?0:(a > 0)?-1:1;
-		           
-	            }
-            });
-            tripList = tripListOld;
-        }
 		
         // order by the arrival time from early to late
-        if (opt == 5) {
+        if (opt == 4) {
 			
 		    Collections.sort(tripListOld,new Comparator<Trip>(){
 			    @Override
@@ -315,59 +306,56 @@ public class TripPlanner {
 			    }
 		    });
 		    tripList = tripListOld;
-		}
-        
-        // order by the arrival time from late to early
-        if (opt == 6) {
-			
-		    Collections.sort(tripListOld,new Comparator<Trip>(){
-			    @Override
-			    public int compare(Trip t2, Trip t1) {
-			    	float a = t1.GetArrivalTimeinMinutes() - t2.GetArrivalTimeinMinutes();
-			    	return (a == 0)?0:(a > 0)?-1:1;
-				    
-			    }
-		    });
-		    tripList = tripListOld;
-		}
+		}      
+      
         
 		return tripList;
 		
 	}
 	
-	public static void Filter(int opt) {
+	public static List<Trip> Filter(int opt, List<Trip> tripListOld) {
 		/*
-		 * 7:Nonstop  8:1 Stop  9:2 Stops
+		 * 7:Nonstop  8:one Stop  9:two Stops
+		 * 
 		 */
-        ArrayList<Trip> tripList = new ArrayList<> (); // state an arraylist that hold trip results
+        List<Trip> tripList = new ArrayList<Trip> (); // state an arraylist that hold trip results
 		
-		int n = Trips.GetNumberofTrips(); 
+//		int n = Trips.GetNumberofTrips(); 
+//		
+//		for (int i=0;i<n;i++) {
+//			tripList.add(Trips.Get(i));
+//		}
 		
-		for (int i=0;i<n;i++) {
-			tripList.add(Trips.Get(i));
-		}
-		
+        int n = tripListOld.size();
+        
 		if (opt == 7) {
-			for (int i=0;i<n;i++) {
-				if (tripList.get(i).GetNumberofHops() != 0) {
-					tripList.remove(i);
+			for (int i=n-1;i>=0;i--) {
+				if (tripListOld.get(i).GetNumberofHops() != 1) {
+					tripListOld.remove(i);
 				}
 			}
+			tripList = tripListOld;
 		}
 		if (opt == 8) {
-			for (int i=0;i<n;i++) {
-				if (tripList.get(i).GetNumberofHops() != 1) {
-					tripList.remove(i);
+			for (int i=n-1;i>=0;i--) {
+				if (tripListOld.get(i).GetNumberofHops() != 2) {
+					tripListOld.remove(i);
+
 				}
 			}
+			tripList = tripListOld;
 		}
 		if (opt == 9) {
-			for (int i=0;i<n;i++) {
-				if (tripList.get(i).GetNumberofHops() != 2) {
-					tripList.remove(i);
+			for (int i=n-1;i>=0;i--) {
+				if (tripListOld.get(i).GetNumberofHops() != 3) {
+					tripListOld.remove(i);
+
 				}
 			}
+			tripList = tripListOld;
 		}
+		
+		return tripList;
 		
 	}
 	

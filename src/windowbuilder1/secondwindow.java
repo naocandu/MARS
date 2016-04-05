@@ -7,6 +7,7 @@
 package windowbuilder1;
 import TripPlanner.TripPlanner;
 import Controller.Trip;
+import Controller.ValidationController;
 
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -23,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JRadioButton;
 
 public class secondwindow
 {
@@ -30,6 +32,7 @@ public class secondwindow
 	public JFrame frmFlightsResults; 
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	public Trip reserve;
+	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	private class MyListCellRenderer extends DefaultListCellRenderer {
 
 	    @Override
@@ -89,12 +92,12 @@ public class secondwindow
 		//Trips.LinkFlights("BOS", "AUS", "2016_05_04", true);
 		frmFlightsResults = new JFrame();
 		frmFlightsResults.setTitle("Flights Results");
-		frmFlightsResults.setBounds(0, 0, 650, 440);
+		frmFlightsResults.setBounds(0, 0, 641, 476);
 		frmFlightsResults.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmFlightsResults.getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 47, 614, 304);
+		scrollPane.setBounds(10, 78, 595, 316);
 		frmFlightsResults.getContentPane().add(scrollPane);
 
 		JList<Trip> list = new JList<Trip>();
@@ -108,13 +111,87 @@ public class secondwindow
         list.setCellRenderer(new MyListCellRenderer());
         scrollPane.setViewportView(list);
 		
+		
+		
+		JRadioButton rdbtnAll = new JRadioButton("all");
+		rdbtnAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TripPlanner.triphop1.clear();
+				for(int i=0; i<TripPlanner.trip1.size();i++) TripPlanner.triphop1.add(TripPlanner.trip1.get(i));			
+				model.clear();
+				int length = TripPlanner.triphop1.size();
+				for(int i=0; i< length; i++)
+				{
+					model.addElement(TripPlanner.triphop1.get(i));
+				}
+			}
+		});
+		buttonGroup_1.add(rdbtnAll);
+		rdbtnAll.setBounds(32, 17, 121, 23);
+		frmFlightsResults.getContentPane().add(rdbtnAll);
+		
+		JRadioButton rdbtnDirect = new JRadioButton("direct");
+		buttonGroup_1.add(rdbtnDirect);
+		rdbtnDirect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				TripPlanner.triphop1.clear();
+				for(int i=0; i<TripPlanner.trip1.size();i++) TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				TripPlanner.tripfilter1 = TripPlanner.Filter(7,TripPlanner.triphop1);
+				model.clear();
+				int length = TripPlanner.tripfilter1.size();
+				for(int i=0; i< length; i++)
+				{
+					model.addElement(TripPlanner.tripfilter1.get(i));
+				}
+			}
+			
+		});
+		rdbtnDirect.setBounds(156, 17, 121, 23);
+		frmFlightsResults.getContentPane().add(rdbtnDirect);
+		
+		JRadioButton rdbtnOneHop = new JRadioButton("one hop");
+		buttonGroup_1.add(rdbtnOneHop);
+		rdbtnOneHop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TripPlanner.triphop1.clear();
+				for(int i=0; i<TripPlanner.trip1.size();i++) TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				TripPlanner.tripfilter1 = TripPlanner.Filter(8,TripPlanner.triphop1);
+				model.clear();
+				int length = TripPlanner.tripfilter1.size();
+				for(int i=0; i< length; i++)
+				{
+					model.addElement(TripPlanner.tripfilter1.get(i));
+				}
+			}
+		});
+		rdbtnOneHop.setBounds(315, 17, 121, 23);
+		frmFlightsResults.getContentPane().add(rdbtnOneHop);
+		
+		JRadioButton rdbtnTwoHops = new JRadioButton("two hops");
+		buttonGroup_1.add(rdbtnTwoHops);
+		rdbtnTwoHops.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TripPlanner.triphop1.clear();
+				for(int i=0; i<TripPlanner.trip1.size();i++) TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				TripPlanner.tripfilter1 = TripPlanner.Filter(9,TripPlanner.triphop1);
+				model.clear();
+				int length = TripPlanner.tripfilter1.size();
+				for(int i=0; i< length; i++)
+				{
+					model.addElement(TripPlanner.tripfilter1.get(i));
+				}
+			}
+		});
+		rdbtnTwoHops.setBounds(468, 17, 121, 23);
+		frmFlightsResults.getContentPane().add(rdbtnTwoHops);
+		
 		JCheckBox chckbxPrice = new JCheckBox("price(cheapest)");
 		buttonGroup.add(chckbxPrice);
 		chckbxPrice.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				TripPlanner.tripsort1 = TripPlanner.SortBy(1,TripPlanner.trip1);
+				TripPlanner.tripsort1 = TripPlanner.SortBy(1,TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripsort1.size();
 				for(int i=0; i< length; i++)
@@ -123,7 +200,7 @@ public class secondwindow
 				}
 			}
 		});
-		chckbxPrice.setBounds(31, 18, 82, 23);
+		chckbxPrice.setBounds(32, 49, 122, 23);
 		frmFlightsResults.getContentPane().add(chckbxPrice);
 		
 		JCheckBox chckbxDuration = new JCheckBox("duration(shortest)");
@@ -132,7 +209,7 @@ public class secondwindow
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				TripPlanner.tripsort1 = TripPlanner.SortBy(2,TripPlanner.trip1);
+				TripPlanner.tripsort1 = TripPlanner.SortBy(2,TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripsort1.size();
 				for(int i=0; i< length; i++)
@@ -142,7 +219,7 @@ public class secondwindow
 				
 			}
 		});
-		chckbxDuration.setBounds(118, 18, 59, 23);
+		chckbxDuration.setBounds(156, 49, 139, 23);
 		frmFlightsResults.getContentPane().add(chckbxDuration);
 		
 		JCheckBox chckbxDeparting = new JCheckBox("departure(earliest)");
@@ -151,7 +228,7 @@ public class secondwindow
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				TripPlanner.trip = TripPlanner.SortBy(3,TripPlanner.trip1);
+				TripPlanner.tripsort1 = TripPlanner.SortBy(3,TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripsort1.size();
 				for(int i=0; i< length; i++)
@@ -160,29 +237,13 @@ public class secondwindow
 				}
 			}
 		});
-		chckbxDeparting.setBounds(179, 18, 50, 23);
+		chckbxDeparting.setBounds(315, 49, 139, 23);
 		frmFlightsResults.getContentPane().add(chckbxDeparting);
-		
-		JCheckBox chckbxDeparturelatest = new JCheckBox("departure(latest)");
-		chckbxDeparturelatest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TripPlanner.trip = TripPlanner.SortBy(4,TripPlanner.trip1);
-				model.clear();
-				int length = TripPlanner.tripsort1.size();
-				for(int i=0; i< length; i++)
-				{
-					model.addElement(TripPlanner.tripsort1.get(i));
-				}
-			}
-		});
-		buttonGroup.add(chckbxDeparturelatest);
-		chckbxDeparturelatest.setBounds(247, 18, 103, 23);
-		frmFlightsResults.getContentPane().add(chckbxDeparturelatest);
 		
 		JCheckBox chckbxArrivalearliest = new JCheckBox("arrival(earliest)");
 		chckbxArrivalearliest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TripPlanner.trip = TripPlanner.SortBy(5,TripPlanner.trip1);
+				TripPlanner.tripsort1 = TripPlanner.SortBy(4,TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripsort1.size();
 				for(int i=0; i< length; i++)
@@ -192,24 +253,8 @@ public class secondwindow
 			}
 		});
 		buttonGroup.add(chckbxArrivalearliest);
-		chckbxArrivalearliest.setBounds(352, 18, 103, 23);
+		chckbxArrivalearliest.setBounds(468, 49, 127, 23);
 		frmFlightsResults.getContentPane().add(chckbxArrivalearliest);
-		
-		JCheckBox chckbxArrivallatest = new JCheckBox("arrival(latest)");
-		chckbxArrivallatest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TripPlanner.trip = TripPlanner.SortBy(6,TripPlanner.trip1);
-				model.clear();
-				int length = TripPlanner.tripsort1.size();
-				for(int i=0; i< length; i++)
-				{
-					model.addElement(TripPlanner.tripsort1.get(i));
-				}
-			}
-		});
-		buttonGroup.add(chckbxArrivallatest);
-		chckbxArrivallatest.setBounds(453, 18, 103, 23);
-		frmFlightsResults.getContentPane().add(chckbxArrivallatest);
 		
 		JButton btnCancel = new JButton("cancel");
 		btnCancel.addMouseListener(new MouseAdapter()
@@ -220,7 +265,7 @@ public class secondwindow
 				frmFlightsResults.dispose();
 			}
 		});
-		btnCancel.setBounds(349, 368, 93, 23);
+		btnCancel.setBounds(349, 404, 93, 23);
 		frmFlightsResults.getContentPane().add(btnCancel);
 		
 		JButton btnBook = new JButton("book");
@@ -252,23 +297,23 @@ public class secondwindow
 					} else
 					{
 						reserve = (Trip)list.getSelectedValue();
-						//
-						/*
-						 * else { JOptionPane.showMessageDialog(null,
-						 * "book fail, please try again");
-						 * frmFlightsResults.dispose(); }
-						 */
+						
+						/*if(ValidationController.ConfirmTrip(reserve)==true)
+						{
 						JOptionPane.showMessageDialog(null,
 								"book successfully" + "\n" + reserve.GetFlightSequence() + "\n" + reserve.toString()+ "\n");
-						
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "book fail");
+						}*/
 					}
 				} else if (response == 1)
 				{
-					JOptionPane.showMessageDialog(null, "book fail");
+					JOptionPane.showMessageDialog(null, "cancelled");
 				}
 			}
 		});
-		btnBook.setBounds(135, 368, 93, 23);
+		btnBook.setBounds(134, 404, 93, 23);
 		frmFlightsResults.getContentPane().add(btnBook);
 	}
 }
