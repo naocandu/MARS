@@ -45,7 +45,13 @@ public class FlightsReservation
 	private static int todayyear = now.get(Calendar.YEAR);
 	private static int todaymonth = now.get(Calendar.MONTH) + 1;
 	private static int todaydate = now.get(Calendar.DAY_OF_MONTH);
-
+	
+	DateChooser dateChooser2 = DateChooser.getInstance("yyyy-MM-dd");
+	JPanel ReturnDatePanel = new JPanel();
+	JLabel lblReturning = new JLabel("Returning");
+	JLabel ReturnDate1 = new JLabel("click to get date");
+	JLabel lblNewLabel = new JLabel("New label");
+	
 	public static String getDeparture() // get departure airport
 	{
 		return flyfrom;
@@ -120,6 +126,23 @@ public class FlightsReservation
 		
 		// one way
 		JRadioButton rdbtnOneway = new JRadioButton("one-way");
+		rdbtnOneway.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				lblNewLabel.setIcon(new ImageIcon(FlightsReservation.class.getResource("/images/aeroplane.jpg")));
+				lblNewLabel.setBounds(0, 0, 644, 407);
+				frmFlightsReservation.getContentPane().add(lblNewLabel);
+				
+				ReturnDatePanel.remove(ReturnDate1);
+				ReturnDatePanel.validate();
+				ReturnDatePanel.repaint();
+				
+				frmFlightsReservation.getContentPane().remove(lblReturning);
+				frmFlightsReservation.getContentPane().remove(ReturnDatePanel);			
+				frmFlightsReservation.getContentPane().validate();
+				frmFlightsReservation.getContentPane().repaint();
+			
+			}
+		});
 		rdbtnOneway.setSelected(true);
 		rdbtnOneway.setBackground(new Color(240, 240, 240));
 		rdbtnOneway.setFont(new Font("Cambria", Font.BOLD, 15));
@@ -129,6 +152,34 @@ public class FlightsReservation
 		
 		// round
 		JRadioButton rdbtnRoundTrip = new JRadioButton("round trip");
+		rdbtnRoundTrip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {		
+				
+
+				lblReturning.setFont(new Font("Cambria", Font.BOLD, 20));
+				lblReturning.setBounds(10, 296, 99, 23);
+				lblReturning.setVisible(true);
+				frmFlightsReservation.getContentPane().add(lblReturning);
+				
+				ReturnDatePanel.setBounds(150, 296, 114, 30);
+				frmFlightsReservation.getContentPane().add(ReturnDatePanel);
+								
+				ReturnDatePanel.setLayout(null);
+		
+				ReturnDate1.setBounds(0, 0, 114, 30);
+				dateChooser2.register(ReturnDate1);
+				ReturnDatePanel.add(ReturnDate1);
+				ReturnDatePanel.setVisible(true);
+				ReturnDatePanel.validate();
+				ReturnDatePanel.repaint();
+				lblNewLabel.setIcon(new ImageIcon(FlightsReservation.class.getResource("/images/aeroplane.jpg")));
+				lblNewLabel.setBounds(0, 0, 644, 407);
+				frmFlightsReservation.getContentPane().add(lblNewLabel);
+				frmFlightsReservation.getContentPane().validate();
+				frmFlightsReservation.getContentPane().repaint();
+
+			}
+		});
 		rdbtnRoundTrip.setFont(new Font("Cambria", Font.BOLD, 15));
 		buttonGroup.add(rdbtnRoundTrip);
 		rdbtnRoundTrip.setBounds(127, 18, 99, 23);
@@ -197,7 +248,7 @@ public class FlightsReservation
 		frmFlightsReservation.getContentPane().add(lblDeparting);
 		
 		JPanel DepartDatePanel = new JPanel();
-		DepartDatePanel.setBounds(150, 243, 117, 30);
+		DepartDatePanel.setBounds(150, 232, 117, 30);
 		frmFlightsReservation.getContentPane().add(DepartDatePanel);
 		
 		DateChooser dateChooser1 = DateChooser.getInstance("yyyy-MM-dd");
@@ -207,14 +258,14 @@ public class FlightsReservation
 		dateChooser1.register(DepartDate1);
 		DepartDatePanel.add(DepartDate1);
 		DepartDatePanel.setVisible(true);
-		
+		/*
 		JLabel lblReturning = new JLabel("Returning");
 		lblReturning.setFont(new Font("Cambria", Font.BOLD, 20));
 		lblReturning.setBounds(10, 296, 99, 23);
 		frmFlightsReservation.getContentPane().add(lblReturning);
 		
 		JPanel ReturnDatePanel = new JPanel();
-		ReturnDatePanel.setBounds(150, 299, 114, 30);
+		ReturnDatePanel.setBounds(150, 296, 114, 30);
 		frmFlightsReservation.getContentPane().add(ReturnDatePanel);
 		ReturnDatePanel.setLayout(null);
 		
@@ -225,10 +276,10 @@ public class FlightsReservation
 		dateChooser2.register(ReturnDate1);
 		ReturnDatePanel.add(ReturnDate1);
 		ReturnDatePanel.setVisible(true);
-		
+		*/
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("Cambria", Font.BOLD, 14));
-		textArea.setBounds(392, 192, 252, 215);
+		textArea.setBounds(392, 212, 252, 195);
 		frmFlightsReservation.getContentPane().add(textArea);
 		
 		JButton btnSearch = new JButton("search");
@@ -243,7 +294,6 @@ public class FlightsReservation
 				String a = (String) departair.getSelectedItem();	
 				String b = (String) arriveair.getSelectedItem();
 				String c = dateChooser1.getStrDate();
-				String d = dateChooser2.getStrDate();
 				boolean e = rdbtnOneway.isSelected();
 				boolean f = rdbtnRoundTrip.isSelected();
 				boolean g = rdbtnEconomy.isSelected();
@@ -257,9 +307,6 @@ public class FlightsReservation
 				year1 = new getselectdate().mydate(c)[0];
 				month1 = new getselectdate().mydate(c)[1];
 				day1 = new getselectdate().mydate(c)[2];
-				year2 = new getselectdate().mydate(d)[0];
-				month2 = new getselectdate().mydate(d)[1];
-				day2 = new getselectdate().mydate(d)[2];
 				
 				if (a.equals(b) == true)	//cannot select same airport
 					{
@@ -292,6 +339,11 @@ public class FlightsReservation
 						} 
 						else // round trip
 						{
+							String d = dateChooser2.getStrDate();
+							year2 = new getselectdate().mydate(d)[0];
+							month2 = new getselectdate().mydate(d)[1];
+							day2 = new getselectdate().mydate(d)[2];
+							
 							String month22 = getselectdate.strmydate(d)[1];
 							month22 = (month22.length()==1?"0":"") + month22;
 							String day22 = getselectdate.strmydate(d)[2];
@@ -320,9 +372,10 @@ public class FlightsReservation
 			
 		});
 		
-		JLabel lblNewLabel = new JLabel("New label");		//background picture
+		//JLabel lblNewLabel = new JLabel("New label");		//background picture
 		lblNewLabel.setIcon(new ImageIcon(FlightsReservation.class.getResource("/images/aeroplane.jpg")));
 		lblNewLabel.setBounds(0, 0, 644, 407);
 		frmFlightsReservation.getContentPane().add(lblNewLabel);
+		
 	}
 }

@@ -114,6 +114,7 @@ public class secondwindow
 		
 		
 		JRadioButton rdbtnAll = new JRadioButton("all");
+		rdbtnAll.setSelected(true);
 		rdbtnAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TripPlanner.triphop1.clear();
@@ -298,14 +299,14 @@ public class secondwindow
 					{
 						reserve = (Trip)list.getSelectedValue();
 						
-						/*if(ValidationController.ConfirmTrip(reserve)==true)
+						if(ValidationController.Instance().ConfirmTrip(reserve)==true)
 						{
 						JOptionPane.showMessageDialog(null,
 								"book successfully" + "\n" + reserve.GetFlightSequence() + "\n" + reserve.toString()+ "\n");
 						}
 						else{
 							JOptionPane.showMessageDialog(null, "book fail");
-						}*/
+						}
 					}
 				} else if (response == 1)
 				{

@@ -1,5 +1,7 @@
 package windowbuilder1;
 import Controller.Trip;
+import Controller.Trips;
+import Controller.ValidationController;
 import TripPlanner.TripPlanner;
 
 import java.awt.Component;
@@ -24,8 +26,9 @@ public class thirdwindow
 	public JFrame frmRoundtrip;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	
-	public Trip reserve1;
-	public Trip reserve2;
+	public static Trip reserve1;
+	public static Trip reserve2;
+	public static Trip reserve3;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
 	
 	private class MyListCellRenderer extends DefaultListCellRenderer {
@@ -122,6 +125,7 @@ public class thirdwindow
 		
 		//filter
 		JRadioButton rdbtnAll = new JRadioButton("all");
+		rdbtnAll.setSelected(true);
 		rdbtnAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TripPlanner.triphop1.clear();
@@ -365,21 +369,20 @@ public class thirdwindow
 					{
 						reserve1 = (Trip)list.getSelectedValue();
 						reserve2 = (Trip)list2.getSelectedValue();
-						//
-						/*
-						 * else { JOptionPane.showMessageDialog(null,
-						 * "book fail, please try again");
-						 * frmFlightsResults.dispose(); }
-						 */
+						reserve3 = Trips.MergeTrips(reserve1, reserve2);
+						if(ValidationController.Instance().ConfirmTrip(reserve3)==true)
+						{
 						JOptionPane.showMessageDialog(null,
-								"book successfully" + "\n" + reserve1.GetFlightSequence() + "\n"
-										+ reserve1.toString() + "\n" + reserve2.GetFlightSequence() + "\n"
-										+ reserve2.toString() + "\n");
-						
+								"book successfully" + "\n" + reserve1.GetFlightSequence() + "\n" + reserve1.toString()+ "\n" +
+										reserve2.GetFlightSequence() + "\n" + reserve2.toString()+ "\n");
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "book fail");
+						}
 					}
 				} else if (response == 1)
 				{
-					JOptionPane.showMessageDialog(null, "book fail");
+					JOptionPane.showMessageDialog(null, "cancelled");
 				}
 			}
 		});
