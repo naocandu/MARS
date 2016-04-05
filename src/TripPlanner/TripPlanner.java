@@ -360,7 +360,15 @@ if (opt == 1) {
 	}
 	
 	public static void main(String[] args) {
-		SearchFlights2(false);
+		//SearchFlights2(false);
 		//SearchFlights(true);
+		try
+		{
+			FlightsReservation window = new FlightsReservation();
+			window.frmFlightsReservation.setVisible(true);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
