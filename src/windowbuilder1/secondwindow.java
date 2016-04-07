@@ -113,6 +113,7 @@ public class secondwindow
 		// define the list of results.
 		JList<Trip> list = new JList<Trip>();
 		DefaultListModel model = new DefaultListModel();
+		TripPlanner.triphop1.clear();
 		for (int i = 0; i < TripPlanner.trip1.size(); i++)
 			TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
 		// results are sorted by price in default mode.
@@ -348,6 +349,7 @@ public class secondwindow
 							{
 							}
 							frmFlightsResults.dispose();
+							
 							
 						}
 						// if wait time is within 5 seconds.

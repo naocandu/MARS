@@ -109,6 +109,7 @@ public class thirdwindow
 		// define depart trip list, sorted by price.
 		JList<Trip> list = new JList<Trip>();
 		DefaultListModel model = new DefaultListModel();
+		TripPlanner.triphop1.clear();
 		for (int i = 0; i < TripPlanner.trip1.size(); i++)
 			TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
 		TripPlanner.SortBy(1, TripPlanner.triphop1);
@@ -129,6 +130,7 @@ public class thirdwindow
 		// define return list, sorted by price
 		JList<Trip> list2 = new JList<Trip>();
 		DefaultListModel model2 = new DefaultListModel();
+		TripPlanner.triphop2.clear();
 		for (int i = 0; i < TripPlanner.trip2.size(); i++)
 			TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
 		TripPlanner.SortBy(1, TripPlanner.triphop2);

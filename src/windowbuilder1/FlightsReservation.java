@@ -365,6 +365,7 @@ public class FlightsReservation
 						// if it is round trip
 						else
 						{
+							triptype = f1; 
 							String d = dateChooser2.getStrDate();
 							year2 = new getselectdate().mydate(d)[0];
 							month2 = new getselectdate().mydate(d)[1];

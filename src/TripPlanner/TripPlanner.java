@@ -108,6 +108,7 @@ public class TripPlanner {
 		{
 			e2.printStackTrace();
 		}
+		trip1.clear();
 		for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 		try
 		{
@@ -116,6 +117,7 @@ public class TripPlanner {
 		{
 			e3.printStackTrace();
 		}
+		trip2.clear();
 		for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
 		try
 		{
@@ -135,6 +137,7 @@ public class TripPlanner {
 			{
 				e2.printStackTrace();
 			}
+			trip1.clear();
 			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 			try
 			{
@@ -143,6 +146,7 @@ public class TripPlanner {
 			{
 				e3.printStackTrace();
 			}
+			trip2.clear();
 			for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
 			try
 			{
@@ -173,6 +177,7 @@ public class TripPlanner {
 		try
 		{
 			trip = Trips.LinkFlights(departure, arrival, departureDate, true);
+			trip1.clear();
 			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 			
 		} catch (Exception e1)
@@ -193,6 +198,7 @@ public class TripPlanner {
 			try
 			{
 				trip = Trips.LinkFlights(departure, arrival, departureDate, false);
+				trip1.clear();
 				for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 				
 				
