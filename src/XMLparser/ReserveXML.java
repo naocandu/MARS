@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ReserveXML {
 	
-	public static String ReserveXML(List<String> trip){
+	public static String MakeXML(List<String> trip){
 		String components="";
 		String seating = null;
 		String flightNumber;
@@ -29,7 +29,7 @@ public class ReserveXML {
 		a.add("F123");
 		a.add("E23");
 		a.add("E458");
-		System.out.println(ReserveXML(a));
+		System.out.println(MakeXML(a));
 
 	}
 

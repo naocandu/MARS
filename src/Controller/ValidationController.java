@@ -333,7 +333,7 @@ public class ValidationController {
 		
 		if (this.verbose > 1)
 			System.out.println("\nGenerating XML...");
-		String xml = ReserveXML.ReserveXML(f_sequence);
+		String xml = ReserveXML.MakeXML(f_sequence);
 		if (this.verbose > 1)
 			System.out.println(xml);
 		
