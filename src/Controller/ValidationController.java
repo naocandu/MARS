@@ -23,6 +23,17 @@ public class ValidationController {
 	private int max_hops = ValidationConstants.MAX_HOPS;
 	public int verbose = 0;
 	
+	private String last_error = "NULL";
+	
+	public String GetLastErrorMessage()
+	{
+		return last_error;
+	}
+	
+	public String GetCodeMessage(int code)
+	{
+		return ValidationConstants.RESPONSE_MESSAGE.getOrDefault(code, "Unknown Response");
+	}
 	
 	private void SetDefaultsFromConstants()
 	{
@@ -126,17 +137,62 @@ public class ValidationController {
 		}
 	}
 	
-	public List<?> GetAirportList()
+	private boolean PopulateAirports()
 	{
-		List<?> airports = null;
-		try {
-			airports = parseAirports.getCode();
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (parseAirports.xml == null)
+		{
+			String xml = ServerInterface.QueryAirports();
+			int response = ServerInterface.ParseResponseCode(xml);
+			if (response != 200)
+			{
+				xml = "";
+				System.out.println("Server returned " + response + ": " + GetCodeMessage(response));
+				return false;
+			}
+			
+			parseAirports.xml = xml;
 		}
 		
-		return airports;
+		return true;
+	}
+	
+	public List<?> GetAirportList()
+	{
+		if (!PopulateAirports())
+			return new ArrayList();
+		
+		try {
+			return parseAirports.getCode();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return new ArrayList();
+		}
+	}
+	
+	public List<String> getAirportsNames()
+	{
+		if (!PopulateAirports())
+			return new ArrayList<String>();
+		
+		try {
+			return parseAirports.getName();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
+	}
+	
+	public List<String> GetAirportInfo()
+	{
+		if (!PopulateAirports())
+			return new ArrayList<String>();
+		
+		try {
+			return parseAirports.getInfo();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return new ArrayList<String>();
+		}
 	}
 	
 	public void PopulateAirplanes()
@@ -339,11 +395,14 @@ public class ValidationController {
 		
 		if (this.verbose > 1)
 			System.out.println("\nSending to Server...");
-		boolean result = ServerInterface.ReserveFlights(xml);
+		int result = ServerInterface.ReserveFlights(xml);
 		if (this.verbose > 0)
-			System.out.println("Server returned " + (result?"Success":"Failure"));
+			System.out.println("Server returned " + result + ": " + GetCodeMessage(result));
 		
-		return result;
+		if (result != 200)
+			last_error = GetCodeMessage(result);
+		
+		return result == 200;
 	}
 	
 	public static void main(String[] args) throws IOException {

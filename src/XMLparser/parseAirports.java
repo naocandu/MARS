@@ -22,7 +22,7 @@ import org.dom4j.Element;
 
 
 public class parseAirports {
-	static String xml=ServerInterface.QueryAirports();
+	public static String xml = null;
 	static Document document;
 	static Map<String, List<Comparable>> airport_collection = new HashMap();
 

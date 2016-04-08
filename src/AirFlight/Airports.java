@@ -100,13 +100,13 @@ public class Airports {
 	
 	public static String[] getAirportName() throws DocumentException{
 		
-		List<String> a = parseAirports.getName();
+		List<String> a = ValidationController.Instance().getAirportsNames();
 		String[] b = a.toArray(new String[a.size()]);
 		return  b;
 	}
 	
 	public static String[] getAirportInfo() throws DocumentException{
-		List<String> a = parseAirports.getInfo();
+		List<String> a = ValidationController.Instance().GetAirportInfo();
 		String[] b = a.toArray(new String[a.size()]);
 		return  b;
 	}

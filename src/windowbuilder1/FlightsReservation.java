@@ -8,6 +8,8 @@ package windowbuilder1;
 
 import TripPlanner.TripPlanner;
 import AirFlight.Airports;
+import Controller.ValidationController;
+
 import org.dom4j.DocumentException;
 import javax.swing.JFrame;
 import javax.swing.JButton;

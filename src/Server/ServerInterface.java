@@ -81,11 +81,14 @@ public class ServerInterface {
 				}
 				reader.close();
 			}
+			else
+			{
+				return "ERROR - " + responseCode;
+			}
 			connection.disconnect();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+			return "ERROR - 503";
 		}
 
 		return result.toString();
@@ -98,7 +101,7 @@ public class ServerInterface {
 	 * @param action list of arguments for the post command
 	 * @return
 	 */
-	private static boolean UpdateDatabase(String action)
+	private static String UpdateDatabase(String action)
 	{
 		URL url;
 		HttpURLConnection connection;
@@ -135,9 +138,25 @@ public class ServerInterface {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-			return false;
+			return "ERROR - 503";
 		}
-		return (responseCode > 200 && responseCode <= 299);
+		
+		if (responseCode >= 200 && responseCode <= 299)
+			return "SUCCESS - 200";
+		else
+			return "ERROR - " + responseCode;
+	}
+	
+	public static int ParseResponseCode(String response)
+	{
+		if (!response.startsWith("ERROR"))
+			return 200;
+		
+		String[] parsed = response.split("-");
+		if (parsed.length != 2)
+			return 500;
+		
+		return Integer.parseInt(parsed[1].trim());
 	}
 	
 	/**
@@ -145,9 +164,10 @@ public class ServerInterface {
 	 * 
 	 * @return success or failure
 	 */
-	private static boolean Lock()
+	private static int Lock()
 	{
-		return UpdateDatabase(QueryBuilder.lock(team_name));
+		String response = UpdateDatabase(QueryBuilder.lock(team_name));
+		return ParseResponseCode(response);
 	}
 	
 	/**
@@ -155,9 +175,10 @@ public class ServerInterface {
 	 * 
 	 * @return success or failure
 	 */
-	private static boolean Unlock()
+	private static int Unlock()
 	{
-		return UpdateDatabase(QueryBuilder.unlock(team_name));
+		String response = UpdateDatabase(QueryBuilder.unlock(team_name));
+		return ParseResponseCode(response);
 	}
 	
 	/**
@@ -241,13 +262,9 @@ public class ServerInterface {
 	 * 
 	 * @return the success or failure of the action
 	 */
-	public static boolean ResetDB()
+	public static int ResetDB()
 	{
-		//Lock();
-		QueryDatabase(res_system_url, QueryBuilder.GetResetQuery(team_name));
-		//Unlock();
-		
-		return true;
+		return ParseResponseCode(QueryDatabase(res_system_url, QueryBuilder.GetResetQuery(team_name)));
 	}
 	
 	/**
@@ -257,12 +274,13 @@ public class ServerInterface {
 	 * @param xmlFlights the xlm string of the flights and seating to purchase
 	 * @return the success or failure of the POST
 	 */
-	public static boolean ReserveFlights(String xmlFlights)
+	public static int ReserveFlights(String xmlFlights)
 	{
-		if (!Lock())
-			return false;
+		int response = Lock();
+		if (response != 200)
+			return response;
 		
-		boolean response = UpdateDatabase(QueryBuilder.GetReserveAction(team_name, xmlFlights));
+		response = ParseResponseCode(UpdateDatabase(QueryBuilder.GetReserveAction(team_name, xmlFlights)));
 		Unlock();
 		
 		return response;
