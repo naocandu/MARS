@@ -452,7 +452,7 @@ public class thirdwindow
 												+ reserve2.toString() + "\n");
 							} else
 							{
-								JOptionPane.showMessageDialog(null, "book fail");
+								JOptionPane.showMessageDialog(null, "book fail \n" + ValidationController.Instance().GetLastErrorMessage());
 							}
 						}
 					} else if (response == 1)

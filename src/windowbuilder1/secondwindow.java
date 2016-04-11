@@ -366,7 +366,7 @@ public class secondwindow
 							} else
 							{
 								// if fail, show message
-								JOptionPane.showMessageDialog(null, "book fail");
+								JOptionPane.showMessageDialog(null, "book fail \n"+ ValidationController.Instance().GetLastErrorMessage());
 							}
 						}
 					}
