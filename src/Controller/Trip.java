@@ -158,7 +158,7 @@ public class Trip {
 		
 		trip.add(flight);
 		num_hops++;
-		totalPrice.Add(flight.Price_EC);
+		totalPrice.Add((seating.get(seating.size()-1).compareTo("E") == 0?flight.Price_EC:flight.Price_FC));
 		return true;
 	}
 	
