@@ -17,8 +17,8 @@ public class parseFlights{
 	static Document document;
 	static List flightInfo = new ArrayList();
 	
-	public static List getFlights(String airport_code,String departure_date,boolean depart) throws DocumentException{
-		String xml = ServerInterface.QueryFlights(airport_code, departure_date, depart);
+	public static List getFlights(String xml) throws DocumentException{
+		//String xml = ServerInterface.QueryFlights(airport_code, departure_date, depart);
 		document = DocumentHelper.parseText(xml);
 		Element flightRoot = document.getRootElement();
 		for (Iterator flightIter = flightRoot.elementIterator(); flightIter.hasNext();){
@@ -72,13 +72,13 @@ public class parseFlights{
 
 	public static void main(String[] args){
 		// TODO Auto-generated method stub
-		try {
+		/*try {
 			parseFlights parseFlight = new parseFlights();
 			System.out.println(parseFlights.getFlights("BOS", "2016_05_10", true));
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 

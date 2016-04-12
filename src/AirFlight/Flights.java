@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.dom4j.DocumentException;
 
+import Controller.ValidationController;
 import XMLparser.parseFlights;
 import Utility.DateTime;
 
@@ -15,16 +16,10 @@ public class Flights {
 	//private static List<Flights> found_flights = new ArrayList<Flights>;
 	public static Flights GetFlightsFromAirport(String airport_code, DateTime date)
 	{
-			if (airport_code.length() != 3)
-				return null;
-						
-			try {
-				return Airports.GetAirport(airport_code).GetDepartureFlights(date);
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		return null;
+		if (airport_code.length() != 3)
+			return null;
+					
+		return Airports.GetAirport(airport_code).GetDepartureFlights(date);
 	}
 	
 	public Flights(String airport_code, DateTime date)
@@ -34,25 +29,14 @@ public class Flights {
 		
 		DateTime nextday = DateTime.NextDay(date);
 		
-		
-		try {
-			raw_departure = parseFlights.getFlights(airport_code, date.getDateString(), true);
-			raw_departure_ND = parseFlights.getFlights(airport_code, nextday.getDateString(), true);
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		}
-		
-		/*
-		 * String Airplane_Model, int Flightnumber, String Departure_Airport,
-		 * String DepartureTime, String Arrival_Airport, String ArrivalTime, int Seats_FC, 
-		 * int Seats_EC, String Price_FC, String Price_EC
-		*/
+		raw_departure = ValidationController.Instance().getFlights(airport_code, date.getDateString(), true);
+		raw_departure_ND = ValidationController.Instance().getFlights(airport_code, nextday.getDateString(), true);
+
 		if (raw_departure == null)
 			return;
 		
 		departing = new ArrayList<Flight>();
 		
-		//long start = System.currentTimeMillis();
 		for (int i = 0;i < raw_departure.size();i++)
 		{
 			if (raw_departure.get(i) == null)
@@ -70,23 +54,19 @@ public class Flights {
 			if (dep_code.compareTo(airport_code) != 0)
 				continue;
 			
-			//synchronized (Flights.class)
-			//{
-				departing.add(new Flight((String)raw_departure.get(i).get("AirplaneModel"),
-						(int)raw_departure.get(i).get("Flightnumber"),
-						(String)dep.get(0),
-						(String)dep.get(1),
-						(String)avl.get(0),
-						(String)avl.get(1),
-						(int)fc.get(1),
-						(int)ec.get(1),
-						(String)fc.get(0),
-						(String)ec.get(0)));
-			//}
-			
+			departing.add(new Flight((String)raw_departure.get(i).get("AirplaneModel"),
+					(int)raw_departure.get(i).get("Flightnumber"),
+					(String)dep.get(0),
+					(String)dep.get(1),
+					(String)avl.get(0),
+					(String)avl.get(1),
+					(int)fc.get(1),
+					(int)ec.get(1),
+					(String)fc.get(0),
+					(String)ec.get(0)));
+
 		}
-		//System.out.println(System.currentTimeMillis()-start);
-		
+
 		for (int i = 0;i < raw_departure_ND.size();i++)
 		{
 			if (raw_departure.get(i) == null)
@@ -104,26 +84,25 @@ public class Flights {
 			if (dep_code.compareTo(airport_code) != 0)
 				continue;
 			
-			//synchronized (Flights.class)
-			//{
-				departing.add(new Flight((String)raw_departure_ND.get(i).get("AirplaneModel"),
-						(int)raw_departure_ND.get(i).get("Flightnumber"),
-						(String)dep.get(0),
-						(String)dep.get(1),
-						(String)avl.get(0),
-						(String)avl.get(1),
-						(int)fc.get(1),
-						(int)ec.get(1),
-						(String)fc.get(0),
-						(String)ec.get(0)));
-			//}
+
+			departing.add(new Flight((String)raw_departure_ND.get(i).get("AirplaneModel"),
+					(int)raw_departure_ND.get(i).get("Flightnumber"),
+					(String)dep.get(0),
+					(String)dep.get(1),
+					(String)avl.get(0),
+					(String)avl.get(1),
+					(int)fc.get(1),
+					(int)ec.get(1),
+					(String)fc.get(0),
+					(String)ec.get(0)));
+
 		}
 		
 	}
 			
-	public static List getFlights(String airport_code, 
-			String departure_date, boolean depart) throws DocumentException{
-		return parseFlights.getFlights(airport_code, departure_date, depart);
+	public static List getFlights(String airport_code, String departure_date, boolean depart)
+	{
+		return ValidationController.Instance().getFlights(airport_code, departure_date, depart);
 	}
 
 	public static void main(String[] args) throws DocumentException {

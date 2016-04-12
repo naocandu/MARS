@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.dom4j.DocumentException;
 
+import Controller.ValidationController;
 import XMLparser.parseAirplanes;;
 
 public class Airplane {
@@ -24,20 +25,14 @@ public class Airplane {
 				return airplanes.get(i);
 		}
 		
-		List raw_airplane = null;
-		try {
-			raw_airplane = parseAirplanes.getAirplane(model);
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-			airplanes.add(new Airplane(
-					(String)raw_airplane.get(0),
-					(String)raw_airplane.get(1),
-					(int)raw_airplane.get(2),
-					(int)raw_airplane.get(3)));
-			return airplanes.get(airplanes.size()-1);
+		List raw_airplane = ValidationController.Instance().GetAirplaneList();
+
+		airplanes.add(new Airplane(
+				(String)raw_airplane.get(0),
+				(String)raw_airplane.get(1),
+				(int)raw_airplane.get(2),
+				(int)raw_airplane.get(3)));
+		return airplanes.get(airplanes.size()-1);
 		
 	}
 	

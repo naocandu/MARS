@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.dom4j.DocumentException;
 
@@ -32,7 +33,10 @@ public class ValidationController {
 	
 	public String GetCodeMessage(int code)
 	{
-		return ValidationConstants.RESPONSE_MESSAGE.getOrDefault(code, "Unknown Response");
+		String msg = ValidationConstants.RESPONSE_MESSAGE.getOrDefault(code, "Unknown Response");
+		if (code != 200)
+			last_error = msg;
+		return msg;
 	}
 	
 	private void SetDefaultsFromConstants()
@@ -139,18 +143,21 @@ public class ValidationController {
 	
 	private boolean PopulateAirports()
 	{
-		if (parseAirports.xml == null)
+		synchronized (ValidationController.class)
 		{
-			String xml = ServerInterface.QueryAirports();
-			int response = ServerInterface.ParseResponseCode(xml);
-			if (response != 200)
+			if (parseAirports.xml == null)
 			{
-				xml = "";
-				System.out.println("Server returned " + response + ": " + GetCodeMessage(response));
-				return false;
+				String xml = ServerInterface.QueryAirports();
+				int response = ServerInterface.ParseResponseCode(xml);
+				if (response != 200)
+				{
+					xml = "";
+					System.out.println("Server returned " + response + ": " + GetCodeMessage(response));
+					return false;
+				}
+				
+				parseAirports.xml = xml;
 			}
-			
-			parseAirports.xml = xml;
 		}
 		
 		return true;
@@ -195,13 +202,23 @@ public class ValidationController {
 		}
 	}
 	
-	public void PopulateAirplanes()
+	public boolean PopulateAirplanes()
 	{
 		synchronized (ValidationController.class)
 		{
 			String xml = ServerInterface.QueryAirplanes();
 			parseAirplanes.xml = xml;
+			
+			int response = ServerInterface.ParseResponseCode(xml);
+			if (response != 200)
+			{
+				xml = "";
+				System.out.println("Server returned " + response + ": " + GetCodeMessage(response));
+				return false;
+			}
 		}
+		
+		return true;
 	}
 	
 	public Airplane GetAirplane(String model)
@@ -267,6 +284,39 @@ public class ValidationController {
 			}
 	        
 			return a;
+		}
+	}
+	
+	public List<?> GetAirplaneList()
+	{
+		if (!PopulateAirplanes())
+			return new ArrayList();
+		
+		try {
+			return parseAirports.getCode();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return new ArrayList();
+		}
+	}
+	
+	public List<Map> getFlights(String airport_code,String departure_date,boolean departure)
+	{
+		String xml = ServerInterface.QueryFlights(airport_code, departure_date, departure);
+		
+		int response = ServerInterface.ParseResponseCode(xml);
+		if (response != 200)
+		{
+			xml = "";
+			System.out.println("Server returned " + response + ": " + GetCodeMessage(response));
+			return new ArrayList<Map>();
+		}
+		
+		try {
+			return parseFlights.getFlights(xml);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+			return new ArrayList<Map>();
 		}
 	}
 	
@@ -370,6 +420,21 @@ public class ValidationController {
 			
 			return ParseTime.timeOffset(xml).intValue();
 		}
+	}
+	
+	public void ReportError(int code)
+	{
+		if (code != 200)
+			last_error = GetCodeMessage(code);
+	}
+	
+	public void RefreshAll()
+	{
+		parseAirplanes.xml = null;
+		parseAirports.xml = null;
+		
+		this.PopulateAirplanes();
+		this.PopulateAirports();
 	}
 	
 	public boolean ConfirmTrip(Trip trip)

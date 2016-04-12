@@ -29,7 +29,7 @@ public class Flight {
 	
 	public static Map getFlight(int number, String airport_code,
 			String departure_date,boolean depart) throws DocumentException{
-		List Flights= parseFlights.getFlights(airport_code, departure_date, depart);
+		List Flights= ValidationController.Instance().getFlights(airport_code, departure_date, depart);
 		for (Iterator itr=Flights.iterator(); itr.hasNext();){
 			Map Flight = (Map) itr.next();
 			if (Flight.get("Flightnumber").equals(number)){

@@ -50,7 +50,7 @@ public class Airports {
 		airportsList.clear();
 	}
 	
-	public static Airport GetAirport(String Code) throws DocumentException
+	public static Airport GetAirport(String Code)
 	{
 		if (AirportList.size() == 0)
 			getAirportList();

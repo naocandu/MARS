@@ -87,7 +87,7 @@ public class ServerInterface {
 			}
 			connection.disconnect();
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return "ERROR - 503";
 		}
 

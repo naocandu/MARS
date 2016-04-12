@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import AirFlight.*;
+import Server.ServerConstants;
 import Server.ServerInterface;
 import Utility.*;
 import java.util.List;
@@ -38,6 +39,13 @@ public class Trips {
 		
 		Airports.PreloadAirports(date);
 		
+		
+		try {
+			Thread.sleep(75);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//long start = System.currentTimeMillis();
 		
 		if (trip == null)
@@ -201,9 +209,8 @@ public class Trips {
 		}
 		if (trip.size() == 0)
 		{
-			System.out.println("Possible Error: Search Found No Flights - Searching Again...");
-			Airports.Clear();
-			return Trips.LinkFlights(departure, arrival, localDate, firstClass);
+			System.out.println("Possible Error: Search Found No Flights");
+			ValidationController.Instance().ReportError(400);
 		}
 		return trip;
 	}
