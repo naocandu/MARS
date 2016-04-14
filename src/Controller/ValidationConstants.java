@@ -36,6 +36,7 @@ public class ValidationConstants {
 		RESPONSE_MESSAGE.put(408, "Request Timeout");
 		RESPONSE_MESSAGE.put(409, "Conflict");
 		RESPONSE_MESSAGE.put(421, "Misdirected Request");
+		RESPONSE_MESSAGE.put(600, "Internal Error");
 		RESPONSE_MESSAGE.put(500, "Internal Server Error");
 		RESPONSE_MESSAGE.put(502, "Bad Gateway");
 		RESPONSE_MESSAGE.put(503, "Service Unavailable");

@@ -346,9 +346,10 @@ public class DateTime {
 	
 	public int GetLocalTimeinMinutes()
 	{
-		int h = localDateTime.get(Calendar.HOUR_OF_DAY);
-		int m = localDateTime.get(Calendar.MINUTE);
-		return (h*60) + m;
+		return (int)((localDateTime.getTimeInMillis()/1000.0)/60.0);
+		//int h = localDateTime.get(Calendar.HOUR_OF_DAY);
+		//int m = localDateTime.get(Calendar.MINUTE);
+		//return (h*60) + m;
 	}
 	
 	public String getLocalFullDateString()

@@ -29,6 +29,35 @@ public class Preloader implements Runnable {
 		pool.clear();
 	}
 	
+	public static boolean Exists(String threadName)
+	{
+		for (int i = 0;i < pool.size();i++)
+		{
+			if (pool.get(i).getName().compareTo(threadName)==0 && pool.get(i).isAlive())
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static void WaitforThread(String threadName)
+	{
+		for (int i = 0;i < pool.size();i++)
+		{
+			if (pool.get(i).getName().compareTo(threadName)==0 && pool.get(i).isAlive())
+			{
+				try {
+					pool.get(i).join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				return;
+			}
+		}
+	}
+	
 	public Preloader(String AirportCode, DateTime DepartureDate)
 	{
 		this.AirportCode = AirportCode;

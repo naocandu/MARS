@@ -37,6 +37,11 @@ public class ServerInterface {
 	public static int FlightCalls = 0;
 	public static int TimezoneCalls = 0;
 	
+	public static int TestDatabaseConnection()
+	{
+		return ParseResponseCode(QueryAirports());
+	}
+	
 	/**
 	 * Handles a generic HTTP GET to a specified url with arguments defined
 	 * by query

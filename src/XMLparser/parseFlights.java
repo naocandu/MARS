@@ -15,9 +15,10 @@ import org.dom4j.Element;
 
 public class parseFlights{
 	static Document document;
-	static List flightInfo = new ArrayList();
+
 	
 	public static List getFlights(String xml) throws DocumentException{
+		List flightInfo = new ArrayList();
 		//String xml = ServerInterface.QueryFlights(airport_code, departure_date, depart);
 		document = DocumentHelper.parseText(xml);
 		Element flightRoot = document.getRootElement();

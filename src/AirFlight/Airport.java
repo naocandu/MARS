@@ -24,7 +24,7 @@ public class Airport {
 		return parseAirports.readXML().get(code);
 	}
 	
-	public Flights GetDepartureFlights(DateTime Date)
+	private Flights GetDepartureFlights_Unsafe(DateTime Date)
 	{
 		if (outbound == null || outboundDate.compareTo(Date.getDateString())!= 0)
 		{
@@ -41,6 +41,38 @@ public class Airport {
 		}
 		
 		return outbound;
+	}
+	
+	private Flights GetDepartureFlights_Safe(DateTime Date)
+	{
+		if (outbound == null || outboundDate.compareTo(Date.getDateString())!= 0)
+		{
+			synchronized(Airport.class)
+			{
+				if (outbound == null || outboundDate.compareTo(Date.getDateString())!= 0)
+				{
+					outbound = new Flights(Code, Date);
+					
+					if (outbound.departing == null)
+					{
+						outbound = null;
+						return outbound;
+					}
+					
+					outboundDate = Date.getDateString();
+				}
+			}
+		}
+		
+		return outbound;
+	}
+	
+	public Flights GetDepartureFlights(DateTime Date)
+	{
+		if (ValidationController.Instance().isSafe())
+			return GetDepartureFlights_Safe(Date);
+		
+		return GetDepartureFlights_Unsafe(Date);
 	}
 	
 	public void Clear()

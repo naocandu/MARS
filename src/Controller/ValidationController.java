@@ -11,6 +11,7 @@ import java.util.Map;
 import org.dom4j.DocumentException;
 
 import AirFlight.Airplane;
+import AirFlight.Airports;
 import Server.ServerInterface;
 import Utility.DateTime;
 import Server.ServerConstants;
@@ -25,17 +26,38 @@ public class ValidationController {
 	public int verbose = 0;
 	
 	private String last_error = "NULL";
+	private int last_error_code = 0;
+	
+	private boolean safemode = false;
 	
 	public String GetLastErrorMessage()
 	{
 		return last_error;
 	}
 	
+	public int GetLastErrorCode()
+	{
+		return last_error_code;
+	}
+	
+	public boolean isSafe()
+	{
+		return safemode;
+	}
+	
+	public void SetSafety(boolean safe)
+	{
+		safemode = safe;
+	}
+	
 	public String GetCodeMessage(int code)
 	{
 		String msg = ValidationConstants.RESPONSE_MESSAGE.getOrDefault(code, "Unknown Response");
 		if (code != 200)
+		{
 			last_error = msg;
+			last_error_code = code;
+		}
 		return msg;
 	}
 	
@@ -425,16 +447,27 @@ public class ValidationController {
 	public void ReportError(int code)
 	{
 		if (code != 200)
+		{
 			last_error = GetCodeMessage(code);
+			last_error_code = code;
+			System.out.println("ERROR REPORTED: " + last_error);
+		}
+	}
+	
+	public static void Reset()
+	{
+		ServerInterface.ResetDB();
+		Airports.Clear();
+		parseAirplanes.xml = null;
+		parseAirports.xml = null;
+		instance = null;
 	}
 	
 	public void RefreshAll()
 	{
+		Airports.Clear();
 		parseAirplanes.xml = null;
 		parseAirports.xml = null;
-		
-		this.PopulateAirplanes();
-		this.PopulateAirports();
 	}
 	
 	public boolean ConfirmTrip(Trip trip)

@@ -14,6 +14,7 @@ import org.dom4j.DocumentException;
 public class Trips {
 	private static List<Trip> trip = null;
 	private static boolean preferred_seating = true;
+	private static boolean retry = true;
 	
 	public static int GetNumberofTrips()
 	{
@@ -41,7 +42,7 @@ public class Trips {
 		
 		
 		try {
-			Thread.sleep(75);
+			Thread.sleep(150);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,7 +85,7 @@ public class Trips {
 				
 				
 				//Flights f = new Flights(search.get(i),date);
-				
+				//Preloader.WaitforThread(search.get(i));
 				Flights f = Flights.GetFlightsFromAirport(search.get(i), date);
 				if (f == null)
 					continue;
@@ -181,7 +182,7 @@ public class Trips {
 			temp.clear();
 
 		}
-		
+		System.out.println("Potential: " + potential.size());
 		//System.out.println(date.getDateString());
 		for (int i = 0;i < potential.size();i++)
 		{
@@ -209,9 +210,19 @@ public class Trips {
 		}
 		if (trip.size() == 0)
 		{
-			System.out.println("Possible Error: Search Found No Flights");
-			ValidationController.Instance().ReportError(400);
+			if (ValidationController.Instance().GetLastErrorCode() == 600)
+			{
+				if (retry)
+				{
+					retry = false;
+					Preloader.WaitforAll();
+					ValidationController.Instance().RefreshAll();
+					ValidationController.Instance().SetSafety(true);
+					trip = LinkFlights(departure, arrival, localDate, firstClass);
+				}
+			}
 		}
+		retry = true;
 		return trip;
 	}
 	
@@ -223,40 +234,50 @@ public class Trips {
 	}
 	
 	public static void main(String[] args) {
-		DateTime d = new DateTime();
-		d.Set("2016 May 06 02:47 GMT","YYYY MMM DD hh:mm zzz");
-
-		DateTime d2 = new DateTime();
-		d2.Set("2016 May 06 01:47 GMT","YYYY MMM DD hh:mm zzz");
 		
-		
-		DateTime d3 = DateTime.TimeSpan(d2, d);
-
-		//System.out.println(d3.getFullDateString());
-		//System.out.println(d3.getDurationString());
-		//d.Set("2016-05-10", "YYYY-MM-DD");
-		long start = System.currentTimeMillis();
-		Trips.LinkFlights("BOS", "AUS", d.getDateString(), false);
-		long end = System.currentTimeMillis();
-		
-		
-		System.out.println("\n\n" + Trips.GetNumberofTrips() + " Flights Found in " + ((end-start)/1000.0) + " seconds\n");
-		if (Trips.GetNumberofTrips() != 0)
+		for (int t = 0;t < 1;t++)
 		{
-			System.out.println("Displaying " + (Trips.GetNumberofTrips()>10?"first 10 ":"all ") + "trips:");
-			for (int i = 0;i < (Trips.GetNumberofTrips()>10?10:Trips.GetNumberofTrips());i++)
-			{	
-				System.out.println(Trips.trip.get(i).GetAiportSequence());
-				System.out.println(Trips.trip.get(i).GetFlightSequence());
+			ValidationController.Reset();
+			DateTime d = new DateTime();
+			d.Set("2016 May 06 02:47 GMT","YYYY MMM DD hh:mm zzz");
+	
+			DateTime d2 = new DateTime();
+			d2.Set("2016 May 06 01:47 GMT","YYYY MMM DD hh:mm zzz");
 			
-				System.out.println(Trips.trip.get(i).toString());
-				System.out.println("\n");
+			
+			DateTime d3 = DateTime.TimeSpan(d2, d);
+	
+			//System.out.println(d3.getFullDateString());
+			//System.out.println(d3.getDurationString());
+			//d.Set("2016-05-10", "YYYY-MM-DD");
+			long start = System.currentTimeMillis();
+			Trips.LinkFlights("BOS", "AUS", d.getDateString(), false);
+			long end = System.currentTimeMillis();
+			
+			
+			System.out.println("\n\n" + Trips.GetNumberofTrips() + " Flights Found in " + ((end-start)/1000.0) + " seconds\n");
+			if (Trips.GetNumberofTrips() != 0)
+			{
+				System.out.println("Displaying " + (Trips.GetNumberofTrips()>10?"first 10 ":"all ") + "trips:");
+				for (int i = 0;i < (Trips.GetNumberofTrips()>10?10:Trips.GetNumberofTrips());i++)
+				{	
+					System.out.println(Trips.trip.get(i).GetAiportSequence());
+					System.out.println(Trips.trip.get(i).GetFlightSequence());
+				
+					System.out.println(Trips.trip.get(i).toString());
+					System.out.println("\n");
+				}
 			}
+			
+			System.out.println("Total Queries: " + ServerInterface.DataBaseCalls);
+			System.out.println("Airport Queries: " + ServerInterface.AirportCalls);
+			System.out.println("Flight Queries: " + ServerInterface.FlightCalls);
+			System.out.println("Timezone Queries: " + ServerInterface.TimezoneCalls);
+			
+			System.out.println(Trips.GetNumberofTrips() + " Flights Found in " + ((end-start)/1000.0) + " seconds\n");
+			System.out.println("\n");
+			if (Trips.GetNumberofTrips() == 0)
+				break;
 		}
-		
-		System.out.println("Total Queries: " + ServerInterface.DataBaseCalls);
-		System.out.println("Airport Queries: " + ServerInterface.AirportCalls);
-		System.out.println("Flight Queries: " + ServerInterface.FlightCalls);
-		System.out.println("Timezone Queries: " + ServerInterface.TimezoneCalls);
 	}
 }

@@ -18,8 +18,13 @@ public class Flights {
 	{
 		if (airport_code.length() != 3)
 			return null;
-					
-		return Airports.GetAirport(airport_code).GetDepartureFlights(date);
+		
+		Airport airport = Airports.GetAirport(airport_code);
+		
+		if (airport == null)
+			return null;
+		
+		return airport.GetDepartureFlights(date);
 	}
 	
 	public Flights(String airport_code, DateTime date)
@@ -33,7 +38,9 @@ public class Flights {
 		raw_departure_ND = ValidationController.Instance().getFlights(airport_code, nextday.getDateString(), true);
 
 		if (raw_departure == null)
+		{
 			return;
+		}
 		
 		departing = new ArrayList<Flight>();
 		
@@ -43,6 +50,7 @@ public class Flights {
 			{
 				departing.clear();
 				departing = null;
+				ValidationController.Instance().ReportError(600);
 				return;
 			}
 			ArrayList dep = (ArrayList)raw_departure.get(i).get("Departure");
@@ -69,7 +77,7 @@ public class Flights {
 
 		for (int i = 0;i < raw_departure_ND.size();i++)
 		{
-			if (raw_departure.get(i) == null)
+			if (raw_departure_ND.get(i) == null)
 			{
 				departing.clear();
 				departing = null;
