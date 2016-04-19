@@ -1,9 +1,6 @@
 package Controller;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,26 +27,47 @@ public class ValidationController {
 	
 	private boolean safemode = false;
 	
+	/**
+	 * gets the last error message reported to the controller
+	 * @return the error message string
+	 */
 	public String GetLastErrorMessage()
 	{
 		return last_error;
 	}
 	
+	/**
+	 * gets the last error code reported to the controller
+	 * @return the code of the last error message
+	 */
 	public int GetLastErrorCode()
 	{
 		return last_error_code;
 	}
 	
+	/**
+	 * gets whether or not the thread-safety option is on
+	 * @return true if in safemode, false otherwise
+	 */
 	public boolean isSafe()
 	{
 		return safemode;
 	}
 	
+	/**
+	 * sets the thread-safety option to either on or off
+	 * @param safe the true/false safety option
+	 */
 	public void SetSafety(boolean safe)
 	{
 		safemode = safe;
 	}
 	
+	/**
+	 * gets the message text for a corresponding response code
+	 * @param code
+	 * @return the string corresponding to the response code
+	 */
 	public String GetCodeMessage(int code)
 	{
 		String msg = ValidationConstants.RESPONSE_MESSAGE.getOrDefault(code, "Unknown Response");
@@ -61,6 +79,10 @@ public class ValidationController {
 		return msg;
 	}
 	
+	/**
+	 * Sets the system defaults from ValidationConstants rather than from file
+	 * @see ValidationConstants
+	 */
 	private void SetDefaultsFromConstants()
 	{
 		ServerInterface.SetTimeout(ServerConstants.TIMEOUT_MILLISECONDS);
@@ -73,6 +95,11 @@ public class ValidationController {
 		max_hops = ValidationConstants.MAX_HOPS;
 	}
 	
+	/**
+	 * Sets the system defaults from either the config file or from constants
+	 * @see ValidationConstants
+	 * @throws IOException
+	 */
 	private void SetDefaults() throws IOException
 	{
 		String line;
@@ -154,6 +181,9 @@ public class ValidationController {
         
 	}
 	
+	/**
+	 * private constructor for singleton initiation
+	 */
 	private ValidationController()
 	{
 		try {
@@ -163,6 +193,10 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * synchronized function to grab the airports xml from the database and pass to parseAirports
+	 * @see parseAirports
+	 */
 	private boolean PopulateAirports()
 	{
 		synchronized (ValidationController.class)
@@ -185,6 +219,10 @@ public class ValidationController {
 		return true;
 	}
 	
+	/**
+	 * gets the list of airports
+	 * @return a raw list of airports or an empty list if an error is found
+	 */
 	public List<?> GetAirportList()
 	{
 		if (!PopulateAirports())
@@ -198,6 +236,10 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * gets the list of airport names
+	 * @return a list of airport names as strings or an empty list if an error is found
+	 */
 	public List<String> getAirportsNames()
 	{
 		if (!PopulateAirports())
@@ -211,6 +253,10 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * gets a list of airports with further information
+	 * @return list of aiport info as a string or an empty list if an error is found
+	 */
 	public List<String> GetAirportInfo()
 	{
 		if (!PopulateAirports())
@@ -224,6 +270,10 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * synchronized function to grab airplane xml from the server and pass it to parseAirplanes
+	 * @return true if successful and false otherwise
+	 */
 	public boolean PopulateAirplanes()
 	{
 		synchronized (ValidationController.class)
@@ -243,6 +293,11 @@ public class ValidationController {
 		return true;
 	}
 	
+	/**
+	 * gets an airplane object given a model name
+	 * @param model
+	 * @return the airplane object with associated name, or null if not found
+	 */
 	public Airplane GetAirplane(String model)
 	{
 		synchronized (ValidationController.class)
@@ -262,7 +317,6 @@ public class ValidationController {
 						out.close();
 						out = null;
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -289,7 +343,6 @@ public class ValidationController {
 		        }
 		        in.close();
 	        } catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 	        
@@ -301,7 +354,6 @@ public class ValidationController {
 				out.close();
 				out = null;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	        
@@ -309,6 +361,10 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * gets the list of airplanes
+	 * @return a raw list containing all airplanes or an emtpy list if an error is found
+	 */
 	public List<?> GetAirplaneList()
 	{
 		if (!PopulateAirplanes())
@@ -322,6 +378,13 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * gets all flights departing or arriving to/from an airport on a given date
+	 * @param airport_code the three-character airport code
+	 * @param departure_date the date of departure/arrival
+	 * @param departure true if searching departure, false if arrival
+	 * @return a raw list of flights or an empty list if an error is found
+	 */
 	public List<Map> getFlights(String airport_code,String departure_date,boolean departure)
 	{
 		String xml = ServerInterface.QueryFlights(airport_code, departure_date, departure);
@@ -342,6 +405,10 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * gets the singleton instance of the ValidationController
+	 * @return the singleton ValidationController instance
+	 */
 	public static ValidationController Instance()
 	{
 		if (instance == null)
@@ -358,21 +425,40 @@ public class ValidationController {
 		return instance;
 	}
 	
+	/**
+	 * gets the max layover minutes from the system defaults
+	 * @return the max layover minutes
+	 */
 	public static int GetMaxLayoverMinutes()
 	{
 		return ValidationController.Instance().max_layover;
 	}
 	
+	/**
+	 * gets the minimum layover minutes from the system defaults
+	 * @return the min layover minutes
+	 */
 	public static int GetMinLayoverMinutes()
 	{
 		return ValidationController.Instance().min_layover;
 	}
 	
+	/**
+	 * gets the maximum number of hops to search from the system defaults
+	 * @return the max hops
+	 */
 	public static int GetMaxHops()
 	{
 		return ValidationController.Instance().max_hops;
 	}
 	
+	/**
+	 * gets the timezone offset given a set of coordinates
+	 * @param Latitude
+	 * @param Longitude
+	 * @return the hour offset from GMT of the coordinates
+	 * @throws DocumentException
+	 */
 	public int GetTimezoneOffset(float Latitude, float Longitude) throws DocumentException
 	{
 		synchronized (ValidationController.class)
@@ -392,7 +478,6 @@ public class ValidationController {
 						out.close();
 						out = null;
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -417,7 +502,6 @@ public class ValidationController {
 		        }
 		        in.close();
 	        } catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -435,7 +519,6 @@ public class ValidationController {
 				out.close();
 				out = null;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -444,6 +527,10 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * allows other classes to report an error if one is found
+	 * @param code
+	 */
 	public void ReportError(int code)
 	{
 		if (code != 200)
@@ -454,6 +541,9 @@ public class ValidationController {
 		}
 	}
 	
+	/**
+	 * resets the database and all classes for debugging/testing purposes
+	 */
 	public static void Reset()
 	{
 		ServerInterface.ResetDB();
@@ -463,6 +553,9 @@ public class ValidationController {
 		instance = null;
 	}
 	
+	/**
+	 * clears all airport and flight data
+	 */
 	public void RefreshAll()
 	{
 		Airports.Clear();
@@ -470,6 +563,11 @@ public class ValidationController {
 		parseAirports.xml = null;
 	}
 	
+	/**
+	 * attempts to book all flights contained within a trip
+	 * @param trip the combined trip to book
+	 * @return true if successful, false if an error is found
+	 */
 	public boolean ConfirmTrip(Trip trip)
 	{
 		List<String> f_sequence = trip.ListFlightSequence();
@@ -503,6 +601,11 @@ public class ValidationController {
 		return result == 200;
 	}
 	
+	/**
+	 * main function test driver for booking round-trip tickets
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws IOException {
 		ValidationController.Instance().verbose = 3;
 		

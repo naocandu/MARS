@@ -1,37 +1,53 @@
 package Controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
 import AirFlight.*;
-import Server.ServerConstants;
 import Server.ServerInterface;
 import Utility.*;
 import java.util.List;
-
-import org.dom4j.DocumentException;
 
 public class Trips {
 	private static List<Trip> trip = null;
 	private static boolean preferred_seating = true;
 	private static boolean retry = true;
 	
+	/**
+	 * gets the number of trips returned by the last search
+	 * @return the number of trips
+	 */
 	public static int GetNumberofTrips()
 	{
 		return (trip==null?0:trip.size());
 	}
 
+	/**
+	 * gets a single trip from the list returned by a search
+	 * @param index
+	 * @return a trip object with corresponding array index
+	 */
 	public static Trip Get(int index)
 	{
 		return ((trip == null || index >= trip.size())?null:trip.get(index));
 	}
 	
+	/**
+	 * gets the preferred seating option
+	 * @return 1 if first class, 0 if economy
+	 */
 	public static boolean GetPreferredSeating()
 	{
 		//1 = first class,  0 = economy
 		return preferred_seating;
 	}
 	
+	/**
+	 * searches and constructs a list of valid trips from a departure to arrival airport on a given date with seating preference
+	 * @param departure
+	 * @param arrival
+	 * @param localDate
+	 * @param firstClass
+	 * @return the list of viable trips
+	 */
 	public static List<Trip> LinkFlights(String departure, String arrival, String localDate, boolean firstClass)
 	{
 		preferred_seating = firstClass;
@@ -44,7 +60,6 @@ public class Trips {
 		try {
 			Thread.sleep(150);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//long start = System.currentTimeMillis();
@@ -226,6 +241,12 @@ public class Trips {
 		return trip;
 	}
 	
+	/**
+	 * merges two trips into a single trip object for booking round trip
+	 * @param outbound
+	 * @param returning
+	 * @return the combination of the two trip parameters
+	 */
 	public static Trip MergeTrips(Trip outbound, Trip returning)
 	{
 		Trip full = outbound.Clone();
@@ -233,6 +254,10 @@ public class Trips {
 		return full;
 	}
 	
+	/**
+	 * main function test driver for searching flights
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		for (int t = 0;t < 1;t++)

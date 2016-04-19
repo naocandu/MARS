@@ -48,7 +48,7 @@ public class ServerInterface {
 	 * 
 	 * @param url
 	 * @param query
-	 * @return result
+	 * @return result a string response message
 	 */
 	private static String QueryDatabase(String url, String query)
 	{
@@ -104,7 +104,7 @@ public class ServerInterface {
 	 * arguments defined in action
 	 * 
 	 * @param action list of arguments for the post command
-	 * @return
+	 * @return a string response message
 	 */
 	private static String UpdateDatabase(String action)
 	{
@@ -152,6 +152,12 @@ public class ServerInterface {
 			return "ERROR - " + responseCode;
 	}
 	
+	/**
+	 * Converts a string error response to the numeric value
+	 * 
+	 * @param response the string error response
+	 * @return the numeric response code
+	 */
 	public static int ParseResponseCode(String response)
 	{
 		if (!response.startsWith("ERROR"))
