@@ -13,6 +13,14 @@ import Utility.DateTime;
 public class Flights {
 	public List<Flight> departing = null;
 	
+	
+	/**
+	 * gets all flights departing or arriving to/from an airport on a given date
+	 * @param airport_code 
+	 * @param date
+	 * @return a raw list of flights or an empty list if an error is found
+	 */
+	
 	//private static List<Flights> found_flights = new ArrayList<Flights>;
 	public static Flights GetFlightsFromAirport(String airport_code, DateTime date)
 	{
@@ -107,6 +115,14 @@ public class Flights {
 		}
 		
 	}
+	
+	/**
+	 * gets all flights departing or arriving to/from an airport on a given date
+	 * @param airport_code 
+	 * @param date
+	 * @param depart boolean value.True means departing flight and false means arrival flight
+	 * @return a raw list of flights or an empty list if an error is found
+	 */
 			
 	public static List getFlights(String airport_code, String departure_date, boolean depart)
 	{

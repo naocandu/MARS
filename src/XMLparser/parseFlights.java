@@ -11,9 +11,24 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+import Server.ServerInterface;
+
+
+/**
+ * Parsing Flights
+ * @author Zheng Nie
+ *
+ */
+
 public class parseFlights{
 	static Document document;
 
+	/**
+	 * gets all flights departing or arriving to/from an airport on a given date
+	 * @param xml the xml that includes flight information on a given date
+	 * @return a raw list of flights or an empty list if an error is found
+	 * @throws DocumentException
+	 */
 	
 	public static List getFlights(String xml) throws DocumentException{
 		List flightInfo = new ArrayList();
@@ -68,8 +83,13 @@ public class parseFlights{
 		}
 		return flightInfo;
 	}
+	
+	/**
+	 * main function test driver for retrieving flight information
+	 * @param args
+	 */
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		/*try {
 			parseFlights parseFlight = new parseFlights();

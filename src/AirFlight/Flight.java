@@ -27,6 +27,15 @@ public class Flight {
 	private int FC_cap;
 	private int EC_cap;
 	
+	/**
+	 * gets all flights departing or arriving to/from an airport on a given date
+	 * @param number Flight number
+	 * @param airport_code Airport code
+	 * @param departure_date Departure date
+	 * @param depart boolean value.True means departing flight and false means arrival flight
+	 * @return a raw list of flights or an empty list if an error is found
+	 */
+	
 	public static Map getFlight(int number, String airport_code,
 			String departure_date,boolean depart) throws DocumentException{
 		List Flights= ValidationController.Instance().getFlights(airport_code, departure_date, depart);
@@ -73,6 +82,12 @@ public class Flight {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Check the availability of seats
+	 * @param FirstClass True means firstclass and false means economy class
+	 * @return boolean True means seats of a specific class are available or otherwise.
+	 */
 	
 	public boolean CheckAvailableSeating(boolean FirstClass)
 	{

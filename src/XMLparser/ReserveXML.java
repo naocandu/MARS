@@ -3,7 +3,21 @@ package XMLparser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.dom4j.DocumentException;
+
+/**
+ * Reserve XML
+ * @author Zheng Nie
+ *
+ */
+
 public class ReserveXML {
+	
+	/**
+	 * creating xml given a trip
+	 * @param trip the trip containing seat class and seat number
+	 * @return xml string
+	 */
 	
 	public static String MakeXML(List<String> trip){
 		String components="";

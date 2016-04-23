@@ -20,6 +20,12 @@ public class Airport {
 	private Flights outbound = null;
 	private String outboundDate = "";
 	
+	/**
+	 * gets airport information given airport code
+	 * @param code Airport code
+	 * @return specific airport information
+	 */
+	
 	public static List getAirport(String code){
 		return parseAirports.readXML().get(code);
 	}

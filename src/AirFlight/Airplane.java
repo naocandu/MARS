@@ -8,6 +8,13 @@ import org.dom4j.DocumentException;
 import Controller.ValidationController;
 import XMLparser.parseAirplanes;;
 
+
+/**
+ * Airplane
+ * @author Zheng Nie
+ *
+ */
+
 public class Airplane {
 	
 	private static List<Airplane> airplanes = new ArrayList<Airplane>();
@@ -16,6 +23,12 @@ public class Airplane {
 	public String model = "";
 	public int FC_Capacity = 0;
 	public int EC_Capacity = 0;
+	
+	/**
+	 * gets airplane information given the airplane model
+	 * @param model the airplane model
+	 * @return a list containing the airplane information 
+	 */
 	
 	public static Airplane findAirplane(String model){
 		
@@ -44,11 +57,20 @@ public class Airplane {
 		this.EC_Capacity = EC_Capacity;
 	}
 	
+	/**
+	 * gets first class seat capacity
+	 * @return the number of remaining first class seats
+	 */
+	
 	public int FirstClassCapacity()
 	{
 		return this.FC_Capacity;
 	}	
 	
+	/**
+	 * gets economy class seat capacity
+	 * @return the number of remaining economy class seats
+	 */
 	public int EconomyCapacity()
 	{
 		return this.EC_Capacity;

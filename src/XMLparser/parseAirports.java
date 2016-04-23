@@ -11,10 +11,12 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+import Server.ServerInterface;
+
 
 /**
  * Parsing Airports
- * @author zhengnie
+ * @author Zheng Nie
  *
  */
 
@@ -23,6 +25,11 @@ public class parseAirports {
 	public static String xml = null;
 	static Document document;
 	static Map<String, List<Comparable>> airport_collection = new HashMap();
+	
+	/**
+	 * gets all airport information including airport code, airport name, latitude and longitude
+	 * @return a map with airport code as key and airport information as values
+	 */
 
 	// get collected information of all airports	
 	public static Map<String, List<Comparable>> readXML(){
@@ -71,6 +78,12 @@ public class parseAirports {
 		return airport_collection;
 	}
 	
+	/**
+	 * gets all airport codes
+	 * @return a list containing all airport codes
+	 * @throws DocumentException
+	 */
+	
 	// get the code of a designated airport
 	public static List getCode() throws DocumentException {
 		List airportCode = new ArrayList();
@@ -90,8 +103,14 @@ public class parseAirports {
 		}
 		return airportCode; 
 	}
-		
-		// get the code and name of a designated airport
+	
+	/**
+	 * gets all airport names
+	 * @return list containing all airport names
+	 * @throws DocumentException
+	 */
+	
+	// get the code and name of a designated airport
 	public static List<String> getName() throws DocumentException {
 		List<String> airportName = new ArrayList<String>();
 		document = DocumentHelper.parseText(xml);
@@ -110,7 +129,13 @@ public class parseAirports {
 		}
 		return airportName; 
 	}
-				
+	
+	/**
+	 * gets all airport names and codes
+	 * @return list containing all airport names and codes
+	 * @throws DocumentException
+	 */
+	
 	// get the info of a designated airport
 	public static List<String> getInfo() throws DocumentException {
 		List airportNameCode = new ArrayList();
@@ -123,6 +148,10 @@ public class parseAirports {
 		return airportNameCode; 
 	}
 	
+	/**
+	 * main function test driver for retrieving airport information
+	 * @param args
+	 */
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub

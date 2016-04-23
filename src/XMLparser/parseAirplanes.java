@@ -9,11 +9,23 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
+/**
+ * Parsing Airplanes
+ * @author Zheng Nie
+ *
+ */
 
 public class parseAirplanes {
 	static Document document;
 	public static String xml = null;
 	static List airplaneInfo = new ArrayList<Integer>();
+	
+	/**
+	 * gets an airplane object given a model name
+	 * @param model
+	 * @return the airplane object with associated name, or null if not found
+	 * @throws DocumentException
+	 */
 	
 	public static List getAirplane(String model) throws DocumentException{
 		List airplaneInfo = new ArrayList<Integer>();
@@ -32,6 +44,11 @@ public class parseAirplanes {
 		}
 		return airplaneInfo;
 	}
+	
+	/**
+	 * main function test driver for retrieving airplane information
+	 * @param args
+	 */
 
 	public static void main(String[] args) throws DocumentException {
 		// TODO Auto-generated method stub

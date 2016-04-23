@@ -16,6 +16,12 @@ public class Airports {
 	private static List airportsList = new ArrayList();
 	private static List<Airport> AirportList = new ArrayList<Airport>();
 	
+	
+	/**
+	 * gets a list of airports
+	 * @return a raw list of airports or an empty list if an error is found
+	 */
+	
 	public static List<?> getAirportList(){
 		if (airportsList.size() != 0)
 			return airportsList;
@@ -50,6 +56,12 @@ public class Airports {
 		airportsList.clear();
 	}
 	
+	/**
+	 * gets airport information given airport code
+	 * @param Code Airport code
+	 * @return specific airport information
+	 */
+	
 	public static Airport GetAirport(String Code)
 	{
 		if (AirportList.size() == 0)
@@ -65,6 +77,13 @@ public class Airports {
 		
 		return null;
 	}
+	
+	
+	/**
+	 * gets timezone offset information given airport code
+	 * @param Code Airport code
+	 * @return timezone offset information
+	 */
 	
 	public static int GetTimezoneOffset(String Code) throws DocumentException
 	{	
@@ -98,6 +117,11 @@ public class Airports {
 		//Preloader.WaitforAll();
 	}
 	
+	/**
+	 * gets airport names
+	 * @return a string array containing airport names
+	 */
+	
 	public static String[] getAirportName() throws DocumentException{
 		
 		List<String> a = ValidationController.Instance().getAirportsNames();
@@ -105,6 +129,10 @@ public class Airports {
 		return  b;
 	}
 	
+	/**
+	 * gets airport codes and names
+	 * @return a string array containing airport codes and names
+	 */
 	public static String[] getAirportInfo() throws DocumentException{
 		List<String> a = ValidationController.Instance().GetAirportInfo();
 		String[] b = a.toArray(new String[a.size()]);
