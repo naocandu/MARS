@@ -328,7 +328,8 @@ public class secondwindow
 					long startTime = System.currentTimeMillis();
 					Object[] options =
 					{ "confirm", "cancel" };
-					int response = JOptionPane.showOptionDialog(null, "Are you sure to book this flight?",
+					int response = JOptionPane.showOptionDialog(null, "Are you sure to book this flight?" + 
+							((Trip) list.getSelectedValue()).confirmationString(),
 							"confirmation", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
 							options[0]);
 					// if confirm
@@ -348,6 +349,7 @@ public class secondwindow
 							} catch (Exception e)
 							{
 							}
+							ValidationController.Instance().RefreshAll();
 							frmFlightsResults.dispose();
 							
 							
@@ -363,6 +365,8 @@ public class secondwindow
 								// if success, show message.
 								JOptionPane.showMessageDialog(null, "book successfully" + "\n"
 										+ reserve.GetFlightSequence() + "\n" + reserve.toString() + "\n");
+								ValidationController.Instance().RefreshAll();
+								frmFlightsResults.dispose();
 							} else
 							{
 								// if fail, show message

@@ -612,7 +612,7 @@ public class ValidationController {
 		ServerInterface.ResetDB();
 		
 		DateTime d = new DateTime();
-		d.Set("2016 May 06 02:47 GMT","YYYY MMM DD hh:mm zzz");
+		d.Set("2016 May 05 02:47 GMT","YYYY MMM DD hh:mm zzz");
 		
 		DateTime r = new DateTime();
 		r.Set("2016 May 10 02:47 GMT","YYYY MMM DD hh:mm zzz");
@@ -620,7 +620,7 @@ public class ValidationController {
 		System.out.println("Searching Departure Flights...");
 		//simulate round trip from bos to aus
 		//first outbound
-		Trips.LinkFlights("BOS", "AUS", d.getDateString(), false);
+		Trips.LinkFlights("BOS", "AUS", d.getDateString(), true);
 		
 		/*System.out.print(Trips.GetNumberofTrips() + " trips found\nEnter your selection and press enter: ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -628,11 +628,11 @@ public class ValidationController {
 		
 		//user selects trip
 		Trip outbound = Trips.Get(sel);*/
-		Trip outbound = Trips.Get(1);
+		Trip outbound = Trips.Get(0);
 		
 		System.out.println("Searching Returning Flights...");		
 		//then the returning trip
-		Trips.LinkFlights("AUS", "BOS", r.getDateString(), false);
+		Trips.LinkFlights("AUS", "BOS", r.getDateString(), true);
 		
 		/*System.out.print(Trips.GetNumberofTrips() + " trips found\nEnter your selection and press enter: ");
 		br = new BufferedReader(new InputStreamReader(System.in));
@@ -644,6 +644,7 @@ public class ValidationController {
 		
 		//merge the two trips into one for reservation
 		Trip full_trip = Trips.MergeTrips(outbound, returning);
+		//Trip full_trip = outbound;
 		
 		//send out for booking and check if successful
 		boolean result = ValidationController.Instance().ConfirmTrip(full_trip);
@@ -651,7 +652,7 @@ public class ValidationController {
 		
 		System.out.println("\n\n>>> Beginning Stress Test <<<");
 		ValidationController.Instance().verbose = 1;
-		ServerInterface.ResetDB();
+		//ServerInterface.ResetDB();
 		System.out.println("Server Reset");
 		System.out.println("\nAttempting to overbook...");
 		for (int i = 0;i < 100;i++)
@@ -663,7 +664,7 @@ public class ValidationController {
 			}
 		}
 		
-		ServerInterface.ResetDB();
+		//ServerInterface.ResetDB();
 	}
 
 }

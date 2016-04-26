@@ -312,6 +312,20 @@ public class Trip {
 		return display;
 	}
 	
+	public String confirmationString()
+	{
+		String display = "\n";
+		for (int i = 0;i < trip.size();i++)
+		{
+			display += trip.get(i).Departure_Airport + " to " + trip.get(i).Arrival_Airport + 
+					", Departing " + trip.get(i).DepartureTime.getLocalFullDateString() + " and arriving " +
+					trip.get(i).ArrivalTime.getLocalFullDateString() + ", " + 
+					(seating.get(i).compareTo("E")==0?"Economy":"First Class") + " Seating\n";
+		}
+		
+		return display;
+	}
+	
 	/**
 	 * default constructor
 	 */
