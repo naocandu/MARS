@@ -413,7 +413,9 @@ public class thirdwindow
 					long startTime = System.currentTimeMillis();
 					Object[] options =
 					{ "confirm", "cancel" };
-					int response = JOptionPane.showOptionDialog(null, "Are you sure to book this trip?", "confirmation",
+					int response = JOptionPane.showOptionDialog(null, "Are you sure to book this trip?" + "\nOutbound:" +
+							((Trip) list.getSelectedValue()).confirmationString() + "Returning:" +
+							((Trip) list2.getSelectedValue()).confirmationString(), "confirmation",
 							JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 					// if confirm
 					if (response == 0)
@@ -450,6 +452,7 @@ public class thirdwindow
 										"book successfully" + "\n" + reserve1.GetFlightSequence() + "\n"
 												+ reserve1.toString() + "\n" + reserve2.GetFlightSequence() + "\n"
 												+ reserve2.toString() + "\n");
+								frmRoundtrip.dispose();
 							} else
 							{
 								JOptionPane.showMessageDialog(null, "book fail \n" + ValidationController.Instance().GetLastErrorMessage());
