@@ -28,6 +28,8 @@ import java.util.Calendar;
 
 public class FlightsReservation
 {
+	private static boolean isdebug = false;
+	
 	
 	public JFrame frmFlightsReservation;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
@@ -300,10 +302,14 @@ public class FlightsReservation
 		 */
 		
 		// add a window to display user info.
+		
+		
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("Cambria", Font.BOLD, 14));
 		textArea.setBounds(392, 212, 252, 195);
-		frmFlightsReservation.getContentPane().add(textArea);
+		if (FlightsReservation.isdebug)
+			frmFlightsReservation.getContentPane().add(textArea);
+		
 		
 		// define search button.
 		JButton btnSearch = new JButton("search");
