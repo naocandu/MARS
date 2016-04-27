@@ -22,7 +22,7 @@ public class ValidationController {
 	private int max_hops = ValidationConstants.MAX_HOPS;
 	public int verbose = 0;
 	
-	private String last_error = "NULL";
+	private String last_error = "";
 	private int last_error_code = 0;
 	
 	private boolean safemode = false;

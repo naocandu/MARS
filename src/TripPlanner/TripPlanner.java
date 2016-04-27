@@ -6,6 +6,7 @@ import windowbuilder1.thirdwindow;
 
 import Controller.Trip;
 import Controller.Trips;
+import Controller.ValidationController;
 
 import org.dom4j.DocumentException;
 /*
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 
 public class TripPlanner {
@@ -102,15 +105,14 @@ public class TripPlanner {
 		arrival = getAirportCode(FlightsReservation.getArrival());
 		departureDate = FlightsReservation.getDepartureDate();
 		returnDate =  FlightsReservation.getReturnDate();
-		if(firstclass==true)
-		{
+
 		try
 		{
-		trip = Trips.LinkFlights(departure, arrival, departureDate, true);
-		} catch (Exception e2)
-		{
+			trip = Trips.LinkFlights(departure, arrival, departureDate, firstclass);
+		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
+		
 		trip1.clear();
 		for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 		for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
@@ -118,13 +120,20 @@ public class TripPlanner {
 		for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
 		trip3.clear();
 		
+		if (trip.size() == 0)
+		{
+			JOptionPane.showMessageDialog(null, "No Flights Found\n" + ValidationController.Instance().GetLastErrorMessage());
+			ValidationController.Instance().RefreshAll();
+			return;
+		}
+		
 		try
 		{
-		trip = Trips.LinkFlights(arrival, departure, returnDate, true);
-		} catch (Exception e3)
-		{
+			trip = Trips.LinkFlights(arrival, departure, returnDate, firstclass);
+		} catch (Exception e3) {
 			e3.printStackTrace();
 		}
+		
 		trip2.clear();
 		for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
 		for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
@@ -132,54 +141,21 @@ public class TripPlanner {
 		for(int i=0; i<trip3.size();i++) tripmix2.add(trip3.get(i));
 		trip3.clear();
 		
+		if (trip.size() == 0)
+		{
+			JOptionPane.showMessageDialog(null, "No Flights Found\n" + ValidationController.Instance().GetLastErrorMessage());
+			ValidationController.Instance().RefreshAll();
+			return;
+		}
+		
 		try
 		{
-		thirdwindow window = new thirdwindow();
-		window.frmRoundtrip.setVisible(true);
-		} catch (Exception e4)
-		{
-			e4.printStackTrace();
-		}
-		}
-		else
-		{
-			try
-			{
-			trip = Trips.LinkFlights(departure, arrival, departureDate, false);
-			} catch (Exception e2)
-			{
-				e2.printStackTrace();
-			}
-			trip1.clear();
-			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
-			for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
-			trip3 = Filter(10, trip3);
-			for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
-			trip3.clear();
-			
-			try
-			{
-			trip = Trips.LinkFlights(arrival, departure, returnDate, false);
-			} catch (Exception e3)
-			{
-				e3.printStackTrace();
-			}
-			trip2.clear();
-			for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
-			for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
-			trip3 = Filter(10, trip3);
-			for(int i=0; i<trip3.size();i++) tripmix2.add(trip3.get(i));
-			trip3.clear();
-			
-			try
-			{
 			thirdwindow window = new thirdwindow();
 			window.frmRoundtrip.setVisible(true);
-			} catch (Exception e4)
-			{
-				e4.printStackTrace();
-			}
+		} catch (Exception e4) {
+			e4.printStackTrace();
 		}
+
 	
 	}
 	
@@ -191,15 +167,10 @@ public class TripPlanner {
 		departure = getAirportCode(FlightsReservation.getDeparture()); //use airport code to search
 		arrival = getAirportCode(FlightsReservation.getArrival());
 		departureDate = FlightsReservation.getDepartureDate();
-		if(firstclass==true)
-		{
-		/*
-		 * call the static function LinkFlights in the class Trips
-		 */
-
+		
 		try
 		{
-			trip = Trips.LinkFlights(departure, arrival, departureDate, true);
+			trip = Trips.LinkFlights(departure, arrival, departureDate, firstclass);
 			trip1.clear();
 			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
 			for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
@@ -207,43 +178,23 @@ public class TripPlanner {
 			for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
 			trip3.clear();
 			
-		} catch (Exception e1)
-		{
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-			try
-			{
-				secondwindow window = new secondwindow();
-				window.frmFlightsResults.setVisible(true);
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-	}
-		else
+		
+		if (trip.size() == 0)
 		{
-			try
-			{
-				trip = Trips.LinkFlights(departure, arrival, departureDate, false);
-				trip1.clear();
-				for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
-				for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
-				trip3 = Filter(10, trip3);
-				for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
-				trip3.clear();
-				
-			} catch (Exception e1)
-			{
-				e1.printStackTrace();
-			}
-				try
-				{
-					secondwindow window = new secondwindow();
-					window.frmFlightsResults.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
+			JOptionPane.showMessageDialog(null, "No Flights Found\n" + ValidationController.Instance().GetLastErrorMessage());
+			ValidationController.Instance().RefreshAll();
+			return;
+		}
+		
+		try
+		{
+			secondwindow window = new secondwindow();
+			window.frmFlightsResults.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

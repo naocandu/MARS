@@ -107,6 +107,8 @@ public class secondwindow
 		frmFlightsResults.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmFlightsResults.getContentPane().setLayout(null);
 		
+		
+		
 		// add a JScrollPane.
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 78, 652, 316);
