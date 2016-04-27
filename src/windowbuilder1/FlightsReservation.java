@@ -351,8 +351,8 @@ public class FlightsReservation
 					// now depart date is yyyy_mm_dd
 					departdate = year1 + "_" + month11 + "_" + day11;
 					// date must be correct
-					if (year1 > todayyear || year1 == todayyear && month1 > todaymonth
-							|| year1 == todayyear && month1 == todaymonth && day1 >= todaydate)
+					if (dateChooser1.isSet && (year1 > todayyear || year1 == todayyear && month1 > todaymonth
+							|| year1 == todayyear && month1 == todaymonth && day1 >= todaydate))
 					{
 						// if it is one-way
 						if (e == true)

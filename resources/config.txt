@@ -5,3 +5,4 @@ team_name = Team02
 min_layover_minutes = 60
 max_layover_minutes = 180
 max_hops = 3
+safe_search = 0

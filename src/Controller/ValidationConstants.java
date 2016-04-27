@@ -9,6 +9,7 @@ public class ValidationConstants {
 	public static final int MIN_LAYOVER_MINUTES = 15;
 	public static final int MAX_LAYOVER_MINUTES = 60;
 	public static final int MAX_HOPS = 2;
+	public static final boolean SAFE_SEARCH = false;
 	
 	public static final String[] DEFAULT_LABEL = {
 			"res_system_url",
@@ -17,7 +18,8 @@ public class ValidationConstants {
 			"min_layover_minutes",
 			"max_layover_minutes",
 			"max_hops",
-			"timeout_milliseconds"
+			"timeout_milliseconds",
+			"safe_search",
 			};
 	
 	public static final String TIMEZONE_CACHE_DIRECTORY = "resources//timezone.txt";

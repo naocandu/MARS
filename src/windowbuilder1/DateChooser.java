@@ -66,6 +66,8 @@ public class DateChooser extends JPanel {
 	private SimpleDateFormat sdf;
 	private boolean isShow = false;
 	private Popup pop;
+	
+	public boolean isSet = false;
  
 	private JComponent showDate;
  
@@ -231,7 +233,7 @@ public class DateChooser extends JPanel {
 		}else if (showDate instanceof JLabel) {
 			((JLabel) showDate).setText(sdf.format(select.getTime()));
 		}
- 
+		this.isSet = true;
 		hidePanel();
 	}
  
