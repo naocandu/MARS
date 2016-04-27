@@ -308,7 +308,7 @@ public class Trip {
 		
 		String display = //ports + GetArrivalAirport() + "\n" + 
 				GetDepartureTime() + " -- " + GetArrivalTime() + "  duration: " + TimeDifference() + "<br/>" +
-		"hops: " + num_hops + "  price: " + totalPrice.toString();
+				"hops: " + num_hops + "  price: " + totalPrice.toString() + (this.mixSeating==true?" mix":" no mix");
 		return display;
 	}
 	

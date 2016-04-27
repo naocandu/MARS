@@ -144,6 +144,8 @@ public class thirdwindow
 		scrollPane2.setViewportView(list2);
 		
 		// define all button.
+		JRadioButton rdbtnMixseating = new JRadioButton("non mix-seating");
+		
 		JRadioButton rdbtnAll = new JRadioButton("all");
 		rdbtnAll.setSelected(true);
 		rdbtnAll.addActionListener(new ActionListener()
@@ -152,8 +154,16 @@ public class thirdwindow
 			{
 				buttonGroup.clearSelection();
 				TripPlanner.triphop1.clear();
-				for (int i = 0; i < TripPlanner.trip1.size(); i++)
-					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				model.clear();
 				int length = TripPlanner.triphop1.size();
 				for (int i = 0; i < length; i++)
@@ -162,8 +172,16 @@ public class thirdwindow
 				}
 				
 				TripPlanner.triphop2.clear();
-				for (int i = 0; i < TripPlanner.trip2.size(); i++)
-					TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.tripmix2.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				}
 				model2.clear();
 				int length2 = TripPlanner.triphop2.size();
 				for (int i = 0; i < length2; i++)
@@ -184,8 +202,16 @@ public class thirdwindow
 			{
 				buttonGroup.clearSelection();
 				TripPlanner.triphop1.clear();
-				for (int i = 0; i < TripPlanner.trip1.size(); i++)
-					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				TripPlanner.tripfilter1 = TripPlanner.Filter(7, TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripfilter1.size();
@@ -195,8 +221,16 @@ public class thirdwindow
 				}
 				
 				TripPlanner.triphop2.clear();
-				for (int i = 0; i < TripPlanner.trip2.size(); i++)
-					TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.tripmix2.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				}
 				TripPlanner.tripfilter2 = TripPlanner.Filter(7, TripPlanner.triphop2);
 				model2.clear();
 				int length2 = TripPlanner.tripfilter2.size();
@@ -216,9 +250,18 @@ public class thirdwindow
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				buttonGroup.clearSelection();
 				TripPlanner.triphop1.clear();
-				for (int i = 0; i < TripPlanner.trip1.size(); i++)
-					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				TripPlanner.tripfilter1 = TripPlanner.Filter(8, TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripfilter1.size();
@@ -228,8 +271,16 @@ public class thirdwindow
 				}
 				
 				TripPlanner.triphop2.clear();
-				for (int i = 0; i < TripPlanner.trip2.size(); i++)
-					TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.tripmix2.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				}
 				TripPlanner.tripfilter2 = TripPlanner.Filter(8, TripPlanner.triphop2);
 				model2.clear();
 				int length2 = TripPlanner.tripfilter2.size();
@@ -249,9 +300,18 @@ public class thirdwindow
 		{
 			public void actionPerformed(ActionEvent e)
 			{
+				buttonGroup.clearSelection();
 				TripPlanner.triphop1.clear();
-				for (int i = 0; i < TripPlanner.trip1.size(); i++)
-					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				TripPlanner.tripfilter1 = TripPlanner.Filter(9, TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripfilter1.size();
@@ -261,8 +321,16 @@ public class thirdwindow
 				}
 				
 				TripPlanner.triphop2.clear();
-				for (int i = 0; i < TripPlanner.trip2.size(); i++)
-					TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.tripmix2.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				}
 				TripPlanner.tripfilter2 = TripPlanner.Filter(9, TripPlanner.triphop2);
 				model2.clear();
 				int length2 = TripPlanner.tripfilter2.size();
@@ -275,6 +343,52 @@ public class thirdwindow
 		buttonGroup_1.add(rdbtnTwoHops);
 		rdbtnTwoHops.setBounds(596, 19, 121, 23);
 		frmRoundtrip.getContentPane().add(rdbtnTwoHops);
+		
+		
+		rdbtnMixseating.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buttonGroup.clearSelection();
+				TripPlanner.triphop1.clear();
+				rdbtnAll.setSelected(true);
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
+				model.clear();
+				int length = TripPlanner.triphop1.size();
+				for (int i = 0; i < length; i++)
+				{
+					model.addElement(TripPlanner.triphop1.get(i));
+				}
+				
+				TripPlanner.triphop2.clear();
+				if(rdbtnMixseating.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.tripmix2.get(i));
+				}
+				else
+				{
+					for (int i = 0; i < TripPlanner.trip2.size(); i++)
+						TripPlanner.triphop2.add(TripPlanner.trip2.get(i));
+				}
+				model2.clear();
+				int length2 = TripPlanner.triphop2.size();
+				for (int i = 0; i < length2; i++)
+				{
+					model2.addElement(TripPlanner.triphop2.get(i));
+				}
+			}
+		});
+	
+		rdbtnMixseating.setBounds(754, 19, 121, 23);
+		frmRoundtrip.getContentPane().add(rdbtnMixseating);
 		
 		// define price button.
 		JCheckBox chckbxPricecheapest = new JCheckBox("price(cheapest)");
@@ -435,7 +549,6 @@ public class thirdwindow
 							{
 							}
 							frmRoundtrip.dispose();
-							
 						}
 						// if wait time is within 5 seconds.
 						else
@@ -452,6 +565,14 @@ public class thirdwindow
 										"book successfully" + "\n" + reserve1.GetFlightSequence() + "\n"
 												+ reserve1.toString() + "\n" + reserve2.GetFlightSequence() + "\n"
 												+ reserve2.toString() + "\n");
+								try
+								{
+									Thread.currentThread().sleep(2000);
+								} catch (InterruptedException e)
+								{
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								frmRoundtrip.dispose();
 							} else
 							{

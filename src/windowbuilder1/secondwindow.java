@@ -21,6 +21,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JList;
@@ -101,13 +103,13 @@ public class secondwindow
 		frmFlightsResults = new JFrame();
 		frmFlightsResults.setResizable(false);
 		frmFlightsResults.setTitle("Flights Results");
-		frmFlightsResults.setBounds(0, 0, 641, 476);
+		frmFlightsResults.setBounds(0, 0, 678, 476);
 		frmFlightsResults.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmFlightsResults.getContentPane().setLayout(null);
 		
 		// add a JScrollPane.
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 78, 595, 316);
+		scrollPane.setBounds(10, 78, 652, 316);
 		frmFlightsResults.getContentPane().add(scrollPane);
 		
 		// define the list of results.
@@ -128,6 +130,8 @@ public class secondwindow
 		scrollPane.setViewportView(list);
 		
 		// define all button.
+		JRadioButton rdbtnMixseat = new JRadioButton("non mix-seating");
+		
 		JRadioButton rdbtnAll = new JRadioButton("all");
 		rdbtnAll.setSelected(true);
 		rdbtnAll.addActionListener(new ActionListener()
@@ -137,8 +141,16 @@ public class secondwindow
 				TripPlanner.triphop1.clear();
 				// when button is selected, second line of button is unselected.
 				buttonGroup.clearSelection();
+				if(rdbtnMixseat.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
 				for (int i = 0; i < TripPlanner.trip1.size(); i++)
 					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				model.clear();
 				int length = TripPlanner.triphop1.size();
 				for (int i = 0; i < length; i++)
@@ -148,7 +160,7 @@ public class secondwindow
 			}
 		});
 		buttonGroup_1.add(rdbtnAll);
-		rdbtnAll.setBounds(32, 17, 121, 23);
+		rdbtnAll.setBounds(10, 17, 62, 23);
 		frmFlightsResults.getContentPane().add(rdbtnAll);
 		
 		// define direct button.
@@ -160,8 +172,16 @@ public class secondwindow
 			{
 				buttonGroup.clearSelection();
 				TripPlanner.triphop1.clear();
+				if(rdbtnMixseat.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
 				for (int i = 0; i < TripPlanner.trip1.size(); i++)
 					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				TripPlanner.tripfilter1 = TripPlanner.Filter(7, TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripfilter1.size();
@@ -171,7 +191,7 @@ public class secondwindow
 				}
 			}
 		});
-		rdbtnDirect.setBounds(156, 17, 121, 23);
+		rdbtnDirect.setBounds(134, 17, 121, 23);
 		frmFlightsResults.getContentPane().add(rdbtnDirect);
 		
 		// define one hop button.
@@ -183,8 +203,16 @@ public class secondwindow
 			{
 				buttonGroup.clearSelection();
 				TripPlanner.triphop1.clear();
+				if(rdbtnMixseat.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
 				for (int i = 0; i < TripPlanner.trip1.size(); i++)
 					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				TripPlanner.tripfilter1 = TripPlanner.Filter(8, TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripfilter1.size();
@@ -194,7 +222,7 @@ public class secondwindow
 				}
 			}
 		});
-		rdbtnOneHop.setBounds(315, 17, 121, 23);
+		rdbtnOneHop.setBounds(281, 17, 121, 23);
 		frmFlightsResults.getContentPane().add(rdbtnOneHop);
 		
 		// define two hops button.
@@ -206,8 +234,16 @@ public class secondwindow
 			{
 				buttonGroup.clearSelection();
 				TripPlanner.triphop1.clear();
+				if(rdbtnMixseat.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
 				for (int i = 0; i < TripPlanner.trip1.size(); i++)
 					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
 				TripPlanner.tripfilter1 = TripPlanner.Filter(9, TripPlanner.triphop1);
 				model.clear();
 				int length = TripPlanner.tripfilter1.size();
@@ -217,8 +253,36 @@ public class secondwindow
 				}
 			}
 		});
-		rdbtnTwoHops.setBounds(468, 17, 121, 23);
+		rdbtnTwoHops.setBounds(433, 17, 75, 23);
 		frmFlightsResults.getContentPane().add(rdbtnTwoHops);
+		
+		
+		
+		rdbtnMixseat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				buttonGroup.clearSelection();
+				TripPlanner.triphop1.clear();
+				rdbtnAll.setSelected(true);
+				if(rdbtnMixseat.isSelected()==true)
+				{
+					for (int i = 0; i < TripPlanner.tripmix1.size(); i++)
+						TripPlanner.triphop1.add(TripPlanner.tripmix1.get(i));
+				}
+				else
+				{
+				for (int i = 0; i < TripPlanner.trip1.size(); i++)
+					TripPlanner.triphop1.add(TripPlanner.trip1.get(i));
+				}
+				model.clear();
+				int length = TripPlanner.triphop1.size();
+				for (int i = 0; i < length; i++)
+				{
+					model.addElement(TripPlanner.triphop1.get(i));
+				}
+			}
+		});
+		rdbtnMixseat.setBounds(535, 17, 127, 23);
+		frmFlightsResults.getContentPane().add(rdbtnMixseat);
 		
 		// define price button.
 		JCheckBox chckbxPrice = new JCheckBox("price(cheapest)");
@@ -237,7 +301,7 @@ public class secondwindow
 				}
 			}
 		});
-		chckbxPrice.setBounds(32, 49, 122, 23);
+		chckbxPrice.setBounds(10, 42, 122, 23);
 		frmFlightsResults.getContentPane().add(chckbxPrice);
 		
 		// define duration button.
@@ -257,7 +321,7 @@ public class secondwindow
 				
 			}
 		});
-		chckbxDuration.setBounds(156, 49, 139, 23);
+		chckbxDuration.setBounds(134, 42, 139, 23);
 		frmFlightsResults.getContentPane().add(chckbxDuration);
 		
 		// define departure button.
@@ -276,7 +340,7 @@ public class secondwindow
 				}
 			}
 		});
-		chckbxDeparting.setBounds(315, 49, 139, 23);
+		chckbxDeparting.setBounds(279, 42, 139, 23);
 		frmFlightsResults.getContentPane().add(chckbxDeparting);
 		
 		// define arrival button.
@@ -295,7 +359,7 @@ public class secondwindow
 			}
 		});
 		buttonGroup.add(chckbxArrivalearliest);
-		chckbxArrivalearliest.setBounds(468, 49, 127, 23);
+		chckbxArrivalearliest.setBounds(433, 42, 127, 23);
 		frmFlightsResults.getContentPane().add(chckbxArrivalearliest);
 		
 		// define cancel button. When clicked, the window will be closed.
@@ -308,7 +372,7 @@ public class secondwindow
 				frmFlightsResults.dispose();
 			}
 		});
-		btnCancel.setBounds(349, 404, 93, 23);
+		btnCancel.setBounds(367, 404, 93, 23);
 		frmFlightsResults.getContentPane().add(btnCancel);
 		
 		// define book button.
@@ -365,7 +429,14 @@ public class secondwindow
 								// if success, show message.
 								JOptionPane.showMessageDialog(null, "book successfully" + "\n"
 										+ reserve.GetFlightSequence() + "\n" + reserve.toString() + "\n");
-								ValidationController.Instance().RefreshAll();
+								try
+								{
+									Thread.currentThread().sleep(2000);
+								} catch (InterruptedException e)
+								{
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								frmFlightsResults.dispose();
 							} else
 							{
@@ -378,11 +449,12 @@ public class secondwindow
 					else if (response == 1)
 					{
 						JOptionPane.showMessageDialog(null, "cancelled");
+						
 					}
 				}
 			}
 		});
-		btnBook.setBounds(134, 404, 93, 23);
+		btnBook.setBounds(192, 404, 93, 23);
 		frmFlightsResults.getContentPane().add(btnBook);
 	}
 }

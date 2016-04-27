@@ -63,6 +63,9 @@ public class TripPlanner {
 	public static List<Trip> trip = null;
 	public static List<Trip> trip1 = new ArrayList<Trip>();
 	public static List<Trip> trip2 = new ArrayList<Trip>();
+	public static List<Trip> trip3 = new ArrayList<Trip>();
+	public static List<Trip> tripmix1 = new ArrayList<Trip>();
+	public static List<Trip> tripmix2 = new ArrayList<Trip>();
 	public static List<Trip> triphop1 = new ArrayList<Trip>();
 	public static List<Trip> triphop2 = new ArrayList<Trip>();
 	public static List<Trip> tripfilter1 = null;
@@ -110,6 +113,11 @@ public class TripPlanner {
 		}
 		trip1.clear();
 		for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
+		for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
+		trip3 = Filter(10, trip3);
+		for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
+		trip3.clear();
+		
 		try
 		{
 		trip = Trips.LinkFlights(arrival, departure, returnDate, true);
@@ -119,6 +127,11 @@ public class TripPlanner {
 		}
 		trip2.clear();
 		for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
+		for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
+		trip3 = Filter(10, trip3);
+		for(int i=0; i<trip3.size();i++) tripmix2.add(trip3.get(i));
+		trip3.clear();
+		
 		try
 		{
 		thirdwindow window = new thirdwindow();
@@ -139,6 +152,11 @@ public class TripPlanner {
 			}
 			trip1.clear();
 			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
+			for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
+			trip3 = Filter(10, trip3);
+			for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
+			trip3.clear();
+			
 			try
 			{
 			trip = Trips.LinkFlights(arrival, departure, returnDate, false);
@@ -148,6 +166,11 @@ public class TripPlanner {
 			}
 			trip2.clear();
 			for(int i=0; i<trip.size();i++) trip2.add(trip.get(i));
+			for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
+			trip3 = Filter(10, trip3);
+			for(int i=0; i<trip3.size();i++) tripmix2.add(trip3.get(i));
+			trip3.clear();
+			
 			try
 			{
 			thirdwindow window = new thirdwindow();
@@ -179,6 +202,10 @@ public class TripPlanner {
 			trip = Trips.LinkFlights(departure, arrival, departureDate, true);
 			trip1.clear();
 			for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
+			for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
+			trip3 = Filter(10, trip3);
+			for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
+			trip3.clear();
 			
 		} catch (Exception e1)
 		{
@@ -200,7 +227,10 @@ public class TripPlanner {
 				trip = Trips.LinkFlights(departure, arrival, departureDate, false);
 				trip1.clear();
 				for(int i=0; i<trip.size();i++) trip1.add(trip.get(i));
-				
+				for(int i=0; i<trip.size();i++) trip3.add(trip.get(i));
+				trip3 = Filter(10, trip3);
+				for(int i=0; i<trip3.size();i++) tripmix1.add(trip3.get(i));
+				trip3.clear();
 				
 			} catch (Exception e1)
 			{
@@ -358,6 +388,26 @@ if (opt == 1) {
 
 				}
 			}
+			tripList = tripListOld;
+		}
+		if (opt == 10) {
+			for (int i=n-1;i>=0;i--) {
+				int m = tripListOld.get(i).GetNumberofHops();
+				if (m == 1) {
+				continue;
+				}
+				if (m == 2) {
+				if (tripListOld.get(i).ContainsMixedSeating()== true) {
+				tripListOld.remove(i);
+				}
+				}
+				if (m == 3) {
+				if (tripListOld.get(i).ContainsMixedSeating()== true) {
+				tripListOld.remove(i);
+				}
+				}
+				}
+			
 			tripList = tripListOld;
 		}
 		
