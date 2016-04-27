@@ -98,6 +98,18 @@ public class Trip {
 		return sequence;
 	}
 	
+	public String GetDisplayAiportSequence()
+	{
+		String sequence = (trip.size()!=0?trip.get(0).Departure_Airport:"");
+
+		for (int i = 0;i < trip.size();i++)
+		{
+			sequence += " -> " + trip.get(i).Arrival_Airport;
+		}
+		
+		return sequence;
+	}
+	
 	/**
 	 * gets the numeric value of departure time in minutes since epoch
 	 * @return absolute departure time value
@@ -277,7 +289,7 @@ public class Trip {
 	}
 	
 	/**
-	 * gets the trip information as a string for display
+	 * gets the trip information as a string for display to the console
 	 * @return the trip display information
 	 */
 	public String toString()
@@ -300,16 +312,17 @@ public class Trip {
 	 */
 	public String toStringShow()
 	{
-		String ports = "";
-		for (int i = 0;i < trip.size();i++)
-		{
-			ports += trip.get(i).Departure_Airport + " -- ";
-		}
-		
-		String display = //ports + GetArrivalAirport() + "\n" + 
+		String GetAiportSequence = this.GetDisplayAiportSequence();
+		String GetFlightSequence = this.GetFlightSequenceShow();
+		String labelText = "<html> " + GetAiportSequence + "&nbsp;" + "&nbsp;" + "&nbsp;" + GetFlightSequence
+				+ "<br/> " + 
+				
 				GetDepartureTime() + " -- " + GetArrivalTime() + "  duration: " + TimeDifference() + "<br/>" +
-				"hops: " + num_hops + "  price: " + totalPrice.toString() + (this.mixSeating==true?" mix":" no mix");
-		return display;
+				"layovers: " + (num_hops-1) + "<br/>price: " + totalPrice.toString() + "<br/>" + 
+				(this.mixSeating==true?"* Your preferred seating is not available in all flights of this trip<br/> ":"")
+				+ "-----------------------------------------------------------------------------------------------------";
+		
+		return labelText;
 	}
 	
 	public String confirmationString()

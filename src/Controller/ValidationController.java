@@ -9,6 +9,7 @@ import org.dom4j.DocumentException;
 
 import AirFlight.Airplane;
 import AirFlight.Airports;
+import AirFlight.Preloader;
 import Server.ServerInterface;
 import Utility.DateTime;
 import Server.ServerConstants;
@@ -20,12 +21,13 @@ public class ValidationController {
 	private int min_layover = ValidationConstants.MIN_LAYOVER_MINUTES;
 	private int max_layover = ValidationConstants.MAX_LAYOVER_MINUTES;
 	private int max_hops = ValidationConstants.MAX_HOPS;
+	private int confirm_timeout = ValidationConstants.CONFIRMATION_TIMEOUT_SECONDS;
 	public int verbose = 0;
 	
 	private String last_error = "";
 	private int last_error_code = 0;
 	
-	private boolean safemode = false;
+	private boolean safemode = ValidationConstants.SAFE_SEARCH;
 	
 	/**
 	 * gets the last error message reported to the controller
@@ -166,6 +168,10 @@ public class ValidationController {
 	         				break;	
 	         			case 7:
 	         				safemode = (value.get(i).compareTo("1")==0);
+	         				break;
+	         			case 8:
+	         				confirm_timeout = (Integer.parseInt(value.get(i))>=0?
+	         						Integer.parseInt(value.get(i)):ValidationConstants.CONFIRMATION_TIMEOUT_SECONDS);
 	         				break;
 	         			}
 	         		}
@@ -456,6 +462,11 @@ public class ValidationController {
 		return ValidationController.Instance().max_hops;
 	}
 	
+	public static int GetConfirmationTimeoutSeconds()
+	{
+		return ValidationController.Instance().confirm_timeout;
+	}
+	
 	/**
 	 * gets the timezone offset given a set of coordinates
 	 * @param Latitude
@@ -573,7 +584,9 @@ public class ValidationController {
 	 * @return true if successful, false if an error is found
 	 */
 	public boolean ConfirmTrip(Trip trip)
-	{
+	{	
+		Preloader.WaitforAll();
+		
 		List<String> f_sequence = trip.ListFlightSequence();
 		
 		if (this.verbose > 2)
@@ -670,7 +683,7 @@ public class ValidationController {
 			}
 		}
 		
-		//ServerInterface.ResetDB();
+		ServerInterface.ResetDB();
 	}
 
 }

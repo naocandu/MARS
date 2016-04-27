@@ -10,6 +10,7 @@ public class ValidationConstants {
 	public static final int MAX_LAYOVER_MINUTES = 60;
 	public static final int MAX_HOPS = 2;
 	public static final boolean SAFE_SEARCH = false;
+	public static final int CONFIRMATION_TIMEOUT_SECONDS = 120;
 	
 	public static final String[] DEFAULT_LABEL = {
 			"res_system_url",
@@ -20,6 +21,7 @@ public class ValidationConstants {
 			"max_hops",
 			"timeout_milliseconds",
 			"safe_search",
+			"confirm_timeout_seconds",
 			};
 	
 	public static final String TIMEZONE_CACHE_DIRECTORY = "resources//timezone.txt";
@@ -37,6 +39,7 @@ public class ValidationConstants {
 		RESPONSE_MESSAGE.put(404, "Not Found");
 		RESPONSE_MESSAGE.put(408, "Request Timeout");
 		RESPONSE_MESSAGE.put(409, "Conflict");
+		RESPONSE_MESSAGE.put(417, "Server Cannot Meet Expectation");
 		RESPONSE_MESSAGE.put(421, "Misdirected Request");
 		RESPONSE_MESSAGE.put(600, "Internal Error");
 		RESPONSE_MESSAGE.put(500, "Internal Server Error");

@@ -50,14 +50,7 @@ public class thirdwindow
 		{
 			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 			Trip label = (Trip) value;
-			
-			String GetAiportSequence = label.GetAiportSequence();
-			String GetFlightSequence = label.GetFlightSequenceShow();
-			String toString = label.toStringShow();
-			String labelText = "<html> " + GetAiportSequence + "&nbsp;" + "&nbsp;" + "&nbsp;" + GetFlightSequence
-					+ "<br/> " + toString + "<br/> "
-					+ "-----------------------------------------------------------------------------------------------------";
-			setText(labelText);
+			setText(label.toStringShow());
 			
 			return this;
 		}
@@ -560,7 +553,7 @@ public class thirdwindow
 						long endTime = System.currentTimeMillis();
 						long totalTime = (endTime - startTime) / 1000;
 						// if wait time exceeds 5 seconds.
-						if (totalTime > 5)
+						if (totalTime > ValidationController.GetConfirmationTimeoutSeconds())
 						{
 							JOptionPane.showMessageDialog(null,
 									"Dialog expires, please restart search.\n window will be closed in 3 seconds after click.");
@@ -587,14 +580,7 @@ public class thirdwindow
 										"book successfully" + "\n" + reserve1.GetFlightSequence() + "\n"
 												+ reserve1.toString() + "\n" + reserve2.GetFlightSequence() + "\n"
 												+ reserve2.toString() + "\n");
-								try
-								{
-									Thread.currentThread().sleep(2000);
-								} catch (InterruptedException e)
-								{
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
+
 								frmRoundtrip.dispose();
 							} else
 							{

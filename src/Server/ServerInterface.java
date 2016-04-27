@@ -110,7 +110,7 @@ public class ServerInterface {
 	{
 		URL url;
 		HttpURLConnection connection;
-		int responseCode;
+		int responseCode = 0;
 		
 		try {
 			url = new URL(res_system_url);
@@ -142,8 +142,10 @@ public class ServerInterface {
 			//System.out.println(response.toString());
 		}
 		catch (Exception ex) {
+			if (responseCode == 0)
+				responseCode = 503;
 			ex.printStackTrace();
-			return "ERROR - 503";
+			return "ERROR - " + responseCode;
 		}
 		
 		if (responseCode >= 200 && responseCode <= 299)
@@ -287,14 +289,17 @@ public class ServerInterface {
 	 */
 	public static int ReserveFlights(String xmlFlights)
 	{
-		int response = Lock();
-		if (response != 200)
+		synchronized (ServerInterface.class)
+		{
+			int response = Lock();
+			if (response != 200)
+				return response;
+			
+			response = ParseResponseCode(UpdateDatabase(QueryBuilder.GetReserveAction(team_name, xmlFlights)));
+			Unlock();
+
 			return response;
-		
-		response = ParseResponseCode(UpdateDatabase(QueryBuilder.GetReserveAction(team_name, xmlFlights)));
-		Unlock();
-		
-		return response;
+		}
 	}
 	
 	/**
