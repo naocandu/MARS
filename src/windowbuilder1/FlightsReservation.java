@@ -1,11 +1,11 @@
-/*
+package windowbuilder1;
+
+/**
  * Class provide a visible window for searching flights.
+ * 
  * @author Hao Liu
  * @since 2016-3-22
  */
-
-package windowbuilder1;
-
 import TripPlanner.TripPlanner;
 import AirFlight.Airports;
 import Controller.ValidationController;
@@ -30,11 +30,12 @@ public class FlightsReservation
 {
 	private static boolean isdebug = false;
 	
-	
 	public JFrame frmFlightsReservation;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	// define user information
+	/**
+	 * define user information
+	 */
 	public static String triptype;
 	public static String seatclass;
 	private static String flyfrom;
@@ -62,37 +63,61 @@ public class FlightsReservation
 	JLabel ReturnDate1 = new JLabel("click to get date");
 	JLabel lblNewLabel = new JLabel("New label");
 	
-	// get departure airport
+	/**
+	 * get departure airport
+	 * 
+	 * @return the string of departure airport name
+	 */
 	public static String getDeparture()
 	{
 		return flyfrom;
 	}
 	
-	// get arrival airport
+	/**
+	 * get arrival airport
+	 * 
+	 * @return the string of arrival airport name
+	 */
 	public static String getArrival()
 	{
 		return flyto;
 	}
 	
-	// get departure date
+	/**
+	 * get departure date
+	 * 
+	 * @return the string of departure date
+	 */
 	public static String getDepartureDate()
 	{
 		return departdate;
 	}
 	
-	// get return date
+	/**
+	 * get return date
+	 * 
+	 * @return the string of return date
+	 */
 	public static String getReturnDate()
 	{
 		return returndate;
 	}
 	
-	// get trip type
+	/**
+	 * get trip type
+	 * 
+	 * @return the string of trip type
+	 */
 	public static String getTripType()
 	{
 		return triptype;
 	}
 	
-	// get seat class
+	/**
+	 * get seat class
+	 * 
+	 * @return the string of seat class
+	 */
 	public static String getSeatClass()
 	{
 		return seatclass;
@@ -140,8 +165,9 @@ public class FlightsReservation
 		frmFlightsReservation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmFlightsReservation.getContentPane().setLayout(null);
 		
-		// define one-way button, and realize dynamic display of one-way and
-		// round trip.
+		/**
+		 * define one-way button, and realize dynamic display of one-way and
+		 */
 		JRadioButton rdbtnOneway = new JRadioButton("one-way");
 		rdbtnOneway.addActionListener(new ActionListener()
 		{
@@ -170,7 +196,9 @@ public class FlightsReservation
 		rdbtnOneway.setBounds(10, 18, 93, 23);
 		frmFlightsReservation.getContentPane().add(rdbtnOneway);
 		
-		// define round trip button.
+		/**
+		 * define round trip button.
+		 */
 		JRadioButton rdbtnRoundTrip = new JRadioButton("round trip");
 		rdbtnRoundTrip.addActionListener(new ActionListener()
 		{
@@ -206,7 +234,9 @@ public class FlightsReservation
 		rdbtnRoundTrip.setBounds(127, 18, 99, 23);
 		frmFlightsReservation.getContentPane().add(rdbtnRoundTrip);
 		
-		// define seat class button
+		/**
+		 * define seat class button
+		 */
 		JCheckBox rdbtnEconomy = new JCheckBox("economy");
 		rdbtnEconomy.setSelected(true);
 		buttonGroup_1.add(rdbtnEconomy);
@@ -226,7 +256,9 @@ public class FlightsReservation
 		lblFlyingFrom.setBounds(10, 115, 114, 30);
 		frmFlightsReservation.getContentPane().add(lblFlyingFrom);
 		
-		// define depart airport
+		/**
+		 * define depart airport drop-down box
+		 */
 		JComboBox departair = new JComboBox();
 		// get current available airports.
 		try
@@ -248,7 +280,9 @@ public class FlightsReservation
 		lblFlyingTo.setBounds(10, 172, 89, 30);
 		frmFlightsReservation.getContentPane().add(lblFlyingTo);
 		
-		// define arrival airports
+		/**
+		 * define arrival airports drop-down box
+		 */
 		JComboBox arriveair = new JComboBox();
 		arriveair.setFont(new Font("Cambria", Font.BOLD, 12));
 		arriveair.setEditable(true);
@@ -275,7 +309,9 @@ public class FlightsReservation
 		DepartDatePanel.setBounds(150, 232, 117, 30);
 		frmFlightsReservation.getContentPane().add(DepartDatePanel);
 		
-		// define depart date.
+		/**
+		 * define depart date window
+		 */
 		DateChooser dateChooser1 = DateChooser.getInstance("yyyy-MM-dd");
 		DepartDatePanel.setLayout(null);
 		JLabel DepartDate1 = new JLabel("click to get date");
@@ -303,15 +339,15 @@ public class FlightsReservation
 		
 		// add a window to display user info.
 		
-		
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("Cambria", Font.BOLD, 14));
 		textArea.setBounds(392, 212, 252, 195);
 		if (FlightsReservation.isdebug)
 			frmFlightsReservation.getContentPane().add(textArea);
 		
-		
-		// define search button.
+		/**
+		 * define search button
+		 */
 		JButton btnSearch = new JButton("search");
 		btnSearch.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 18));
 		btnSearch.setBounds(74, 349, 93, 23);
@@ -373,7 +409,7 @@ public class FlightsReservation
 						// if it is round trip
 						else
 						{
-							triptype = f1; 
+							triptype = f1;
 							String d = dateChooser2.getStrDate();
 							year2 = new getselectdate().mydate(d)[0];
 							month2 = new getselectdate().mydate(d)[1];
