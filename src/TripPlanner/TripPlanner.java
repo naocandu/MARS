@@ -1,22 +1,21 @@
+/**
+ * Package contains classes pertaining to serve functionalities to user interface
+ */
 package TripPlanner;
 
-/**
- * class is used to connect UI and other parts of system.
- * class provides several functions, such as sort and filter.
- * 
- * @author Bian Du, Hao Liu
- * @since 2016-3-22
- */
 import AirFlight.Airports;
 import windowbuilder1.FlightsReservation;
 import windowbuilder1.secondwindow;
 import windowbuilder1.thirdwindow;
-
 import Controller.Trip;
 import Controller.Trips;
 import Controller.ValidationController;
-
 import org.dom4j.DocumentException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import javax.swing.JOptionPane;
 /*
  * Class provides functions for obtaining the specific airports and flights the user asks for 
  * and displaying them on the interface.
@@ -25,15 +24,14 @@ import org.dom4j.DocumentException;
  * @author Bian Du
  * @since 2016-3-18
  */
-
-import java.util.ArrayList;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.swing.JOptionPane;
-
+ 
+/**
+ * class is used to connect UI and other parts of system.
+ * class provides several functions, such as sort and filter.
+ * 
+ * @author Bian Du, Hao Liu
+ * @since 2016-3-22
+ */
 public class TripPlanner
 {
 	/**
